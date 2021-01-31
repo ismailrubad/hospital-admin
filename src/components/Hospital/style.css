@@ -1,0 +1,23 @@
+
+.form_wrapper{
+   background-color: #fff;
+   /* padding: 40px; */
+   max-width: 700px;
+   margin: 0 auto;
+}
+.MuiFormControl-root{
+   width: 100%;
+}
+
+.form_wrapper .MuiTextField-root{
+   margin-bottom: 40px;
+}
+
+.MuiGrid-container:focus{
+   outline: none;
+}
+
+.col_center{
+   display: block;
+   margin: 0 auto !important;
+}

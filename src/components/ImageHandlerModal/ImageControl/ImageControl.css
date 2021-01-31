@@ -1,0 +1,61 @@
+.Image_control .Tab {
+  text-transform: capitalize;
+  display: flex;
+}
+
+.Image_control .Tab > p {
+  margin: 0;
+}
+
+.Image_control .Tab > svg {
+  margin-left: 10px;
+}
+
+.Image_control .No_image {
+  text-align: center;
+  width: 100%;
+}
+
+.Image_control .Loading {
+  width: 100%;
+  text-align: center;
+}
+.Image_control .Done_button {
+  background-color: #25a2b6 !important;
+  color: #fff !important;
+  height: 40px !important;
+  position: absolute !important;
+  z-index: 99;
+  right: 15px;
+  top: 7px;
+}
+.Image_control .Done_button_icon {
+  margin-right: 15px;
+}
+
+.Image_control .Custom_box {
+  height: 375px;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Image_control .Custom_box::-webkit-scrollbar {
+  width: 0.4em;
+}
+.Image_control .Custom_box::-webkit-scrollbar-track {
+  --webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+}
+.Image_control .Custom_box::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  outline: 1px solid slategrey;
+}
+
+.Image_control .ErrorMSG {
+  text-align: center;
+}
+
+.Image_control .MuiBox-root {
+  padding: 12px 0 0 !important;
+  position: relative;
+}

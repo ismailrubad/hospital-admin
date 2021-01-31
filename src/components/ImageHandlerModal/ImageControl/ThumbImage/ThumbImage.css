@@ -1,0 +1,55 @@
+.Image_Thumb {
+  margin: 0 7px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.Image_Thumb:hover {
+  box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Image_Thumb.Select_Thumb {
+  box-shadow: 0px 10px 4px rgb(0 0 0 / 45%);
+}
+.Image_Thumb .Img_text {
+  font-size: 12px;
+  width: 90%;
+  overflow: hidden;
+}
+
+.Image_Thumb .Green {
+  color: green;
+  font-size: 20px !important;
+}
+
+.Image_Thumb .Single_action {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  color: #fff;
+  line-height: 0;
+  background: #131313;
+  width: 22px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.Image_Thumb .Single_action > svg {
+  width: 16px;
+  height: 100%;
+}
+
+.Image_Thumb .MuiCardActions-root {
+  padding: 0 8px;
+}
+
+.Delete_icon_menu .MuiList-padding {
+  padding: 0;
+}
+
+.Delete_icon_menu .MuiListItem-button {
+  padding: 3px;
+}
+
+.Delete_icon_menu .MuiListItem-button > svg {
+  color: red;
+}

@@ -1,0 +1,21 @@
+.Close_btn_for_image_modal {
+  color: red;
+  position: absolute;
+  right: 10px;
+  top: 40px;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+.Close_btn_for_image_modal > svg {
+  font-size: 20px;
+  opacity: .4;
+  transition: all 0.2s;
+}
+
+.Close_btn_for_image_modal:hover {
+  cursor: pointer;
+}
+
+.Close_btn_for_image_modal:hover > svg {
+  opacity: 1;
+}

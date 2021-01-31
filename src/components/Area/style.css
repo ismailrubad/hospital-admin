@@ -1,0 +1,41 @@
+.modal {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
+.modal .MuiPaper-elevation1,
+.modal .MuiPaper-elevation1:focus{
+   box-shadow: none;
+   outline: none;
+ }
+
+ .addIcon{
+   position: fixed !important;
+   right: 50px;
+   bottom: 30px;
+ }
+
+ .pageRowWp{
+   display: flex;
+   align-items: center;
+ }
+
+ .pageRowWp span{
+   width: 100px;;
+ }
+
+ .table_wrapper{
+   position: relative;
+ }
+
+ .loader_area{
+  position: absolute;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background: #ffffffab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
