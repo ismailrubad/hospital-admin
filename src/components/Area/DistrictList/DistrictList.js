@@ -294,6 +294,10 @@ class DistrictList extends Component {
       })
    }
 
+   componentDidMount() {
+      this.context.updateDistrictList();
+   }
+
    render() {
       return (
          <>

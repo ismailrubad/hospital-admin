@@ -192,6 +192,10 @@ class DiseaseCategoryList extends Component {
       //    });
    }
 
+   componentDidMount() {
+      this.context.updateDiseaseCatList()
+   }
+
    render() {
       return (
          <>

@@ -232,6 +232,7 @@ class DoctorList extends Component {
 
    componentDidMount() {
 
+      this.context.updateDoctorList();
       fetchAllHospital().then((response) => {
          this.setState({
             hospitalList: response.data.data.map(item => {
