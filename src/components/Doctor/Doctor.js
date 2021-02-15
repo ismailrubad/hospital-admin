@@ -32,7 +32,7 @@ class Doctor extends Component {
       selectedHospital: null,
       selectedDiseaseCategory: null,
       name: null, hospital: null, visitingFee: null,
-      phone: null, cover: null,
+      phone: null, cover: null, description: null,
       inputError: {}
    }
 
@@ -63,6 +63,12 @@ class Doctor extends Component {
    handleVisitingFeeChange = (event) => {
       this.setState({
          visitingFee: event.target.value
+      })
+   };
+
+   handleDescriptionChange = (event) => {
+      this.setState({
+         description: event.target.value
       })
    };
 
@@ -104,7 +110,7 @@ class Doctor extends Component {
             submittingCreate: true
          }, () => {
             addDoctor(this.state.name, this.state.selectedHospital, this.state.selectedDiseaseCategory, this.state.visitingFee,
-               "789-461-3214", "600bfdc59032b3a812a5a32d")
+               "789-461-3214", "600bfdc59032b3a812a5a32d", "Sun, Mon, Wed", "0900 - 1800", this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -197,6 +203,12 @@ class Doctor extends Component {
                                     error={this.state.inputError && this.state.inputError.visitingFee ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.visitingFee}
                                     onChange={this.handleVisitingFeeChange} id="standard-basic" label="visiting Fee" />
+
+                                 <TextField
+                                    value={this.state.description}
+                                    error={this.state.inputError && this.state.inputError.description ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.description}
+                                    onChange={this.handleDescriptionChange} id="standard-basic" label="Description" />
 
                                  <Button onClick={this.handleFormSubmit} variant="contained" color="primary">
                                     Submit

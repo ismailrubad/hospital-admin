@@ -203,6 +203,11 @@ class DrawerLayout extends React.Component {
                      <ListItemText primary={"Disease Category"} />
                   </NavLink>
                </ListItem>
+               <ListItem selected={this.isSelected("staff")} button key={"staff"}>
+                  <NavLink to={`${this.props.currentUrl}/staff`} style={linkStyle}>
+                     <ListItemText primary={"Staff"} />
+                  </NavLink>
+               </ListItem>
                <ListItem selected={this.isSelected("customer")} button key={"customer"}>
                   <NavLink to={`${this.props.currentUrl}/customer`} style={linkStyle}>
                      <ListItemText primary={"Customer"} />
@@ -213,6 +218,13 @@ class DrawerLayout extends React.Component {
                      <ListItemText primary={"Billing"} />
                   </NavLink>
                </ListItem>
+
+               <ListItem selected={this.isSelected("logout")} button key={"logout"}>
+                  <a target="_blank" href={`http://3.6.216.223/admin/auth/logout`}>
+                     Log Out</a>
+               </ListItem>
+
+
             </List>
          </div>
       );

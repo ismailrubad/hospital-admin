@@ -2,13 +2,13 @@ import axios from "axios";
 
 export const addDistrict = (districtName) => {
    console.log(districtName);
-   return axios.post('http://localhost:5000/admin/api/district/add', {
+   return axios.post('http://3.6.216.223/admin/api/district/add', {
       name: districtName,
    })
 };
 
 export const editDistrict = (id, name) => {
-   return axios.post('http://localhost:5000/admin/api/district/update', {
+   return axios.post('http://3.6.216.223/admin/api/district/update', {
       id,
       name,
    })
@@ -16,7 +16,7 @@ export const editDistrict = (id, name) => {
 
 
 export const fetchDistrictList = (currentPage = 1, limit = 5, sort = "name", sortOrder = 1, query) => {
-   return axios.get('http://localhost:5000/admin/api/district', {
+   return axios.get('http://3.6.216.223/admin/api/district', {
       params: {
          query,
          limit: limit,
@@ -29,7 +29,7 @@ export const fetchDistrictList = (currentPage = 1, limit = 5, sort = "name", sor
 };
 
 export const fetchAllDistricts = () => {
-   return axios.get('http://localhost:5000/admin/api/district', {
+   return axios.get('http://3.6.216.223/admin/api/district', {
       params: {
          // query: "",
          // limit: 2,
@@ -40,6 +40,6 @@ export const fetchAllDistricts = () => {
 };
 
 export const fetchDistrictDetails = (id) => {
-   return axios.get(`http://localhost:5000/admin/api/district/${id}`)
+   return axios.get(`http://3.6.216.223/admin/api/district/${id}`)
 };
 

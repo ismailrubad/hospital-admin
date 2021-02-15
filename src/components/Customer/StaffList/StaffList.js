@@ -38,7 +38,7 @@ import { fetchAllHospital } from "../../../Api/hospital-api";
 
 import { fetchServiceDetails, deleteService } from "../../../Api/service-api";
 
-class ServiceList extends Component {
+class customerList extends Component {
 
    state = {
       currentPage: 1,
@@ -69,7 +69,7 @@ class ServiceList extends Component {
          deleteService(id)
             .then((response) => {
                console.log(response);
-               this.context.updateServiceList()
+               this.context.updatecustomerList()
             })
             .catch(function (error) {
                console.log(error);
@@ -85,7 +85,7 @@ class ServiceList extends Component {
    handleRowChange = (event) => {
       console.log(event.target.value)
       // this.context.updateServiceTableRowNumber(event.target.value)
-      this.context.updateServiceList(1, event.target.value, this.context.state.serviceTableSort.sort,
+      this.context.updatecustomerList(1, event.target.value, this.context.state.serviceTableSort.sort,
          this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
@@ -96,8 +96,8 @@ class ServiceList extends Component {
 
    handlePaginationClick = (event, value) => {
       // this.startLoading();
-      // this.context.updateCurrentServicelistPageNumber(value, this.stopLoading)
-      this.context.updateServiceList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
+      // this.context.updateCurrentcustomerListPageNumber(value, this.stopLoading)
+      this.context.updatecustomerList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
          this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
@@ -113,7 +113,7 @@ class ServiceList extends Component {
       }, () => {
          // console.log(this.state)
          // this.context.sortServicetable(this.state.serviceTableSort.sort, this.state.serviceTableSort.sortOrder)
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+         this.context.updatecustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
             this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
       })
    }
@@ -183,10 +183,6 @@ class ServiceList extends Component {
                                              <TableCell align="">{this.state.serviceDetails.hospital ?
                                                 this.state.serviceDetails.hospital.address : null}</TableCell>
                                           </TableRow>
-                                          <TableRow>
-                                             <TableCell align=""><strong>Description</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.description}</TableCell>
-                                          </TableRow>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>
@@ -241,7 +237,7 @@ class ServiceList extends Component {
          searchQuery
       }, () => {
 
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+         this.context.updatecustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
             this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
       })
@@ -259,30 +255,14 @@ class ServiceList extends Component {
          }),
          selectedHospital: id
       }, () => {
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+         this.context.updatecustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
             this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
       })
    }
 
    componentDidMount() {
-      this.context.updateServiceList();
-      fetchAllHospital().then((response) => {
-         this.setState({
-            hospitalList: response.data.data.map(item => {
-               item['status'] = false;
-               return item;
-            })
-         });
-
-         console.log(response);
-      })
-         .catch(function (error) {
-            console.log(error);
-         })
-         .then(function () {
-            // always executed
-         });
+      this.context.updateCustomerList();
    }
 
    render() {
@@ -290,7 +270,7 @@ class ServiceList extends Component {
          <>
             <Grid container spacing={3}>
 
-               <Grid item xs={3}>
+               {/* <Grid item xs={3}>
                   <Card>
                      <CardContent>
                         <Typography variant="h6" gutterBottom>Filter By</Typography>
@@ -338,9 +318,9 @@ class ServiceList extends Component {
                         </Accordion>
                      </CardContent>
                   </Card>
-               </Grid>
-               <Grid item xs={9}>
-                  {this.context.state.serviceList ?
+               </Grid> */}
+               <Grid item xs={12}>
+                  {this.context.state.customerList ?
                      <div className="table_wrapper">
                         {this.state.isloading &&
                            <div className="loader_area">
@@ -351,7 +331,7 @@ class ServiceList extends Component {
                            <Table stickyHeader={true} aria-label="simple table" size="small" >
                               <TableHead>
                                  <TableRow>
-                                    <TableCell>Service Name <IconButton onClick={() => { this.handleSortClick("name") }}>
+                                    <TableCell>Customer Name <IconButton onClick={() => { this.handleSortClick("name") }}>
                                        {
                                           this.state.serviceTableSort.sort == "name" ?
                                              this.state.serviceTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
@@ -359,27 +339,27 @@ class ServiceList extends Component {
                                        }
 
                                     </IconButton></TableCell>
-                                    <TableCell align="">Hospital</TableCell>
-                                    <TableCell align="">charge <IconButton onClick={() => { this.handleSortClick("charge") }}>
+                                    <TableCell align="">Phone</TableCell>
+                                    {/* <TableCell align="">SR <IconButton onClick={() => { this.handleSortClick("charge") }}>
                                        {
                                           this.state.serviceTableSort.sort == "charge" ?
                                              this.state.serviceTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
 
-                                    </IconButton></TableCell>
+                                    </IconButton></TableCell> */}
                                     <TableCell align="">Actions</TableCell>
                                  </TableRow>
                               </TableHead>
                               <TableBody>
                                  {
-                                    this.context.state.serviceList ?
-                                       this.context.state.serviceList.data.map((row) => (
+                                    this.context.state.customerList ?
+                                       this.context.state.customerList.data.map((row) => (
 
                                           <TableRow key={row._id}>
                                              <TableCell component="th" scope="row">{row.name}</TableCell>
-                                             <TableCell align="">{row.hospital ? row.hospital.name : null} </TableCell>
-                                             <TableCell align="">{row.charge} </TableCell>
+                                             <TableCell align="">{row.phone} </TableCell>
+                                             {/* <TableCell align="">{row.charge} </TableCell> */}
                                              <TableCell align="">
                                                 <IconButton onClick={() => this.handleServiceDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />
@@ -418,7 +398,7 @@ class ServiceList extends Component {
                                     <option value="15">15</option>
                                  </TextField>
                               </div>
-                              <Pagination variant="outlined" page={this.context.state.currentServicelistPageNumber} shape="rounded" count={this.context.state.serviceList.page.totalPage}
+                              <Pagination variant="outlined" page={this.context.state.currentcustomerListPageNumber} shape="rounded" count={this.context.state.customerList.page.totalPage}
                                  onChange={(event, value) => { this.handlePaginationClick(event, value) }} />
                            </Box>
                         </Card>
@@ -432,6 +412,6 @@ class ServiceList extends Component {
    }
 }
 
-ServiceList.contextType = AppContext;
+customerList.contextType = AppContext;
 
-export default ServiceList;
+export default customerList;

@@ -9,6 +9,7 @@ import Doctor from '../Doctor/Doctor'
 import Service from '../Service/Service'
 import DiseaseCategory from '../DiseaseCategory/DiseaseCategory'
 import Staff from '../Staff/Staff'
+import Customer from '../Customer/Staff'
 import Billing from '../Billing/Billing'
 
 export default class MainApp extends Component {
@@ -26,7 +27,8 @@ export default class MainApp extends Component {
                <Route path={`${match.url}/doctor`} component={Doctor} />
                <Route path={`${match.url}/service`} component={Service} />
                <Route path={`${match.url}/disease-category`} component={DiseaseCategory} />
-               <Route path={`${match.url}/customer`} component={Staff} />
+               <Route path={`${match.url}/staff`} component={Staff} />
+               <Route path={`${match.url}/customer`} component={Customer} />
                <Route path={`${match.url}/billing`} component={Billing} />
             </Switch>
          </Layout>

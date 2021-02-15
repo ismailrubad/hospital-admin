@@ -50,7 +50,7 @@ const App = () => {
                   <div className="App">
                      <Router history={history}>
                         <Switch>
-                           <AuthRoute path="/app" isUserAuthenticated={true}
+                           <AuthRoute path="/admin" isUserAuthenticated={true}
                               component={MainApp} />
                            <Route path="/signin" component={SignIn} />
                            <Route path="/" exact component={MainComponent} />

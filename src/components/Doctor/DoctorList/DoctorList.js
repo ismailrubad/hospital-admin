@@ -197,6 +197,10 @@ class DoctorList extends Component {
                                              <TableCell align=""><strong>Visiting Fee</strong></TableCell>
                                              <TableCell align="">{this.state.doctorDetails.visitingFee}</TableCell>
                                           </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Description</strong></TableCell>
+                                             <TableCell align="">{this.state.doctorDetails.description}</TableCell>
+                                          </TableRow>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>

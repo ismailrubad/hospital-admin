@@ -35,6 +35,7 @@ class Hospital extends Component {
       selectedZone: null,
       discountAmount: null,
       shortCode: null,
+      description: null,
       submittingCreate: false,
       image: [],
       cover: "",
@@ -87,6 +88,11 @@ class Hospital extends Component {
          address: event.target.value
       })
    };
+   handleDescriptionOnChange = (event) => {
+      this.setState({
+         description: event.target.value
+      })
+   };
 
    handleShortCodeOnChange = (event) => {
       this.setState({
@@ -106,7 +112,7 @@ class Hospital extends Component {
             }, [
                "600bfdbc9032b3a812a5a32a",
                "600bfdbf9032b3a812a5a32b"
-            ], "600bfdbf9032b3a812a5a32b")
+            ], "600bfdbf9032b3a812a5a32b", this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -129,7 +135,7 @@ class Hospital extends Component {
                this.state.discountAmount, this.state.address, "789-461-3214", {
                "latitude": 71.8998,
                "longitude": 125.8464
-            }, this.state.image, this.state.cover[0])
+            }, this.state.image, this.state.cover[0], this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -263,6 +269,11 @@ class Hospital extends Component {
                                     error={this.state.inputError && this.state.inputError.address ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.address}
                                     onChange={this.handleAddressOnChange} id="standard-basic" label="Address" />
+                                 <TextField
+                                    value={this.state.description}
+                                    error={this.state.inputError && this.state.inputError.description ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.description}
+                                    onChange={this.handleDescriptionOnChange} id="standard-basic" label="Description" />
                                  <Button onClick={this.handleFormSubmit} variant="contained" color="primary">
                                     Submit
                                  </Button>

@@ -18,17 +18,17 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
 import { addService } from "../../Api/service-api";
-import ServiceList from './ServiceList/ServiceList';
+import StaffList from './StaffList/StaffList';
 
-class Service extends Component {
+class Staff extends Component {
 
    state = {
       hospitalList: null,
       createModalOpen: false,
       submittingCreate: false,
       selectedHospital: null,
-      name: null, hospital: null, charge: null,
-      cover: null, image: null, description: null,
+      name: null, password: null,
+      cover: null, image: null,
       inputError: {}
    }
 
@@ -50,15 +50,9 @@ class Service extends Component {
       })
    }
 
-   handleChargeChange = (event) => {
+   handlePasswordChange = (event) => {
       this.setState({
-         charge: event.target.value
-      })
-   };
-
-   handleDescriptionChange = (event) => {
-      this.setState({
-         description: event.target.value
+         password: event.target.value
       })
    };
 
@@ -73,7 +67,7 @@ class Service extends Component {
          submittingCreate: true
       }, () => {
          addService(this.state.name, this.state.selectedHospital, this.state.charge,
-            "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
+            "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"])
             .then((response) => {
                console.log(response);
                this.handleCreateModalClose();
@@ -113,7 +107,7 @@ class Service extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Service"
+                           title="Add Customer"
                         />
                         <CardContent>
                            <div className="form_wrapper">
@@ -121,34 +115,22 @@ class Service extends Component {
                                  <TextField
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
-                                    onChange={this.handleNameChange} id="standard-basic" label="Service Name" />
-                                 <TextField
-                                    id="standard-select-currency"
-                                    select
-                                    label="Select Hospital"
-                                    error={this.state.inputError && this.state.inputError.hospital ? true : false}
-                                    elperText={this.state.inputError && this.state.inputError.hospital}
-                                    value={this.state.selectedHospital}
-                                    onChange={this.handleHospitalChange}
-                                 >
-                                    {
-                                       this.state.hospitalList ?
-                                          this.state.hospitalList.data.map((option) => (
-                                             <MenuItem key={option._id} value={option._id}>
-                                                {option.name}
-                                             </MenuItem>
-                                          )) : null
-                                    }
-                                 </TextField>
-                                 <TextField
-                                    error={this.state.inputError && this.state.inputError.charge ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.charge}
-                                    onChange={this.handleChargeChange} id="standard-basic" label="Charge" />
+                                    onChange={this.handleNameChange} id="standard-basic" label="Customer Name" />
 
                                  <TextField
-                                    error={this.state.inputError && this.state.inputError.description ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.description}
-                                    onChange={this.handleDescriptionChange} id="standard-basic" label="Description" />
+                                    error={this.state.inputError && this.state.inputError.name ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.name}
+                                    onChange={this.handleNameChange} id="standard-basic" label="Phone" />
+
+                                 <TextField
+                                    error={this.state.inputError && this.state.inputError.password ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.password}
+                                    onChange={this.handlePasswordChange} id="standard-basic" label="Password" />
+
+                                 {/* <TextField
+                                    error={this.state.inputError && this.state.inputError.charge ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.charge}
+                                    onChange={this.handleChargeChange} id="standard-basic" label="Charge" /> */}
 
                                  <Button onClick={this.handleFormSubmit} variant="contained" color="primary">
                                     Submit
@@ -179,15 +161,35 @@ class Service extends Component {
          });
    }
 
+   handleHospitalChange = (id) => {
+      // this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+      //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
+      this.setState({
+         hospitalList: this.state.hospitalList.map(item => {
+            if (item._id === id)
+               item['status'] = true;
+            else
+               item['status'] = false;
+
+            return item;
+         }),
+         selectedHospital: id
+      }, () => {
+         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
+            this.state.selectedHospital, this.state.searchQuery)
+
+      })
+   }
 
    render() {
       return (
          <div>
-            <ServiceList />
+            <StaffList />
             {this.renderCreateModal()}
             <Fab onClick={this.handleCreateModalOpen} color="primary" variant="extended" aria-label="add" className="addIcon">
                <AddIcon />
-               Add Service
+               Add Customer
             </Fab>
          </div>
       );
@@ -196,6 +198,6 @@ class Service extends Component {
 
 
 
-Service.contextType = AppContext;
+Staff.contextType = AppContext;
 
-export default Service;
+export default Staff;

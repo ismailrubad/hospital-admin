@@ -34,11 +34,12 @@ import { fetchAllDiseaseCat } from "../../../Api/disease-api";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import { fetchDoctorDetails, deleteDoctor } from "../../../Api/doctor-api";
-import { fetchAllHospital } from "../../../Api/hospital-api";
+
+import { fetchBillingDetails } from "../../../Api/billing-api";
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-class DoctorList extends Component {
+class billingList extends Component {
 
    state = {
       diseaseCatList: [],
@@ -52,8 +53,8 @@ class DoctorList extends Component {
          sort: "name",
          sortOrder: 1
       },
-      doctorDetails: null,
-      doctorDetailsModalOpen: false,
+      billingDetails: null,
+      billingDetailsModalOpen: false,
       isloading: false
    }
 
@@ -68,22 +69,22 @@ class DoctorList extends Component {
 
 
    handleDoctorDelete = (id) => {
-      var r = window.confirm("Do you want to delete the item?");
-      if (r == true) {
-         deleteDoctor(id)
-            .then((response) => {
-               console.log(response);
-               this.context.updateDoctorList()
-            })
-            .catch(function (error) {
-               console.log(error);
-            })
-            .then(function () {
-               // always executed
-            });
-      } else {
+      // var r = window.confirm("Do you want to delete the item?");
+      // if (r == true) {
+      //    deleteDoctor(id)
+      //       .then((response) => {
+      //          console.log(response);
+      //          this.context.updatebillingList()
+      //       })
+      //       .catch(function (error) {
+      //          console.log(error);
+      //       })
+      //       .then(function () {
+      //          // always executed
+      //       });
+      // } else {
 
-      }
+      // }
    }
 
    handleRowChange = (event) => {
@@ -92,7 +93,7 @@ class DoctorList extends Component {
       //    currentPage: 1
       // })
 
-      this.context.updateDoctorList(1, event.target.value,
+      this.context.updatebillingList(1, event.target.value,
          this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
          this.state.selectedHospital, this.state.searchQuery)
    }
@@ -107,8 +108,8 @@ class DoctorList extends Component {
       // this.setState({
       //    currentPage: value
       // })
-      // this.context.updateCurrentDoctorlistPageNumber(value, this.stopLoading)
-      this.context.updateDoctorList(value, this.context.state.doctorTableRowNumber,
+      // this.context.updateCurrentbillingListPageNumber(value, this.stopLoading)
+      this.context.updatebillingList(value, this.context.state.doctorTableRowNumber,
          this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
          this.state.selectedHospital, this.state.searchQuery)
    }
@@ -125,21 +126,21 @@ class DoctorList extends Component {
       }, () => {
          console.log(this.state)
          // this.context.sortDoctortable(this.state.doctorTableSort.sort, this.state.doctorTableSort.sortOrder)
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
             this.state.doctorTableSort.sort, this.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
       })
    }
 
-   handleDoctorDetailsModalOpen = () => {
+   handlebillingDetailsModalOpen = () => {
       this.setState({
-         doctorDetailsModalOpen: true
+         billingDetailsModalOpen: true
       })
    }
 
    handleDoctorDetailsModalClose = () => {
       this.setState({
-         doctorDetailsModalOpen: false
+         billingDetailsModalOpen: false
       })
    }
 
@@ -149,7 +150,7 @@ class DoctorList extends Component {
             className="modal"
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            open={this.state.doctorDetailsModalOpen}
+            open={this.state.billingDetailsModalOpen}
             onClose={this.handleDoctorDetailsModalClose}
             closeAfterTransition
             BackdropComponent={Backdrop}
@@ -157,7 +158,7 @@ class DoctorList extends Component {
                timeout: 500,
             }}
          >
-            <Fade in={this.state.doctorDetailsModalOpen}>
+            <Fade in={this.state.billingDetailsModalOpen}>
                <Grid container spacing={3}>
                   <Grid item xs={6} className="col_center">
                      <Card>
@@ -167,35 +168,41 @@ class DoctorList extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Doctor Details"
+                           title="Details"
                         />
                         <CardContent>
                            {
-                              this.state.doctorDetails ?
+                              this.state.billingDetails ?
 
                                  <TableContainer component={Paper}>
+                                    {/* <p>{this.state.billingDetails.image}</p> */}
+
+                                    {this.state.billingDetails.image ?
+                                       <div style={{
+                                          height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
+                                          backgroundImage: `url(http://3.6.216.223/${this.state.billingDetails.image.full})`
+                                       }}>
+
+                                       </div> : null
+                                    }
                                     <Table size="small" aria-label="simple table">
 
                                        <TableBody>
                                           <TableRow>
-                                             <TableCell align=""><strong>Doctor Name</strong></TableCell>
-                                             <TableCell align="">{this.state.doctorDetails.name}</TableCell>
-                                          </TableRow>
-                                          <TableRow>
-                                             <TableCell align=""><strong>Phone</strong></TableCell>
-                                             <TableCell align="">{this.state.doctorDetails.phone}</TableCell>
-                                          </TableRow>
-                                          <TableRow>
                                              <TableCell align=""><strong>Hospital Name</strong></TableCell>
-                                             <TableCell align="">{this.state.doctorDetails.hospital.name}</TableCell>
+                                             <TableCell align="">{this.state.billingDetails.hospital.name}</TableCell>
                                           </TableRow>
                                           <TableRow>
                                              <TableCell align=""><strong>Hospital Address</strong></TableCell>
-                                             <TableCell align="">{this.state.doctorDetails.hospital.address}</TableCell>
+                                             <TableCell align="">{this.state.billingDetails.hospital.address}</TableCell>
                                           </TableRow>
                                           <TableRow>
-                                             <TableCell align=""><strong>Visiting Fee</strong></TableCell>
-                                             <TableCell align="">{this.state.doctorDetails.visitingFee}</TableCell>
+                                             <TableCell align=""><strong>Hospital Discount</strong></TableCell>
+                                             <TableCell align="">{this.state.billingDetails.hospital.discountAmount}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Hospital Phone</strong></TableCell>
+                                             <TableCell align="">{this.state.billingDetails.hospital.phone}</TableCell>
                                           </TableRow>
                                        </TableBody>
                                     </Table>
@@ -212,12 +219,12 @@ class DoctorList extends Component {
    }
 
    handleDoctorDetails = (id) => {
-      fetchDoctorDetails(id).then((response) => {
+      fetchBillingDetails(id).then((response) => {
          this.setState({
-            doctorDetails: response.data
+            billingDetails: response.data
          }, () => {
             this.setState({
-               doctorDetailsModalOpen: true
+               billingDetailsModalOpen: true
             })
          })
          console.log(response);
@@ -232,48 +239,12 @@ class DoctorList extends Component {
 
    componentDidMount() {
 
-      this.context.updateDoctorList();
-
-      fetchAllHospital().then((response) => {
-         this.setState({
-            hospitalList: response.data.data.map(item => {
-               item['status'] = false;
-               return item;
-            })
-         });
-
-         console.log(response);
-      })
-         .catch(function (error) {
-            console.log(error);
-         })
-         .then(function () {
-            // always executed
-         });
-
-      fetchAllDiseaseCat().then((response) => {
-
-         this.setState({
-            diseaseCatList: response.data.data.map(item => {
-               item['status'] = false;
-               return item;
-            })
-         });
-
-         console.log(response);
-      })
-         .catch(function (error) {
-            console.log(error);
-         })
-         .then(function () {
-            // always executed
-         });
-
+      this.context.updateBillingList();
 
    }
 
    handleDiseaseCatChange = (id) => {
-      // this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+      // this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          diseaseCatList: this.state.diseaseCatList.map(item => {
@@ -287,7 +258,7 @@ class DoctorList extends Component {
          selectedDiseaseCat: id
       }, () => {
 
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
             this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
 
@@ -300,7 +271,7 @@ class DoctorList extends Component {
          // this.setState({
          //    selectedDiseaseCalList
          // }, () => {
-         //    this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+         //    this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
          //       this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCalList)
          // })
 
@@ -308,7 +279,7 @@ class DoctorList extends Component {
    }
 
    handleHospitalChange = (id) => {
-      // this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+      // this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          hospitalList: this.state.hospitalList.map(item => {
@@ -321,7 +292,7 @@ class DoctorList extends Component {
          }),
          selectedHospital: id
       }, () => {
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
             this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
 
@@ -329,12 +300,12 @@ class DoctorList extends Component {
    }
 
    handleSearchQueryChange = (searchQuery) => {
-      // this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+      // this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          searchQuery
       }, () => {
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
             this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
 
@@ -348,99 +319,8 @@ class DoctorList extends Component {
          <>
             <Grid container spacing={3}>
 
-               {/* <Grid item xs={3}>
-                  <Card>
-                     <CardContent>
-                        <Typography variant="h6" gutterBottom>Filter By</Typography>
-                        <Box mb={2}>
-                           <TextField onChange={(e) => { this.handleSearchQueryChange(e.target.value) }} id="standard-basic" label="Search By Name" />
-                        </Box>
-
-                        <Accordion>
-                           <AccordionSummary
-                              expandIcon={<ExpandMoreIcon />}
-                              aria-controls="panel1a-content"
-                              id="panel1a-header"
-                           >
-                              <Typography >Disease Category</Typography>
-                           </AccordionSummary>
-                           <AccordionDetails>
-                              <div className="accMaxHight">
-                                 {this.state.diseaseCatList ?
-
-                                    this.state.diseaseCatList.map((item) => {
-                                       return (
-                                          <div>
-                                             <FormControlLabel
-                                                control={
-                                                   <Checkbox
-                                                      checked={item.status}
-                                                      onChange={() => {
-                                                         this.handleDiseaseCatChange(item._id)
-                                                      }}
-                                                      name="checkedB"
-                                                      color="primary"
-                                                   />
-                                                }
-                                                label={item.name}
-                                             />
-                                          </div>
-
-                                       )
-                                    })
-
-                                    : null
-                                 }
-                              </div>
-                           </AccordionDetails>
-                        </Accordion>
-
-
-                        <Accordion>
-                           <AccordionSummary
-                              expandIcon={<ExpandMoreIcon />}
-                              aria-controls="panel2a-content"
-                              id="panel2a-header"
-                           >
-                              <Typography >Hospital</Typography>
-                           </AccordionSummary>
-                           <AccordionDetails>
-                              <div className="accMaxHight">
-
-                                 {this.state.hospitalList ?
-
-                                    this.state.hospitalList.map((item) => {
-                                       return (
-                                          <div>
-                                             <FormControlLabel
-                                                control={
-                                                   <Checkbox
-                                                      checked={item.status}
-                                                      onChange={() => {
-                                                         this.handleHospitalChange(item._id)
-                                                      }}
-                                                      name="checkedB"
-                                                      color="primary"
-                                                   />
-                                                }
-                                                label={item.name}
-                                             />
-                                          </div>
-
-                                       )
-                                    })
-
-                                    : null
-                                 }
-                              </div>
-                           </AccordionDetails>
-                        </Accordion>
-
-                     </CardContent>
-                  </Card>
-               </Grid> */}
                <Grid item xs={12}>
-                  {this.context.state.doctorList ?
+                  {this.context.state.billingList ?
                      <div className="table_wrapper">
                         {this.state.isloading &&
                            <div className="loader_area">
@@ -451,28 +331,19 @@ class DoctorList extends Component {
                            <Table stickyHeader={true} aria-label="simple table" size="small" >
                               <TableHead>
                                  <TableRow>
-                                    <TableCell>Hospital Name <IconButton onClick={() => { this.handleSortClick("name") }}>
+                                    <TableCell align="">Customer</TableCell>
+                                    <TableCell>Hospital Name <IconButton onClick={() => { this.handleSortClick("hospital") }}>
                                        {
-                                          this.state.doctorTableSort.sort == "name" ?
+                                          this.state.doctorTableSort.sort == "hospital" ?
                                              this.state.doctorTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
 
                                     </IconButton></TableCell>
-                                    <TableCell align="">Bill Amount</TableCell>
                                     <TableCell align="">Discount Amount</TableCell>
-                                    <TableCell align="">Customer</TableCell>
                                     <TableCell align="">Date <IconButton onClick={() => { this.handleSortClick("date") }}>
                                        {
                                           this.state.doctorTableSort.sort == "date" ?
-                                             this.state.doctorTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
-                                             : <ArrowUpwardIcon style={{ opacity: .2 }} />
-                                       }
-
-                                    </IconButton></TableCell>
-                                    <TableCell align="">Time <IconButton onClick={() => { this.handleSortClick("time") }}>
-                                       {
-                                          this.state.doctorTableSort.sort == "time" ?
                                              this.state.doctorTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
@@ -484,16 +355,14 @@ class DoctorList extends Component {
                               <TableBody>
                                  {
 
-                                    this.context.state.doctorList.data.length > 0 ?
-                                       this.context.state.doctorList.data.map((row) => (
+                                    this.context.state.billingList.data.length > 0 ?
+                                       this.context.state.billingList.data.map((row) => (
 
                                           <TableRow key={row._id}>
-                                             <TableCell component="th" scope="row">Hospital 1</TableCell>
-                                             <TableCell align="">120 </TableCell>
-                                             <TableCell align="">20 </TableCell>
-                                             <TableCell align="">Customer 1 </TableCell>
-                                             <TableCell align="">12-12-20 </TableCell>
-                                             <TableCell align="">11:00 AM</TableCell>
+                                             <TableCell align="">{row.customer ? row.customer.name : null} </TableCell>
+                                             <TableCell component="th" scope="row">{row.hospital ? row.hospital.name : null}</TableCell>
+                                             <TableCell align="">{row.discountAmount} </TableCell>
+                                             <TableCell align="">{row.created} </TableCell>
                                              <TableCell align="">
                                                 <IconButton onClick={() => this.handleDoctorDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />
@@ -523,7 +392,7 @@ class DoctorList extends Component {
                                     style={{ maxWidth: 50, margin: 0 }}
                                     id="standard-select-currency-native"
                                     select
-                                    value={this.context.state.doctorTableRowNumber}
+                                    value={this.context.state.billingTableRowNumber}
                                     onChange={this.handleRowChange}
                                     SelectProps={{
                                        native: true,
@@ -534,7 +403,8 @@ class DoctorList extends Component {
                                     <option value="15">15</option>
                                  </TextField>
                               </div>
-                              <Pagination variant="outlined" shape="rounded" page={this.context.state.currentDoctorlistPageNumber} count={this.context.state.doctorList.page.totalPage}
+                              <Pagination variant="outlined" shape="rounded"
+                                 page={this.context.state.currentBillinglistPageNumber} count={this.context.state.billingList.page.totalPage}
                                  onChange={(event, value) => { this.handlePaginationClick(event, value) }} />
                            </Box>
                         </Card>
@@ -549,6 +419,6 @@ class DoctorList extends Component {
    }
 }
 
-DoctorList.contextType = AppContext;
+billingList.contextType = AppContext;
 
-export default DoctorList;
+export default billingList;

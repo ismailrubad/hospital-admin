@@ -42,14 +42,15 @@ class ServiceList extends Component {
 
    state = {
       currentPage: 1,
-      serviceTableSort: {
+      staffTableSort: {
          sort: "name",
          sortOrder: 1
       },
-      serviceDetails: null,
-      serviceDetailsModalOpen: false,
+      staffDetails: null,
+      staffDetailsModalOpen: false,
       isloading: false,
-      searchQuery: null
+      searchQuery: null,
+      hospitalList: null
    }
 
    startLoading = () => {
@@ -255,14 +256,14 @@ class ServiceList extends Component {
          }),
          selectedHospital: id
       }, () => {
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
-            this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+         this.context.updateStaffList(1, this.context.state.currentStaffTableRowNumber, this.state.staffTableSort.sort,
+            this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
       })
    }
 
    componentDidMount() {
-      this.context.updateServiceList();
+      this.context.updateStaffList();
       fetchAllHospital().then((response) => {
          this.setState({
             hospitalList: response.data.data.map(item => {
@@ -286,13 +287,9 @@ class ServiceList extends Component {
          <>
             <Grid container spacing={3}>
 
-               {/* <Grid item xs={3}>
+               <Grid item xs={3}>
                   <Card>
                      <CardContent>
-                        <Typography variant="h6" gutterBottom>Filter By</Typography>
-                        <Box mb={2}>
-                           <TextField onChange={(e) => { this.handleSearchQueryChange(e.target.value) }} id="standard-basic" label="Search By Name" />
-                        </Box>
                         <Accordion>
                            <AccordionSummary
                               expandIcon={<ExpandMoreIcon />}
@@ -334,9 +331,9 @@ class ServiceList extends Component {
                         </Accordion>
                      </CardContent>
                   </Card>
-               </Grid> */}
-               <Grid item xs={12}>
-                  {this.context.state.serviceList ?
+               </Grid>
+               <Grid item xs={9}>
+                  {this.context.state.staffList ?
                      <div className="table_wrapper">
                         {this.state.isloading &&
                            <div className="loader_area">
@@ -349,8 +346,8 @@ class ServiceList extends Component {
                                  <TableRow>
                                     <TableCell>Customer Name <IconButton onClick={() => { this.handleSortClick("name") }}>
                                        {
-                                          this.state.serviceTableSort.sort == "name" ?
-                                             this.state.serviceTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
+                                          this.state.staffTableSort.sort == "name" ?
+                                             this.state.staffTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
 
@@ -369,12 +366,12 @@ class ServiceList extends Component {
                               </TableHead>
                               <TableBody>
                                  {
-                                    this.context.state.serviceList ?
-                                       this.context.state.serviceList.data.map((row) => (
+                                    this.context.state.staffList ?
+                                       this.context.state.staffList.data.map((row) => (
 
                                           <TableRow key={row._id}>
                                              <TableCell component="th" scope="row">{row.name}</TableCell>
-                                             <TableCell align="">02458758 </TableCell>
+                                             <TableCell align="">{row.phone} </TableCell>
                                              {/* <TableCell align="">{row.charge} </TableCell> */}
                                              <TableCell align="">
                                                 <IconButton onClick={() => this.handleServiceDetails(row._id)} aria-label="delete">
@@ -391,9 +388,7 @@ class ServiceList extends Component {
                                        )) : null
                                  }
                               </TableBody>
-
                            </Table>
-
                         </TableContainer>
                         <Card>
                            <Box p={2} justifyContent="flex-end" display="flex">
@@ -414,7 +409,7 @@ class ServiceList extends Component {
                                     <option value="15">15</option>
                                  </TextField>
                               </div>
-                              <Pagination variant="outlined" page={this.context.state.currentServicelistPageNumber} shape="rounded" count={this.context.state.serviceList.page.totalPage}
+                              <Pagination variant="outlined" page={this.context.state.currentStafflistPageNumber} shape="rounded" count={this.context.state.staffList.page.totalPage}
                                  onChange={(event, value) => { this.handlePaginationClick(event, value) }} />
                            </Box>
                         </Card>

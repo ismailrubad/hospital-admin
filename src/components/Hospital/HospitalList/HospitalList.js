@@ -171,7 +171,7 @@ class HospitalList extends Component {
                                     {this.state.hospitalDetails.cover ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(http://localhost:5000${this.state.hospitalDetails.cover.full})`
+                                          backgroundImage: `url(http://3.6.216.223${this.state.hospitalDetails.cover.full})`
                                        }}>
 
                                        </div> : null
@@ -204,6 +204,10 @@ class HospitalList extends Component {
                                              <TableCell >{this.state.hospitalDetails.discountAmount}</TableCell>
                                           </TableRow>
                                           <TableRow>
+                                             <TableCell ><strong>Description</strong></TableCell>
+                                             <TableCell >{this.state.hospitalDetails.description}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
                                              <TableCell ><strong>Images</strong></TableCell>
                                              <TableCell >
                                                 {
@@ -211,7 +215,7 @@ class HospitalList extends Component {
                                                       this.state.hospitalDetails.image.map(item => {
 
                                                          return (<Box display="inline" mr={1}>
-                                                            <img src={`http://localhost:5000${item.thumbnail}`} />
+                                                            <img src={`http://3.6.216.223${item.thumbnail}`} />
                                                          </Box>)
 
                                                       }) : null
@@ -219,6 +223,7 @@ class HospitalList extends Component {
 
                                              </TableCell>
                                           </TableRow>
+                                          <a target="_blank" href={`http://localhost:5000/admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>

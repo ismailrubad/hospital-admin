@@ -5,6 +5,11 @@ import { fetchHospitaltList } from "../Api/hospital-api";
 import { fetchDoctorList } from "../Api/doctor-api";
 import { fetchServiceList } from "../Api/service-api";
 import { fetchDiseaseCatList } from "../Api/disease-api";
+import { fetchStaffList } from "../Api/staff-api";
+import { fetchCustomerList } from "../Api/customer-api";
+import { fetchBillingList } from "../Api/billing-api";
+
+
 
 // first we will make a new context
 export const AppContext = React.createContext();
@@ -20,6 +25,9 @@ export class AppProvider extends React.Component {
         doctorList: null,
         serviceList: null,
         diseaseCatList: null,
+        staffList: null,
+        customerList: null,
+        billingList: null,
 
         currentZonelistPageNumber: 1,
         zoneTableRowNumber: 5,
@@ -62,6 +70,29 @@ export class AppProvider extends React.Component {
             sort: "name",
             sortOrder: 1
         },
+
+        currentStafflistPageNumber: 1,
+        currentStaffTableRowNumber: 5,
+        staffTableSort: {
+            sort: "name",
+            sortOrder: 1
+        },
+
+        currentCustomerlistPageNumber: 1,
+        currentCustomerTableRowNumber: 5,
+        customerTableSort: {
+            sort: "name",
+            sortOrder: 1
+        },
+
+        currentBillinglistPageNumber: 1,
+        billingTableRowNumber: 5,
+        billingTableSort: {
+            sort: "name",
+            sortOrder: 1
+        },
+
+
     }
 
 
@@ -213,6 +244,69 @@ export class AppProvider extends React.Component {
                                 },
                                 diseaseCatTableRowNumber: response.data.page.limit,
                                 diseaseCatList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updateStaffList: (currentStafflistPageNumber, currentStaffTableRowNumber, sort, sortOrder, hospital, query) => {
+                        fetchStaffList(currentStafflistPageNumber, currentStaffTableRowNumber, sort, sortOrder, hospital, query).then((response) => {
+                            this.setState({
+                                currentDiseaseCatlistcurrentStafflistPageNumberPageNumber: response.data.page.currentPage,
+                                staffTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 0
+                                },
+                                serviceTableRowNumber: response.data.page.limit,
+                                staffList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updateCustomerList: (currentCustomerlistPageNumber, currentCustomerTableRowNumber, sort, sortOrder) => {
+                        fetchCustomerList(currentCustomerlistPageNumber, currentCustomerTableRowNumber, sort, sortOrder).then((response) => {
+                            this.setState({
+                                currentCustomerlistPageNumber: response.data.page.currentPage,
+                                customerTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 0
+                                },
+                                currentCustomerTableRowNumber: response.data.page.limit,
+                                customerList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updateBillingList: (currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder) => {
+                        fetchBillingList(currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder).then((response) => {
+                            this.setState({
+                                currentBillinglistPageNumber: response.data.page.currentPage,
+                                billingTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 0
+                                },
+                                billingTableRowNumber: response.data.page.limit,
+                                billingList: response.data
                             })
                             console.log(response);
                         })
