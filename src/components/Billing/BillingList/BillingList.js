@@ -74,7 +74,7 @@ class billingList extends Component {
       //    deleteDoctor(id)
       //       .then((response) => {
       //          console.log(response);
-      //          this.context.updatebillingList()
+      //          this.context.updateBillingList()
       //       })
       //       .catch(function (error) {
       //          console.log(error);
@@ -93,7 +93,7 @@ class billingList extends Component {
       //    currentPage: 1
       // })
 
-      this.context.updatebillingList(1, event.target.value,
+      this.context.updateBillingList(1, event.target.value,
          this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
          this.state.selectedHospital, this.state.searchQuery)
    }
@@ -109,7 +109,7 @@ class billingList extends Component {
       //    currentPage: value
       // })
       // this.context.updateCurrentbillingListPageNumber(value, this.stopLoading)
-      this.context.updatebillingList(value, this.context.state.doctorTableRowNumber,
+      this.context.updateBillingList(value, this.context.state.doctorTableRowNumber,
          this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
          this.state.selectedHospital, this.state.searchQuery)
    }
@@ -126,7 +126,7 @@ class billingList extends Component {
       }, () => {
          console.log(this.state)
          // this.context.sortDoctortable(this.state.doctorTableSort.sort, this.state.doctorTableSort.sortOrder)
-         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+         this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
             this.state.doctorTableSort.sort, this.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
       })
@@ -244,7 +244,7 @@ class billingList extends Component {
    }
 
    handleDiseaseCatChange = (id) => {
-      // this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+      // this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          diseaseCatList: this.state.diseaseCatList.map(item => {
@@ -258,7 +258,7 @@ class billingList extends Component {
          selectedDiseaseCat: id
       }, () => {
 
-         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+         this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
             this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
 
@@ -271,7 +271,7 @@ class billingList extends Component {
          // this.setState({
          //    selectedDiseaseCalList
          // }, () => {
-         //    this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+         //    this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
          //       this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCalList)
          // })
 
@@ -279,7 +279,7 @@ class billingList extends Component {
    }
 
    handleHospitalChange = (id) => {
-      // this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+      // this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          hospitalList: this.state.hospitalList.map(item => {
@@ -292,7 +292,7 @@ class billingList extends Component {
          }),
          selectedHospital: id
       }, () => {
-         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+         this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
             this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
 
@@ -300,12 +300,12 @@ class billingList extends Component {
    }
 
    handleSearchQueryChange = (searchQuery) => {
-      // this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+      // this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          searchQuery
       }, () => {
-         this.context.updatebillingList(1, this.context.state.doctorTableRowNumber,
+         this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
             this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
             this.state.selectedHospital, this.state.searchQuery)
 

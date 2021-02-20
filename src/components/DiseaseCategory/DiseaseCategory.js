@@ -27,7 +27,8 @@ class DiseaseCategory extends Component {
       createModalOpen: false,
       submittingCreate: false,
       name: null,
-      inputError: {}
+      inputError: {},
+      editForm: false
    }
 
    handleCreateModalOpen = () => {
@@ -40,7 +41,9 @@ class DiseaseCategory extends Component {
       this.setState({
          createModalOpen: false,
          inputError: {},
-         name: null
+         name: null,
+         editForm: false
+
       })
    }
 
@@ -52,23 +55,29 @@ class DiseaseCategory extends Component {
 
 
    handleFormSubmit = () => {
-      this.setState({
-         submittingCreate: true
-      }, () => {
-         addDisease(this.state.name)
-            .then((response) => {
-               console.log(response);
-               this.handleCreateModalClose();
-               this.context.updateDiseaseCatList();
-            })
-            .catch((error) => {
-               console.log(error);
-               this.setState({
-                  submittingCreate: false,
-                  inputError: error.response && error.response.data
+      if (this.state.editForm) {
+
+      }
+      else {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            addDisease(this.state.name)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateDiseaseCatList();
                })
-            });
-      })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
+      }
+
    }
 
    renderCreateModal = () => {
@@ -95,12 +104,14 @@ class DiseaseCategory extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Disease Category"
+                           title={this.state.editForm ? "Edit isease Category" : "Add isease Category"}
+
                         />
                         <CardContent>
                            <div className="form_wrapper">
                               <form noValidate autoComplete="off">
                                  <TextField
+                                    value={this.state.name}
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
                                     onChange={this.handleNameChange} id="standard-basic" label="Disease Category Name" />
@@ -119,10 +130,19 @@ class DiseaseCategory extends Component {
       )
    }
 
+   editDiseaseCategory = (disCat) => {
+      this.setState({
+         name: disCat.name,
+         editForm: true
+      }, () => {
+         this.handleCreateModalOpen();
+      })
+   }
+
    render() {
       return (
          <div>
-            <DiseaseCategoryList />
+            <DiseaseCategoryList editDiseaseCategory={this.editDiseaseCategory} />
             {this.renderCreateModal()}
             <Fab onClick={this.handleCreateModalOpen} color="primary" variant="extended" aria-label="add" className="addIcon">
                <AddIcon />

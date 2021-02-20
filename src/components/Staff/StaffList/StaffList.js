@@ -36,7 +36,7 @@ import TextField from '@material-ui/core/TextField';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { fetchAllHospital } from "../../../Api/hospital-api";
 
-import { fetchServiceDetails, deleteService } from "../../../Api/service-api";
+import { fetchStaffDetails, deleteStaff } from "../../../Api/staff-api";
 
 class ServiceList extends Component {
 
@@ -63,14 +63,14 @@ class ServiceList extends Component {
    };
 
 
-   handleServiceDelete = (id) => {
+   handleStaffDelete = (id) => {
 
       var r = window.confirm("Do you want to delete the item?");
       if (r == true) {
-         deleteService(id)
+         deleteStaff(id)
             .then((response) => {
                console.log(response);
-               this.context.updateServiceList()
+               this.context.updateStaffList()
             })
             .catch(function (error) {
                console.log(error);
@@ -119,25 +119,25 @@ class ServiceList extends Component {
       })
    }
 
-   handleServiceDetailsModalOpen = () => {
+   handlestaffDetailsModalOpen = () => {
       this.setState({
-         serviceDetailsModalOpen: true
+         staffDetailsModalOpen: true
       })
    }
 
    handleServiceDetailsModalClose = () => {
       this.setState({
-         serviceDetailsModalOpen: false
+         staffDetailsModalOpen: false
       })
    }
 
-   renderServiceDetailsModal = () => {
+   renderStaffDetailsModal = () => {
       return (
          <Modal
             className="modal"
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            open={this.state.serviceDetailsModalOpen}
+            open={this.state.staffDetailsModalOpen}
             onClose={this.handleServiceDetailsModalClose}
             closeAfterTransition
             BackdropComponent={Backdrop}
@@ -145,7 +145,7 @@ class ServiceList extends Component {
                timeout: 500,
             }}
          >
-            <Fade in={this.state.serviceDetailsModalOpen}>
+            <Fade in={this.state.staffDetailsModalOpen}>
                <Grid container spacing={3}>
                   <Grid item xs={6} className="col_center">
                      <Card>
@@ -155,34 +155,33 @@ class ServiceList extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Service Details"
+                           title="Staff Details"
                         />
                         <CardContent>
                            {
-                              this.state.serviceDetails ?
-
+                              this.state.staffDetails ?
 
                                  <TableContainer component={Paper}>
                                     <Table size="small" aria-label="simple table">
 
                                        <TableBody>
                                           <TableRow>
-                                             <TableCell align=""><strong>Service Name</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.name}</TableCell>
+                                             <TableCell align=""><strong>Name</strong></TableCell>
+                                             <TableCell align="">{this.state.staffDetails.name}</TableCell>
                                           </TableRow>
                                           <TableRow>
-                                             <TableCell align=""><strong>Charge</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.charge}</TableCell>
+                                             <TableCell align=""><strong>Phone</strong></TableCell>
+                                             <TableCell align="">{this.state.staffDetails.phone}</TableCell>
                                           </TableRow>
                                           <TableRow>
                                              <TableCell align=""><strong>Hospital Name</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.hospital ?
-                                                this.state.serviceDetails.hospital.name : null}</TableCell>
+                                             <TableCell align="">{this.state.staffDetails.hospital ?
+                                                this.state.staffDetails.hospital.name : null}</TableCell>
                                           </TableRow>
                                           <TableRow>
                                              <TableCell align=""><strong>Hospital Address</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.hospital ?
-                                                this.state.serviceDetails.hospital.address : null}</TableCell>
+                                             <TableCell align="">{this.state.staffDetails.hospital ?
+                                                this.state.staffDetails.hospital.address : null}</TableCell>
                                           </TableRow>
                                        </TableBody>
                                     </Table>
@@ -212,13 +211,13 @@ class ServiceList extends Component {
       )
    }
 
-   handleServiceDetails = (id) => {
-      fetchServiceDetails(id).then((response) => {
+   handleDetails = (id) => {
+      fetchStaffDetails(id).then((response) => {
          this.setState({
-            serviceDetails: response.data
+            staffDetails: response.data
          }, () => {
             this.setState({
-               serviceDetailsModalOpen: true
+               staffDetailsModalOpen: true
             })
          })
          console.log(response);
@@ -374,13 +373,13 @@ class ServiceList extends Component {
                                              <TableCell align="">{row.phone} </TableCell>
                                              {/* <TableCell align="">{row.charge} </TableCell> */}
                                              <TableCell align="">
-                                                <IconButton onClick={() => this.handleServiceDetails(row._id)} aria-label="delete">
+                                                <IconButton onClick={() => this.handleDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => this.handleServiceEdit(row._id)} aria-label="delete">
+                                                <IconButton onClick={() => this.props.editStaff(row)} aria-label="delete">
                                                    <EditIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => this.handleServiceDelete(row._id)} aria-label="delete">
+                                                <IconButton onClick={() => this.handleStaffDelete(row._id)} aria-label="delete">
                                                    <DeleteIcon />
                                                 </IconButton>
                                              </TableCell>
@@ -417,7 +416,7 @@ class ServiceList extends Component {
                   }
                </Grid>
             </Grid>
-            {this.renderServiceDetailsModal()}
+            {this.renderStaffDetailsModal()}
          </>
       );
    }

@@ -17,7 +17,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addService } from "../../Api/service-api";
+import { addCustomer } from "../../Api/customer-api";
 import StaffList from './StaffList/StaffList';
 
 class Staff extends Component {
@@ -28,7 +28,7 @@ class Staff extends Component {
       submittingCreate: false,
       selectedHospital: null,
       name: null, password: null,
-      cover: null, image: null,
+      phone: null,
       inputError: {}
    }
 
@@ -50,37 +50,42 @@ class Staff extends Component {
       })
    }
 
+   handlePhoneChange = (event) => {
+      this.setState({
+         phone: event.target.value
+      })
+   }
+
    handlePasswordChange = (event) => {
       this.setState({
          password: event.target.value
       })
    };
 
-   handleHospitalChange = (event) => {
-      this.setState({
-         selectedHospital: event.target.value
-      })
-   }
 
    handleFormSubmit = () => {
-      this.setState({
-         submittingCreate: true
-      }, () => {
-         addService(this.state.name, this.state.selectedHospital, this.state.charge,
-            "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"])
-            .then((response) => {
-               console.log(response);
-               this.handleCreateModalClose();
-               this.context.updateServiceList();
-            })
-            .catch((error) => {
-               console.log(error);
-               this.setState({
-                  submittingCreate: false,
-                  inputError: error.response && error.response.data
+      if (this.state.editForm) {
+      }
+      else {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            addCustomer(this.state.name, this.state.phone, this.state.password)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateServiceList();
                })
-            });
-      })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
+      }
+
    }
 
    renderCreateModal = () => {
@@ -107,7 +112,8 @@ class Staff extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Customer"
+                           title={this.state.editForm ? "Edit Customer" : "Add Customer"}
+
                         />
                         <CardContent>
                            <div className="form_wrapper">
@@ -118,14 +124,15 @@ class Staff extends Component {
                                     onChange={this.handleNameChange} id="standard-basic" label="Customer Name" />
 
                                  <TextField
-                                    error={this.state.inputError && this.state.inputError.name ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.name}
-                                    onChange={this.handleNameChange} id="standard-basic" label="Phone" />
+                                    error={this.state.inputError && this.state.inputError.phone ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.phone}
+                                    onChange={this.handlePhoneChange} id="standard-basic" label="Phone" />
 
                                  <TextField
                                     error={this.state.inputError && this.state.inputError.password ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.password}
-                                    onChange={this.handlePasswordChange} id="standard-basic" label="Password" />
+                                    onChange={this.handlePasswordChange} id="standard-basic" label="Password"
+                                    type="password" />
 
                                  {/* <TextField
                                     error={this.state.inputError && this.state.inputError.charge ? true : false}
@@ -182,10 +189,18 @@ class Staff extends Component {
       })
    }
 
+   editCustomer = (customer) => {
+      this.setState({
+         editForm: true
+      }, () => {
+         this.handleCreateModalOpen()
+      })
+   }
+
    render() {
       return (
          <div>
-            <StaffList />
+            <StaffList editCustomer={this.editCustomer} />
             {this.renderCreateModal()}
             <Fab onClick={this.handleCreateModalOpen} color="primary" variant="extended" aria-label="add" className="addIcon">
                <AddIcon />

@@ -151,7 +151,7 @@ class Doctor extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Doctor"
+                           title={this.state.editForm ? "Edit Doctor" : "Add Doctor"}
                         />
                         <CardContent>
                            <div className="form_wrapper">

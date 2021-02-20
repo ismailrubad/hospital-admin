@@ -29,7 +29,8 @@ class Staff extends Component {
       selectedHospital: null,
       name: null, hospital: null, phone: null, password: null,
       cover: null, image: null,
-      inputError: {}
+      inputError: {},
+      editForm: false
    }
 
    handleCreateModalOpen = () => {
@@ -40,7 +41,8 @@ class Staff extends Component {
 
    handleCreateModalClose = () => {
       this.setState({
-         createModalOpen: false
+         createModalOpen: false,
+         editForm: false
       })
    }
 
@@ -75,23 +77,28 @@ class Staff extends Component {
    }
 
    handleFormSubmit = () => {
-      this.setState({
-         submittingCreate: true
-      }, () => {
-         addStaff(this.state.name, this.state.selectedHospital, this.state.phone, this.state.password)
-            .then((response) => {
-               console.log(response);
-               this.handleCreateModalClose();
-               this.context.updateStaffList();
-            })
-            .catch((error) => {
-               console.log(error);
-               this.setState({
-                  submittingCreate: false,
-                  inputError: error.response && error.response.data
+      if (this.state.editForm) {
+      }
+      else {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            addStaff(this.state.name, this.state.selectedHospital, this.state.phone, this.state.password)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateStaffList();
                })
-            });
-      })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
+      }
+
    }
 
    renderCreateModal = () => {
@@ -118,12 +125,14 @@ class Staff extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Staff"
+                           title={this.state.editForm ? "Edit Staff" : "Add Staff"}
+
                         />
                         <CardContent>
                            <div className="form_wrapper">
                               <form noValidate autoComplete="off">
                                  <TextField
+                                    value={this.state.name}
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
                                     onChange={this.handleNameChange} id="standard-basic" label="Staff Name" />
@@ -148,11 +157,13 @@ class Staff extends Component {
                                  </TextField>
 
                                  <TextField
+                                    value={this.state.phone}
                                     error={this.state.inputError && this.state.inputError.phone ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.phone}
                                     onChange={this.handlePhoneChange} id="standard-basic" label="Phone" />
 
                                  <TextField
+                                    value={this.state.phone}
                                     error={this.state.inputError && this.state.inputError.password ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.password}
                                     onChange={this.handlePasswordChange} id="standard-basic" label="Password" type="password" />
@@ -192,10 +203,23 @@ class Staff extends Component {
       })
    }
 
+   editStaff = (staff) => {
+      console.log(staff)
+      this.setState({
+         name: staff.name,
+         selectedHospital: staff.hospital,
+         phone: staff.phone,
+         password: staff.password,
+         editForm: true
+      }, () => {
+         this.handleCreateModalOpen();
+      })
+   }
+
    render() {
       return (
          <div>
-            <StaffList />
+            <StaffList editStaff={this.editStaff} />
             {this.renderCreateModal()}
             <Fab onClick={this.handleCreateModalOpen} color="primary" variant="extended" aria-label="add" className="addIcon">
                <AddIcon />

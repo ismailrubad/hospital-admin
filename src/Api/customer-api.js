@@ -18,3 +18,15 @@ export const addCustomer = (name, phone, password) => {
       name, phone, password,
    })
 };
+
+export const fetchCustomerDetails = (id) => {
+   return axios.get(`http://3.6.216.223/admin/api/customer/${id}`)
+};
+
+export const deleteCustomer = (id) => {
+   return axios.get(`http://3.6.216.223/admin/api/customer/remove/`, {
+      params: {
+         id
+      }
+   })
+};
