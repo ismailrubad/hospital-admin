@@ -6,6 +6,12 @@ export const addService = (name, hospital, charge, cover, image, description) =>
    })
 };
 
+export const editService = (id, name, hospital, charge, cover, image, description) => {
+   return axios.post('http://3.6.216.223/admin/api/service/update', {
+      id, name, hospital, charge, cover, image, description
+   })
+};
+
 export const fetchServiceList = (currentPage = 1, limit = 5, sort = "name", sortOrder = 1, hospital, query) => {
    return axios.get('http://3.6.216.223/admin/api/service', {
       params: {

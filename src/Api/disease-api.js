@@ -6,6 +6,12 @@ export const addDisease = (name) => {
    })
 };
 
+export const editDisease = (id, name) => {
+   return axios.post('http://3.6.216.223/admin/api/diseaseCategory/update', {
+      id, name
+   })
+};
+
 export const fetchDiseaseCatList = (currentPage = 1, limit = 5,
    sort = "name", sortOrder = 1) => {
    return axios.get('http://3.6.216.223/admin/api/diseaseCategory', {

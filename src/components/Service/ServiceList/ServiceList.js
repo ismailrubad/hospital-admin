@@ -187,6 +187,21 @@ class ServiceList extends Component {
                                              <TableCell align=""><strong>Description</strong></TableCell>
                                              <TableCell align="">{this.state.serviceDetails.description}</TableCell>
                                           </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Images</strong></TableCell>
+                                             <TableCell align="">
+                                                {
+                                                   this.state.serviceDetails.image ?
+                                                      this.state.serviceDetails.image.map(item => {
+
+                                                         return (<Box display="inline" mr={1}>
+                                                            <img src={`http://3.6.216.223${item.thumbnail}`} />
+                                                         </Box>)
+
+                                                      }) : null
+                                                }
+                                             </TableCell>
+                                          </TableRow>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>

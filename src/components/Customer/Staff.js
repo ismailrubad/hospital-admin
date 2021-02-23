@@ -85,7 +85,6 @@ class Staff extends Component {
                });
          })
       }
-
    }
 
    renderCreateModal = () => {

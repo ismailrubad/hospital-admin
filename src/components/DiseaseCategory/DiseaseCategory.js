@@ -17,7 +17,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addDisease } from "../../Api/disease-api";
+import { addDisease, editDisease } from "../../Api/disease-api";
 import DiseaseCategoryList from './DiseaseCategoryList/DiseaseCategoryList';
 
 class DiseaseCategory extends Component {
@@ -56,7 +56,23 @@ class DiseaseCategory extends Component {
 
    handleFormSubmit = () => {
       if (this.state.editForm) {
-
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            editDisease(this.state.diseaseId, this.state.name)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateDiseaseCatList();
+               })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
       }
       else {
          this.setState({
@@ -132,6 +148,7 @@ class DiseaseCategory extends Component {
 
    editDiseaseCategory = (disCat) => {
       this.setState({
+         diseaseId: disCat._id,
          name: disCat.name,
          editForm: true
       }, () => {

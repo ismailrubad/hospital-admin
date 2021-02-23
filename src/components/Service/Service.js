@@ -17,7 +17,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addService } from "../../Api/service-api";
+import { addService, editService } from "../../Api/service-api";
 import ServiceList from './ServiceList/ServiceList';
 
 class Service extends Component {
@@ -72,6 +72,24 @@ class Service extends Component {
 
    handleFormSubmit = () => {
       if (this.state.editForm) {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            editService(this.state.serviceId, this.state.name, this.state.selectedHospital, this.state.charge,
+               "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateServiceList();
+               })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
       }
       else {
          this.setState({
@@ -193,6 +211,7 @@ class Service extends Component {
    editService = (service) => {
       console.log(service)
       this.setState({
+         serviceId: service._id,
          name: service.name,
          selectedHospital: service.hospital._id,
          charge: service.charge,

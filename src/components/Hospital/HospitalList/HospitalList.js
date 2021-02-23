@@ -160,7 +160,7 @@ class HospitalList extends Component {
                            }
                            title="Hospital Details"
                         />
-                        <CardContent>
+                        <CardContent style={{ maxHeight: 530, overflowY: "scroll" }}>
 
 
                            {
