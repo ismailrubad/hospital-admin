@@ -162,6 +162,14 @@ class ServiceList extends Component {
 
 
                                  <TableContainer component={Paper}>
+                                    {this.state.serviceDetails.cover ?
+                                       <div style={{
+                                          height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
+                                          backgroundImage: `url(http://3.6.216.223${this.state.serviceDetails.cover.full})`
+                                       }}>
+
+                                       </div> : null
+                                    }
                                     <Table size="small" aria-label="simple table">
 
                                        <TableBody>
