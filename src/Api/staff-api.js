@@ -7,6 +7,12 @@ export const addStaff = (name, hospital, phone, password) => {
    })
 };
 
+export const editStaff = (id, name, hospital, phone, password) => {
+   return axios.post('http://3.6.216.223/admin/api/staff/update', {
+      id, name, hospital, phone, password
+   })
+};
+
 export const fetchStaffList = (currentPage = 1, limit = 5,
    sort = "name", sortOrder = 1, hospital, query) => {
    return axios.get('http://localhost:5000/admin/api/staff', {

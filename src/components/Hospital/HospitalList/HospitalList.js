@@ -160,7 +160,7 @@ class HospitalList extends Component {
                            }
                            title="Hospital Details"
                         />
-                        <CardContent>
+                        <CardContent style={{ maxHeight: 530, overflowY: "scroll" }}>
 
 
                            {
@@ -202,6 +202,10 @@ class HospitalList extends Component {
                                           <TableRow>
                                              <TableCell ><strong>DiscountAmount</strong></TableCell>
                                              <TableCell >{this.state.hospitalDetails.discountAmount}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell ><strong>discountAmountTotal</strong></TableCell>
+                                             <TableCell >{this.state.hospitalDetails.discountAmountTotal}</TableCell>
                                           </TableRow>
                                           <TableRow>
                                              <TableCell ><strong>Description</strong></TableCell>
@@ -397,6 +401,14 @@ class HospitalList extends Component {
                                        }
 
                                     </IconButton></TableCell>
+                                    <TableCell >Discount Amount Total <IconButton onClick={() => { this.handleSortClick("discountAmountTotal") }}>
+                                       {
+                                          this.state.hospitalTableSort.sort == "discountAmountTotal" ?
+                                             this.state.hospitalTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
+                                             : <ArrowUpwardIcon style={{ opacity: .2 }} />
+                                       }
+
+                                    </IconButton></TableCell>
                                     <TableCell >Short Code</TableCell>
                                     <TableCell >Actions</TableCell>
                                  </TableRow>
@@ -411,6 +423,7 @@ class HospitalList extends Component {
                                              <TableCell >{row.address} </TableCell>
                                              <TableCell >{row.phone} </TableCell>
                                              <TableCell >{row.discountAmount} </TableCell>
+                                             <TableCell >{row.discountAmountTotal} </TableCell>
                                              <TableCell >{row.shortCode} </TableCell>
                                              <TableCell >
                                                 <IconButton onClick={() => this.handleHospitalDetails(row._id)} aria-label="delete">

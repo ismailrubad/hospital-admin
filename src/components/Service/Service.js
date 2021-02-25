@@ -17,8 +17,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addService } from "../../Api/service-api";
+import { addService, editService } from "../../Api/service-api";
 import ServiceList from './ServiceList/ServiceList';
+import ImageHandler from '../ImageHandlerModal/ImageHandlerModal'
+import { Box } from '@material-ui/core';
 
 class Service extends Component {
 
@@ -30,6 +32,8 @@ class Service extends Component {
       name: null, hospital: null, charge: null,
       cover: null, image: null, description: null,
       editForm: false,
+      image: [],
+      cover: "",
       inputError: {}
    }
 
@@ -70,15 +74,57 @@ class Service extends Component {
       })
    }
 
+   getImageDataFromModalCover = (imageInfo) => {
+      console.log(imageInfo)
+      this.setState({ cover: imageInfo })
+   }
+
+   handleImageModalCoverClose = () => {
+      console.log("closed")
+      this.setState({
+         imageModalCoverOpen: false
+      })
+   }
+
+   getImageDataFromModalOne = (imageInfo) => {
+      console.log(imageInfo)
+      this.setState({ image: imageInfo })
+   }
+
+   handleImageModalClose = () => {
+      console.log("closed")
+      this.setState({
+         imageModalOpen: false
+      })
+   }
+
    handleFormSubmit = () => {
       if (this.state.editForm) {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            editService(this.state.serviceId, this.state.name, this.state.selectedHospital, this.state.charge,
+               "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateServiceList();
+               })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
       }
       else {
          this.setState({
             submittingCreate: true
          }, () => {
             addService(this.state.name, this.state.selectedHospital, this.state.charge,
-               "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
+               this.state.cover[0], this.state.image, this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -148,6 +194,31 @@ class Service extends Component {
                                           )) : null
                                     }
                                  </TextField>
+                                 <Box mb={2}>
+                                    <Button onClick={() => this.setState({ imageModalCoverOpen: true })}
+                                       variant="contained" color="primary">Upload Cover Image</Button>
+                                    {this.state.cover ?
+                                       <Box display="inline" ml={2}>
+                                          Cover image selected</Box> : null
+                                    }
+                                 </Box>
+                                 <ImageHandler prevSelectedImageIds={this.state.cover} selectOneMood={true} getImageData={this.getImageDataFromModalCover}
+                                    handleClose={this.handleImageModalCoverClose}
+                                    open={this.state.imageModalCoverOpen} />
+
+                                 <Box>
+                                    <Button onClick={() => this.setState({ imageModalOpen: true })}
+                                       variant="contained" color="primary">Upload gallery Images</Button>
+                                    {this.state.image.length > 0 ?
+                                       <Box display="inline" ml={2}>
+                                          {this.state.image.length} images selected</Box> : null
+                                    }
+                                 </Box>
+                                 <ImageHandler prevSelectedImageIds={this.state.image} selectOneMood={false}
+                                    getImageData={this.getImageDataFromModalOne}
+                                    handleClose={this.handleImageModalClose}
+                                    open={this.state.imageModalOpen} />
+
                                  <TextField
                                     value={this.state.charge}
                                     error={this.state.inputError && this.state.inputError.charge ? true : false}
@@ -193,6 +264,7 @@ class Service extends Component {
    editService = (service) => {
       console.log(service)
       this.setState({
+         serviceId: service._id,
          name: service.name,
          selectedHospital: service.hospital._id,
          charge: service.charge,

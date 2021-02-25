@@ -162,6 +162,14 @@ class ServiceList extends Component {
 
 
                                  <TableContainer component={Paper}>
+                                    {this.state.serviceDetails.cover ?
+                                       <div style={{
+                                          height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
+                                          backgroundImage: `url(http://3.6.216.223${this.state.serviceDetails.cover.full})`
+                                       }}>
+
+                                       </div> : null
+                                    }
                                     <Table size="small" aria-label="simple table">
 
                                        <TableBody>
@@ -186,6 +194,21 @@ class ServiceList extends Component {
                                           <TableRow>
                                              <TableCell align=""><strong>Description</strong></TableCell>
                                              <TableCell align="">{this.state.serviceDetails.description}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Images</strong></TableCell>
+                                             <TableCell align="">
+                                                {
+                                                   this.state.serviceDetails.image ?
+                                                      this.state.serviceDetails.image.map(item => {
+
+                                                         return (<Box display="inline" mr={1}>
+                                                            <img src={`http://3.6.216.223${item.thumbnail}`} />
+                                                         </Box>)
+
+                                                      }) : null
+                                                }
+                                             </TableCell>
                                           </TableRow>
                                        </TableBody>
                                     </Table>

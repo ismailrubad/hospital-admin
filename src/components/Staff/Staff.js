@@ -17,7 +17,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addStaff } from "../../Api/staff-api";
+import { addStaff, editForm, editStaff } from "../../Api/staff-api";
 import StaffList from './StaffList/StaffList';
 
 class Staff extends Component {
@@ -78,6 +78,23 @@ class Staff extends Component {
 
    handleFormSubmit = () => {
       if (this.state.editForm) {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            editStaff(this.state.staffId, this.state.name, this.state.selectedHospital, this.state.phone, this.state.password)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateDoctorList();
+               })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
       }
       else {
          this.setState({
@@ -163,7 +180,7 @@ class Staff extends Component {
                                     onChange={this.handlePhoneChange} id="standard-basic" label="Phone" />
 
                                  <TextField
-                                    value={this.state.phone}
+                                    value={this.state.password}
                                     error={this.state.inputError && this.state.inputError.password ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.password}
                                     onChange={this.handlePasswordChange} id="standard-basic" label="Password" type="password" />
@@ -206,6 +223,7 @@ class Staff extends Component {
    editStaff = (staff) => {
       console.log(staff)
       this.setState({
+         staffId: staff._id,
          name: staff.name,
          selectedHospital: staff.hospital,
          phone: staff.phone,

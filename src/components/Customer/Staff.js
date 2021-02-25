@@ -17,7 +17,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addCustomer } from "../../Api/customer-api";
+import { addCustomer, editCustomer } from "../../Api/customer-api";
 import StaffList from './StaffList/StaffList';
 
 class Staff extends Component {
@@ -65,16 +65,14 @@ class Staff extends Component {
 
    handleFormSubmit = () => {
       if (this.state.editForm) {
-      }
-      else {
          this.setState({
             submittingCreate: true
          }, () => {
-            addCustomer(this.state.name, this.state.phone, this.state.password)
+            editCustomer(this.state.customerId, this.state.name, this.state.phone, this.state.password)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
-                  this.context.updateServiceList();
+                  this.context.updateCustomerList();
                })
                .catch((error) => {
                   console.log(error);
@@ -85,7 +83,25 @@ class Staff extends Component {
                });
          })
       }
-
+      else {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            addCustomer(this.state.name, this.state.phone, this.state.password)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateCustomerList();
+               })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
+      }
    }
 
    renderCreateModal = () => {
@@ -119,16 +135,19 @@ class Staff extends Component {
                            <div className="form_wrapper">
                               <form noValidate autoComplete="off">
                                  <TextField
+                                    value={this.state.name}
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
                                     onChange={this.handleNameChange} id="standard-basic" label="Customer Name" />
 
                                  <TextField
+                                    value={this.state.phone}
                                     error={this.state.inputError && this.state.inputError.phone ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.phone}
                                     onChange={this.handlePhoneChange} id="standard-basic" label="Phone" />
 
                                  <TextField
+                                    value={this.state.password}
                                     error={this.state.inputError && this.state.inputError.password ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.password}
                                     onChange={this.handlePasswordChange} id="standard-basic" label="Password"
@@ -191,7 +210,11 @@ class Staff extends Component {
 
    editCustomer = (customer) => {
       this.setState({
-         editForm: true
+         editForm: true,
+         customerId: customer._id,
+         name: customer.name,
+         phone: customer.phone,
+         password: customer.password
       }, () => {
          this.handleCreateModalOpen()
       })

@@ -19,6 +19,12 @@ export const addCustomer = (name, phone, password) => {
    })
 };
 
+export const editCustomer = (id, name, phone, password,) => {
+   return axios.post('http://3.6.216.223/admin/api/customer/update', {
+      id, name, phone, password
+   })
+};
+
 export const fetchCustomerDetails = (id) => {
    return axios.get(`http://localhost:5000/admin/api/customer/${id}`)
 };
