@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export const addDisease = (name) => {
-   return axios.post('http://3.6.216.223/admin/api/diseaseCategory/add', {
+   return axios.post('http://localhost:5000/admin/api/diseaseCategory/add', {
       name
    })
 };
 
 export const fetchDiseaseCatList = (currentPage = 1, limit = 5,
    sort = "name", sortOrder = 1) => {
-   return axios.get('http://3.6.216.223/admin/api/diseaseCategory', {
+   return axios.get('http://localhost:5000/admin/api/diseaseCategory', {
       params: {
          query: "",
          limit: limit,
@@ -20,7 +20,7 @@ export const fetchDiseaseCatList = (currentPage = 1, limit = 5,
 };
 
 export const fetchAllDiseaseCat = () => {
-   return axios.get('http://3.6.216.223/admin/api/diseaseCategory', {
+   return axios.get('http://localhost:5000/admin/api/diseaseCategory', {
       params: {
          // query: "",
          // limit: limit,
@@ -33,7 +33,7 @@ export const fetchAllDiseaseCat = () => {
 
 
 export const deleteDiseaseCat = (id) => {
-   return axios.get(`http://3.6.216.223/admin/api/diseaseCategory/remove/`, {
+   return axios.get(`http://localhost:5000/admin/api/diseaseCategory/remove/`, {
       params: {
          id
       }

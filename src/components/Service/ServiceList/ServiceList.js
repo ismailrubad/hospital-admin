@@ -384,7 +384,7 @@ class ServiceList extends Component {
                                                 <IconButton onClick={() => this.handleServiceDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => this.handleServiceEdit(row._id)} aria-label="delete">
+                                                <IconButton onClick={() => this.props.editService(row)} aria-label="delete">
                                                    <EditIcon />
                                                 </IconButton>
                                                 <IconButton onClick={() => this.handleServiceDelete(row._id)} aria-label="delete">

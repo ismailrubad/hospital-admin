@@ -29,6 +29,7 @@ class Service extends Component {
       selectedHospital: null,
       name: null, hospital: null, charge: null,
       cover: null, image: null, description: null,
+      editForm: false,
       inputError: {}
    }
 
@@ -40,6 +41,7 @@ class Service extends Component {
 
    handleCreateModalClose = () => {
       this.setState({
+         editForm: false,
          createModalOpen: false
       })
    }
@@ -69,24 +71,29 @@ class Service extends Component {
    }
 
    handleFormSubmit = () => {
-      this.setState({
-         submittingCreate: true
-      }, () => {
-         addService(this.state.name, this.state.selectedHospital, this.state.charge,
-            "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
-            .then((response) => {
-               console.log(response);
-               this.handleCreateModalClose();
-               this.context.updateServiceList();
-            })
-            .catch((error) => {
-               console.log(error);
-               this.setState({
-                  submittingCreate: false,
-                  inputError: error.response && error.response.data
+      if (this.state.editForm) {
+      }
+      else {
+         this.setState({
+            submittingCreate: true
+         }, () => {
+            addService(this.state.name, this.state.selectedHospital, this.state.charge,
+               "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
+               .then((response) => {
+                  console.log(response);
+                  this.handleCreateModalClose();
+                  this.context.updateServiceList();
                })
-            });
-      })
+               .catch((error) => {
+                  console.log(error);
+                  this.setState({
+                     submittingCreate: false,
+                     inputError: error.response && error.response.data
+                  })
+               });
+         })
+      }
+
    }
 
    renderCreateModal = () => {
@@ -113,12 +120,13 @@ class Service extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Service"
+                           title={this.state.editForm ? "Edit Service" : "Add Service"}
                         />
                         <CardContent>
                            <div className="form_wrapper">
                               <form noValidate autoComplete="off">
                                  <TextField
+                                    value={this.state.name}
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
                                     onChange={this.handleNameChange} id="standard-basic" label="Service Name" />
@@ -141,11 +149,13 @@ class Service extends Component {
                                     }
                                  </TextField>
                                  <TextField
+                                    value={this.state.charge}
                                     error={this.state.inputError && this.state.inputError.charge ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.charge}
                                     onChange={this.handleChargeChange} id="standard-basic" label="Charge" />
 
                                  <TextField
+                                    value={this.state.description}
                                     error={this.state.inputError && this.state.inputError.description ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.description}
                                     onChange={this.handleDescriptionChange} id="standard-basic" label="Description" />
@@ -180,10 +190,24 @@ class Service extends Component {
    }
 
 
+   editService = (service) => {
+      console.log(service)
+      this.setState({
+         name: service.name,
+         selectedHospital: service.hospital._id,
+         charge: service.charge,
+         description: service.description,
+         editForm: true
+      }, () => {
+         this.handleCreateModalOpen();
+      })
+   }
+
+
    render() {
       return (
          <div>
-            <ServiceList />
+            <ServiceList editService={this.editService} />
             {this.renderCreateModal()}
             <Fab onClick={this.handleCreateModalOpen} color="primary" variant="extended" aria-label="add" className="addIcon">
                <AddIcon />

@@ -223,7 +223,7 @@ class HospitalList extends Component {
 
                                              </TableCell>
                                           </TableRow>
-                                          <a target="_blank" href={`http://3.6.216.223/admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
+                                          <a target="_blank" href={`http://localhost:5000/admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>

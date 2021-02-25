@@ -16,7 +16,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import './style.css';
-import logo from "../../logo.jpg";
+import logo from "../../logo.png";
 
 import {
    DashboardOutlined, LocationOnOutlined, BusinessOutlined, FaceOutlined,
@@ -159,7 +159,7 @@ class DrawerLayout extends React.Component {
 
       const drawer = (
          <div>
-            <div className={classes.toolbar + " logo_wrapper"} style={{ textAlign: "center" }}>
+            <div className={classes.toolbar + " logo_wrapper"} style={{ textAlign: "center", padding:10}}>
                <img src={logo} style={{ height: 160, width: "auto" }} />
             </div>
             {/* <Divider /> */}
@@ -237,7 +237,7 @@ class DrawerLayout extends React.Component {
 
                <ListItem selected={this.isSelected("logout")} button key={"logout"}>
                   <PowerSettingsNewOutlined />
-                  <a target="_blank" href={`http://3.6.216.223/admin/auth/logout`} style={{color: "inherit", textDecoration: "none"}}>
+                  <a target="_blank" href={`http://localhost:5000/admin/auth/logout`} style={{color: "inherit", textDecoration: "none"}}>
                      Log Out</a>
                </ListItem>
 

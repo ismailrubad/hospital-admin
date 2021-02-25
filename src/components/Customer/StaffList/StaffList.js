@@ -34,7 +34,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { fetchAllHospital } from "../../../Api/hospital-api";
+import { fetchCustomerDetails, deleteCustomer } from "../../../Api/customer-api";
 
 import { fetchServiceDetails, deleteService } from "../../../Api/service-api";
 
@@ -46,8 +46,8 @@ class customerList extends Component {
          sort: "name",
          sortOrder: 1
       },
-      serviceDetails: null,
-      serviceDetailsModalOpen: false,
+      customerDetails: null,
+      customerDetailsModalOpen: false,
       isloading: false,
       searchQuery: null
    }
@@ -66,10 +66,10 @@ class customerList extends Component {
 
       var r = window.confirm("Do you want to delete the item?");
       if (r == true) {
-         deleteService(id)
+         deleteCustomer(id)
             .then((response) => {
                console.log(response);
-               this.context.updatecustomerList()
+               this.context.updateCustomerList()
             })
             .catch(function (error) {
                console.log(error);
@@ -85,7 +85,7 @@ class customerList extends Component {
    handleRowChange = (event) => {
       console.log(event.target.value)
       // this.context.updateServiceTableRowNumber(event.target.value)
-      this.context.updatecustomerList(1, event.target.value, this.context.state.serviceTableSort.sort,
+      this.context.updateCustomerList(1, event.target.value, this.context.state.serviceTableSort.sort,
          this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
@@ -97,7 +97,7 @@ class customerList extends Component {
    handlePaginationClick = (event, value) => {
       // this.startLoading();
       // this.context.updateCurrentcustomerListPageNumber(value, this.stopLoading)
-      this.context.updatecustomerList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
+      this.context.updateCustomerList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
          this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
@@ -113,20 +113,20 @@ class customerList extends Component {
       }, () => {
          // console.log(this.state)
          // this.context.sortServicetable(this.state.serviceTableSort.sort, this.state.serviceTableSort.sortOrder)
-         this.context.updatecustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+         this.context.updateCustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
             this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
       })
    }
 
-   handleServiceDetailsModalOpen = () => {
+   handleCustomerDetailsModalOpen = () => {
       this.setState({
-         serviceDetailsModalOpen: true
+         customerDetailsModalOpen: true
       })
    }
 
-   handleServiceDetailsModalClose = () => {
+   handleCustomerDetailsModalClose = () => {
       this.setState({
-         serviceDetailsModalOpen: false
+         customerDetailsModalOpen: false
       })
    }
 
@@ -136,29 +136,29 @@ class customerList extends Component {
             className="modal"
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            open={this.state.serviceDetailsModalOpen}
-            onClose={this.handleServiceDetailsModalClose}
+            open={this.state.customerDetailsModalOpen}
+            onClose={this.handleCustomerDetailsModalClose}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
                timeout: 500,
             }}
          >
-            <Fade in={this.state.serviceDetailsModalOpen}>
+            <Fade in={this.state.customerDetailsModalOpen}>
                <Grid container spacing={3}>
                   <Grid item xs={6} className="col_center">
                      <Card>
                         <CardHeader
                            action={
-                              <IconButton onClick={this.handleServiceDetailsModalClose} aria-label="settings">
+                              <IconButton onClick={this.handleCustomerDetailsModalClose} aria-label="settings">
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Service Details"
+                           title="Customer Details"
                         />
                         <CardContent>
                            {
-                              this.state.serviceDetails ?
+                              this.state.customerDetails ?
 
 
                                  <TableContainer component={Paper}>
@@ -166,22 +166,8 @@ class customerList extends Component {
 
                                        <TableBody>
                                           <TableRow>
-                                             <TableCell align=""><strong>Service Name</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.name}</TableCell>
-                                          </TableRow>
-                                          <TableRow>
-                                             <TableCell align=""><strong>Charge</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.charge}</TableCell>
-                                          </TableRow>
-                                          <TableRow>
-                                             <TableCell align=""><strong>Hospital Name</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.hospital ?
-                                                this.state.serviceDetails.hospital.name : null}</TableCell>
-                                          </TableRow>
-                                          <TableRow>
-                                             <TableCell align=""><strong>Hospital Address</strong></TableCell>
-                                             <TableCell align="">{this.state.serviceDetails.hospital ?
-                                                this.state.serviceDetails.hospital.address : null}</TableCell>
+                                             <TableCell align=""><strong>Phone</strong></TableCell>
+                                             <TableCell align="">{this.state.customerDetails.phone}</TableCell>
                                           </TableRow>
                                        </TableBody>
                                     </Table>
@@ -211,13 +197,13 @@ class customerList extends Component {
       )
    }
 
-   handleServiceDetails = (id) => {
-      fetchServiceDetails(id).then((response) => {
+   handleDetails = (id) => {
+      fetchCustomerDetails(id).then((response) => {
          this.setState({
-            serviceDetails: response.data
+            customerDetails: response.data
          }, () => {
             this.setState({
-               serviceDetailsModalOpen: true
+               customerDetailsModalOpen: true
             })
          })
          console.log(response);
@@ -237,7 +223,7 @@ class customerList extends Component {
          searchQuery
       }, () => {
 
-         this.context.updatecustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+         this.context.updateCustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
             this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
       })
@@ -255,7 +241,7 @@ class customerList extends Component {
          }),
          selectedHospital: id
       }, () => {
-         this.context.updatecustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+         this.context.updateCustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
             this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
       })
@@ -361,10 +347,10 @@ class customerList extends Component {
                                              <TableCell align="">{row.phone} </TableCell>
                                              {/* <TableCell align="">{row.charge} </TableCell> */}
                                              <TableCell align="">
-                                                <IconButton onClick={() => this.handleServiceDetails(row._id)} aria-label="delete">
+                                                <IconButton onClick={() => this.handleDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => this.handleServiceEdit(row._id)} aria-label="delete">
+                                                <IconButton onClick={() => this.props.editCustomer(row)} aria-label="delete">
                                                    <EditIcon />
                                                 </IconButton>
                                                 <IconButton onClick={() => this.handleServiceDelete(row._id)} aria-label="delete">

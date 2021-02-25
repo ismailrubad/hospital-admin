@@ -52,7 +52,7 @@ class DistrictList extends Component {
    handleDistrictDelete = (id) => {
       var r = window.confirm("Do you want to delete the item?");
       if (r == true) {
-         axios.get(`http://3.6.216.223/admin/api/district/remove?id=${id}`, {
+         axios.get(`http://localhost:5000/admin/api/district/remove?id=${id}`, {
             params: {
 
             }
@@ -211,7 +211,8 @@ class DistrictList extends Component {
       })
    }
 
-   handleFormSubmit = () => {
+   handleFormSubmit = (e) => {
+      e.preventDefault()
       this.setState({
          submittingEdit: true
       }, () => {
@@ -260,7 +261,7 @@ class DistrictList extends Component {
                         />
                         <CardContent>
                            <div className="form_wrapper">
-                              <form noValidate autoComplete="off">
+                              <form noValidate autoComplete="off" onSubmit={this.handleFormSubmit}>
                                  <TextField
                                     onChange={this.handleDistrictNameOnChange} id="standard-basic"
                                     label="District Name"

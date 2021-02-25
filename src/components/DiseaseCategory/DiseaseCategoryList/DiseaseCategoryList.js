@@ -232,7 +232,7 @@ class DiseaseCategoryList extends Component {
                                           <IconButton onClick={() => this.handleDiseaseCatDetails(row._id)} aria-label="delete">
                                              <VisibilityIcon />
                                           </IconButton>
-                                          <IconButton onClick={() => this.handleDiseaseCatEdit(row._id)} aria-label="delete">
+                                          <IconButton onClick={() => this.props.editDiseaseCategory(row)} aria-label="delete">
                                              <EditIcon />
                                           </IconButton>
                                           <IconButton onClick={() => this.handleDiseaseCatDelete(row._id)} aria-label="delete">
