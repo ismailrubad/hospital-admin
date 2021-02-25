@@ -180,7 +180,7 @@ class Staff extends Component {
                                     onChange={this.handlePhoneChange} id="standard-basic" label="Phone" />
 
                                  <TextField
-                                    value={this.state.phone}
+                                    value={this.state.password}
                                     error={this.state.inputError && this.state.inputError.password ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.password}
                                     onChange={this.handlePasswordChange} id="standard-basic" label="Password" type="password" />

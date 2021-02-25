@@ -1,17 +1,17 @@
 import axios from "axios";
 
-export const addHopital = (name, zone, shortCode, discountAmount, address
+export const addHopital = (name, zone, shortCode, discountAmount, discountAmountTotal, address
    , phone, geoLocation, image, cover, description) => {
    return axios.post('http://3.6.216.223/admin/api/hospital/add', {
-      name, zone, shortCode, discountAmount,
+      name, zone, shortCode, discountAmount, discountAmountTotal,
       address, phone, geoLocation, image, cover, description
    })
 };
 
-export const editHospital = (id, name, zone, shortCode, discountAmount, address
+export const editHospital = (id, name, zone, shortCode, discountAmount, discountAmountTotal, address
    , phone, geoLocation, image, cover, description) => {
    return axios.post('http://3.6.216.223/admin/api/hospital/update', {
-      id, name, zone, shortCode, discountAmount, address
+      id, name, zone, shortCode, discountAmount, discountAmountTotal, address
       , phone, geoLocation, image, cover, description
    })
 };

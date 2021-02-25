@@ -34,6 +34,7 @@ class Hospital extends Component {
       hospitalName: null,
       selectedZone: null,
       discountAmount: null,
+      discountAmountTotal: null,
       shortCode: null,
       description: null,
       submittingCreate: false,
@@ -83,6 +84,12 @@ class Hospital extends Component {
       })
    };
 
+   handleDiscountAmountTotalOnChange = (event) => {
+      this.setState({
+         discountAmountTotal: event.target.value
+      })
+   }
+
    handleAddressOnChange = (event) => {
       this.setState({
          address: event.target.value
@@ -106,13 +113,10 @@ class Hospital extends Component {
             submittingCreate: true
          }, () => {
             editHospital(this.state.hospitalId, this.state.hospitalName, this.state.selectedZone, this.state.shortCode,
-               this.state.discountAmount, this.state.address, "789-461-3214", {
+               this.state.discountAmount, this.state.discountAmountTotal, this.state.address, "789-461-3214", {
                "latitude": 71.8998,
                "longitude": 125.8464
-            }, [
-               "600bfdbc9032b3a812a5a32a",
-               "600bfdbf9032b3a812a5a32b"
-            ], "600bfdbf9032b3a812a5a32b", this.state.description)
+            }, this.state.image, this.state.cover[0], this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -132,7 +136,7 @@ class Hospital extends Component {
             submittingCreate: true
          }, () => {
             addHopital(this.state.hospitalName, this.state.selectedZone, this.state.shortCode,
-               this.state.discountAmount, this.state.address, "789-461-3214", {
+               this.state.discountAmount, this.state.discountAmountTotal, this.state.address, "789-461-3214", {
                "latitude": 71.8998,
                "longitude": 125.8464
             }, this.state.image, this.state.cover[0], this.state.description)
@@ -202,10 +206,10 @@ class Hospital extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Add Hospital"
+                           title={this.state.editForm ? "Edit Hospital" : "Add Hospital"}
                         />
                         <CardContent>
-                           <div className="form_wrapper">
+                           <div className="form_wrapper" style={{ maxHeight: 500, overflowY: "scroll" }}>
                               <form noValidate autoComplete="off">
                                  <TextField
                                     value={this.state.hospitalName}
@@ -259,6 +263,11 @@ class Hospital extends Component {
                                     error={this.state.inputError && this.state.inputError.discountAmount ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.discountAmount}
                                     onChange={this.handleDiscountAmountOnChange} id="standard-basic" label="Discount Amount" />
+                                 <TextField
+                                    value={this.state.discountAmountTotal}
+                                    error={this.state.inputError && this.state.inputError.discountAmountTotal ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.discountAmountTotal}
+                                    onChange={this.handleDiscountAmountTotalOnChange} id="standard-basic" label="Discount Amount Total" />
                                  <TextField
                                     value={this.state.shortCode}
                                     error={this.state.inputError && this.state.inputError.shortCode ? true : false}
