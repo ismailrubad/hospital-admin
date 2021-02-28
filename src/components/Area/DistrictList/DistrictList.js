@@ -211,7 +211,8 @@ class DistrictList extends Component {
       })
    }
 
-   handleFormSubmit = () => {
+   handleFormSubmit = (e) => {
+      e.preventDefault()
       this.setState({
          submittingEdit: true
       }, () => {
@@ -260,7 +261,7 @@ class DistrictList extends Component {
                         />
                         <CardContent>
                            <div className="form_wrapper">
-                              <form noValidate autoComplete="off">
+                              <form noValidate autoComplete="off" onSubmit={this.handleFormSubmit}>
                                  <TextField
                                     onChange={this.handleDistrictNameOnChange} id="standard-basic"
                                     label="District Name"

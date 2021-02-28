@@ -16,6 +16,13 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import './style.css';
+import logo from "../../logo.png";
+
+import {
+   DashboardOutlined, LocationOnOutlined, BusinessOutlined, FaceOutlined,
+   LocalHospitalOutlined, CategoryOutlined, SupervisorAccountOutlined, PersonOutline, DescriptionOutlined,
+   PowerSettingsNewOutlined
+} from "@material-ui/icons"
 
 const drawerWidth = 260;
 
@@ -152,18 +159,20 @@ class DrawerLayout extends React.Component {
 
       const drawer = (
          <div>
-            <div className={classes.toolbar + " logo_wrapper"} >
-               Hospital
+            <div className={classes.toolbar + " logo_wrapper"} style={{ textAlign: "center", padding: 10 }}>
+               <img src={logo} style={{ height: 160, width: "auto" }} />
             </div>
             {/* <Divider /> */}
             <List>
-               <ListItem selected={this.isSelected("dashboards")} button key={"dashboard"}>
+               <ListItem selected={this.isSelected("dashboardOutDashboardOutlineds")} button key={"dashboard"}>
                   <NavLink to={`${this.props.currentUrl}/dashboards`} style={linkStyle}>
+                     <DashboardOutlined />
                      <ListItemText primary={"Dashboard"} />
                   </NavLink>
                </ListItem>
 
                <ListItem button key={"key"} onClick={this.handleAreaListClick}>
+                  <LocationOnOutlined />
                   <ListItemText primary="Area" />
                   {this.state.areaListOpen ? <ExpandLess /> : <ExpandMore />}
                </ListItem>
@@ -185,36 +194,43 @@ class DrawerLayout extends React.Component {
                </Collapse>
                <ListItem selected={this.isSelected("hospital")} button key={"hospital"}>
                   <NavLink to={`${this.props.currentUrl}/hospital`} style={linkStyle}>
+                     <BusinessOutlined />
                      <ListItemText primary={"Hospital"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("doctor")} button key={"doctor"}>
                   <NavLink to={`${this.props.currentUrl}/doctor`} style={linkStyle}>
+                     <FaceOutlined />
                      <ListItemText primary={"Doctor"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("service")} button key={"service"}>
                   <NavLink to={`${this.props.currentUrl}/service`} style={linkStyle}>
+                     <LocalHospitalOutlined />
                      <ListItemText primary={"Service"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("disease-category")} button key={"disease-category"}>
                   <NavLink to={`${this.props.currentUrl}/disease-category`} style={linkStyle}>
+                     <CategoryOutlined />
                      <ListItemText primary={"Disease Category"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("staff")} button key={"staff"}>
                   <NavLink to={`${this.props.currentUrl}/staff`} style={linkStyle}>
+                     <SupervisorAccountOutlined />
                      <ListItemText primary={"Staff"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("customer")} button key={"customer"}>
                   <NavLink to={`${this.props.currentUrl}/customer`} style={linkStyle}>
+                     <PersonOutline />
                      <ListItemText primary={"Customer"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("billing")} button key={"billing"}>
                   <NavLink to={`${this.props.currentUrl}/billing`} style={linkStyle}>
+                     <DescriptionOutlined />
                      <ListItemText primary={"Billing"} />
                   </NavLink>
                </ListItem>
@@ -233,7 +249,7 @@ class DrawerLayout extends React.Component {
       return (
          <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={classes.appBar} style={{ boxShadow: "none", background: "#359d9e" }} >
                <Toolbar style={{ justifyContent: "space-between" }}>
                   <IconButton
                      color="inherit"
@@ -245,7 +261,7 @@ class DrawerLayout extends React.Component {
                      <MenuIcon />
                   </IconButton>
                   <Typography variant="h6" noWrap>
-                     Add Title
+                     Hospital Sheba
                   </Typography>
                </Toolbar>
             </AppBar>
