@@ -30,63 +30,63 @@ export class AppProvider extends React.Component {
         billingList: null,
 
         currentZonelistPageNumber: 1,
-        zoneTableRowNumber: 5,
+        zoneTableRowNumber: 10,
         zoneTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentDistrictlistPageNumber: null,
-        districtTableRowNumber: 5,
+        districtTableRowNumber: 10,
         districtTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentHospitallistPageNumber: 1,
-        hospitalTableRowNumber: 5,
+        hospitalTableRowNumber: 10,
         hospitalTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentDoctorlistPageNumber: 1,
-        doctorTableRowNumber: 5,
+        doctorTableRowNumber: 10,
         doctorTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentServicelistPageNumber: 1,
-        serviceTableRowNumber: 5,
+        serviceTableRowNumber: 10,
         serviceTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentDiseaseCatlistPageNumber: 1,
-        diseaseCatTableRowNumber: 5,
+        diseaseCatTableRowNumber: 10,
         diseaseCatTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentStafflistPageNumber: 1,
-        currentStaffTableRowNumber: 5,
+        currentStaffTableRowNumber: 10,
         staffTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentCustomerlistPageNumber: 1,
-        currentCustomerTableRowNumber: 5,
+        currentCustomerTableRowNumber: 10,
         customerTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentBillinglistPageNumber: 1,
-        billingTableRowNumber: 5,
+        billingTableRowNumber: 10,
         billingTableSort: {
             sort: "name",
             sortOrder: 1
@@ -297,8 +297,8 @@ export class AppProvider extends React.Component {
                             });
                     },
 
-                    updateBillingList: (currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder) => {
-                        fetchBillingList(currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder).then((response) => {
+                    updateBillingList: (currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder, hospital) => {
+                        fetchBillingList(currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder, hospital).then((response) => {
                             this.setState({
                                 currentBillinglistPageNumber: response.data.page.currentPage,
                                 billingTableSort: {

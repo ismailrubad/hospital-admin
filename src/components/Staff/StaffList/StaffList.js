@@ -351,6 +351,7 @@ class ServiceList extends Component {
                                        }
 
                                     </IconButton></TableCell>
+                                    <TableCell align="">Hospital</TableCell>
                                     <TableCell align="">Phone</TableCell>
                                     {/* <TableCell align="">SR <IconButton onClick={() => { this.handleSortClick("charge") }}>
                                        {
@@ -370,6 +371,7 @@ class ServiceList extends Component {
 
                                           <TableRow key={row._id}>
                                              <TableCell component="th" scope="row">{row.name}</TableCell>
+                                             <TableCell align="">{row.hospital.name} </TableCell>
                                              <TableCell align="">{row.phone} </TableCell>
                                              {/* <TableCell align="">{row.charge} </TableCell> */}
                                              <TableCell align="">
@@ -399,6 +401,7 @@ class ServiceList extends Component {
                                     id="standard-select-currency-native"
                                     select
                                     onChange={this.handleRowChange}
+                                    value={this.context.state.currentStaffTableRowNumber}
                                     SelectProps={{
                                        native: true,
                                     }}

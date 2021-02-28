@@ -259,6 +259,7 @@ class Doctor extends Component {
          selectedHospital: doctor.hospital._id,
          selectedDiseaseCategory: doctor.diseaseCategory._id,
          visitingFee: doctor.visitingFee,
+         description: doctor.description,
          editForm: true
       }, () => {
          this.handleCreateModalOpen()

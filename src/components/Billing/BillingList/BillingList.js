@@ -36,6 +36,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 
 import { fetchBillingDetails } from "../../../Api/billing-api";
+import { fetchAllHospital } from "../../../Api/hospital-api";
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -180,7 +181,7 @@ class billingList extends Component {
                                     {this.state.billingDetails.image ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(http://3.6.216.223/${this.state.billingDetails.image.full})`
+                                          backgroundImage: `url(http://localhost:5000/${this.state.billingDetails.image.full})`
                                        }}>
 
                                        </div> : null
@@ -188,6 +189,10 @@ class billingList extends Component {
                                     <Table size="small" aria-label="simple table">
 
                                        <TableBody>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Short Code</strong></TableCell>
+                                             <TableCell align="">{this.state.billingDetails.hospital.shortCode}</TableCell>
+                                          </TableRow>
                                           <TableRow>
                                              <TableCell align=""><strong>Hospital Name</strong></TableCell>
                                              <TableCell align="">{this.state.billingDetails.hospital.name}</TableCell>
@@ -203,6 +208,10 @@ class billingList extends Component {
                                           <TableRow>
                                              <TableCell align=""><strong>Hospital Phone</strong></TableCell>
                                              <TableCell align="">{this.state.billingDetails.hospital.phone}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Date</strong></TableCell>
+                                             <TableCell align="">{`${new Date(this.state.billingDetails.created).getDate()} / ${new Date(this.state.billingDetails.created).getMonth()} / ${new Date(this.state.billingDetails.created).getFullYear()}`} </TableCell>
                                           </TableRow>
                                        </TableBody>
                                     </Table>
@@ -235,12 +244,6 @@ class billingList extends Component {
          .then(function () {
             // always executed
          });
-   }
-
-   componentDidMount() {
-
-      this.context.updateBillingList();
-
    }
 
    handleDiseaseCatChange = (id) => {
@@ -293,7 +296,7 @@ class billingList extends Component {
          selectedHospital: id
       }, () => {
          this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
-            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
+            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder,
             this.state.selectedHospital, this.state.searchQuery)
 
       })
@@ -312,14 +315,78 @@ class billingList extends Component {
       })
    }
 
+   componentDidMount() {
+      this.context.updateBillingList();
+      fetchAllHospital().then((response) => {
+         this.setState({
+            hospitalList: response.data.data.map(item => {
+               item['status'] = false;
+               return item;
+            })
+         });
+
+         console.log(response);
+      })
+         .catch(function (error) {
+            console.log(error);
+         })
+         .then(function () {
+            // always executed
+         });
+   } s
+
    render() {
       // console.log(this.props)
       console.log(this.state)
       return (
          <>
             <Grid container spacing={3}>
+               <Grid item xs={3}>
+                  <Card>
+                     <CardContent>
+                        <Accordion>
+                           <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel2a-content"
+                              id="panel2a-header"
+                           >
+                              <Typography >Hospital</Typography>
+                           </AccordionSummary>
+                           <AccordionDetails>
+                              <div className="accMaxHight">
 
-               <Grid item xs={12}>
+                                 {this.state.hospitalList ?
+
+                                    this.state.hospitalList.map((item) => {
+                                       return (
+                                          <div>
+                                             <FormControlLabel
+                                                control={
+                                                   <Checkbox
+                                                      checked={item.status}
+                                                      onChange={() => {
+                                                         this.handleHospitalChange(item._id)
+                                                      }}
+                                                      name="checkedB"
+                                                      color="primary"
+                                                   />
+                                                }
+                                                label={item.name}
+                                             />
+                                          </div>
+
+                                       )
+                                    })
+
+                                    : null
+                                 }
+                              </div>
+                           </AccordionDetails>
+                        </Accordion>
+                     </CardContent>
+                  </Card>
+               </Grid>
+               <Grid item xs={9}>
                   {this.context.state.billingList ?
                      <div className="table_wrapper">
                         {this.state.isloading &&
@@ -331,6 +398,9 @@ class billingList extends Component {
                            <Table stickyHeader={true} aria-label="simple table" size="small" >
                               <TableHead>
                                  <TableRow>
+                                    <TableCell align="">Short Code</TableCell>
+                                    <TableCell align="">Hospital Name</TableCell>
+
                                     <TableCell align="">Customer</TableCell>
                                     <TableCell>Hospital Name <IconButton onClick={() => { this.handleSortClick("hospital") }}>
                                        {
@@ -341,9 +411,9 @@ class billingList extends Component {
 
                                     </IconButton></TableCell>
                                     <TableCell align="">Discount Amount</TableCell>
-                                    <TableCell align="">Date <IconButton onClick={() => { this.handleSortClick("date") }}>
+                                    <TableCell align="">Date <IconButton onClick={() => { this.handleSortClick("created") }}>
                                        {
-                                          this.state.doctorTableSort.sort == "date" ?
+                                          this.state.doctorTableSort.sort == "created" ?
                                              this.state.doctorTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
@@ -359,10 +429,12 @@ class billingList extends Component {
                                        this.context.state.billingList.data.map((row) => (
 
                                           <TableRow key={row._id}>
+                                             <TableCell align="">{row.hospital ? row.hospital.shortCode : null} </TableCell>
+                                             <TableCell align="">{row.hospital ? row.hospital.name : null} </TableCell>
                                              <TableCell align="">{row.customer ? row.customer.name : null} </TableCell>
                                              <TableCell component="th" scope="row">{row.hospital ? row.hospital.name : null}</TableCell>
                                              <TableCell align="">{row.discountAmount} </TableCell>
-                                             <TableCell align="">{row.created} </TableCell>
+                                             <TableCell align="">{`${new Date(row.created).getDate()} / ${new Date(row.created).getMonth()} / ${new Date(row.created).getFullYear()}`} </TableCell>
                                              <TableCell align="">
                                                 <IconButton onClick={() => this.handleDoctorDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />

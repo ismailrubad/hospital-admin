@@ -177,7 +177,7 @@ class DoctorList extends Component {
                                     {this.state.doctorDetails.cover ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(http://3.6.216.223${this.state.doctorDetails.cover.full})`
+                                          backgroundImage: `url(http://localhost:5000${this.state.doctorDetails.cover.full})`
                                        }}>
                                        </div> : null
                                     }

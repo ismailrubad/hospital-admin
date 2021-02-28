@@ -214,7 +214,6 @@ class Staff extends Component {
          customerId: customer._id,
          name: customer.name,
          phone: customer.phone,
-         password: customer.password
       }, () => {
          this.handleCreateModalOpen()
       })

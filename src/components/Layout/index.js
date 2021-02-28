@@ -220,7 +220,7 @@ class DrawerLayout extends React.Component {
                </ListItem>
 
                <ListItem selected={this.isSelected("logout")} button key={"logout"}>
-                  <a target="_blank" href={`http://3.6.216.223/admin/auth/logout`}>
+                  <a href={`http://localhost:5000/admin/auth/logout`}>
                      Log Out</a>
                </ListItem>
 

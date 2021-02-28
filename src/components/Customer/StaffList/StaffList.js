@@ -375,6 +375,7 @@ class customerList extends Component {
                                     id="standard-select-currency-native"
                                     select
                                     onChange={this.handleRowChange}
+                                    value={this.context.state.currentCustomerTableRowNumber}
                                     SelectProps={{
                                        native: true,
                                     }}
