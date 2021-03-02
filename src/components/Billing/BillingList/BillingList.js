@@ -171,7 +171,7 @@ class billingList extends Component {
                            }
                            title="Details"
                         />
-                        <CardContent>
+                        <CardContent style={{ maxHeight: 530, overflowY: "scroll" }}>
                            {
                               this.state.billingDetails ?
 
@@ -215,9 +215,52 @@ class billingList extends Component {
                                           </TableRow>
                                        </TableBody>
                                     </Table>
+
+                                    <Table className="border0Table" size="small" aria-label="simple table" >
+                                       <TableBody>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Discount Amount</strong></TableCell>
+                                             <TableCell align="right">{this.state.billingDetails.discountAmount}%</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Discount</strong></TableCell>
+                                             <TableCell align="right">BDT {this.state.billingDetails.discount} /=</TableCell>
+                                          </TableRow>
+                                       </TableBody>
+                                    </Table>
+
+                                    <Table className="border0Table" size="small" aria-label="simple table" >
+                                       <TableBody>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Total Bill</strong></TableCell>
+                                             <TableCell align="right">{this.state.billingDetails.totalBill} /=</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Bill After Discount</strong></TableCell>
+                                             <TableCell align="right">{this.state.billingDetails.billAfterDiscount} /=</TableCell>
+                                          </TableRow>
+                                       </TableBody>
+                                    </Table>
+
+                                    <Table className="border0Table" size="small" aria-label="simple table" >
+                                       <TableBody>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Comission Amount</strong></TableCell>
+                                             <TableCell align="right">{this.state.billingDetails.comissionAmount ? this.state.billingDetails.comissionAmount
+                                                : "N/A"}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Comission</strong></TableCell>
+                                             <TableCell align="right">{this.state.billingDetails.comission ? this.state.billingDetails.comission
+                                                : "N/A"}</TableCell>
+                                          </TableRow>
+                                       </TableBody>
+                                    </Table>
                                  </TableContainer>
                                  : null
                            }
+
+
                         </CardContent>
                      </Card>
                   </Grid>
@@ -410,7 +453,8 @@ class billingList extends Component {
                                        }
 
                                     </IconButton></TableCell>
-                                    <TableCell align="">Discount Amount</TableCell>
+                                    <TableCell align="">Total Bill</TableCell>
+                                    <TableCell align="">Discount</TableCell>
                                     <TableCell align="">Date <IconButton onClick={() => { this.handleSortClick("created") }}>
                                        {
                                           this.state.doctorTableSort.sort == "created" ?
@@ -433,7 +477,8 @@ class billingList extends Component {
                                              <TableCell align="">{row.hospital ? row.hospital.name : null} </TableCell>
                                              <TableCell align="">{row.customer ? row.customer.name : null} </TableCell>
                                              <TableCell component="th" scope="row">{row.hospital ? row.hospital.name : null}</TableCell>
-                                             <TableCell align="">{row.discountAmount} </TableCell>
+                                             <TableCell align="">{row.totalBill} </TableCell>
+                                             <TableCell align="">{row.discount} </TableCell>
                                              <TableCell align="">{`${new Date(row.created).getDate()} / ${new Date(row.created).getMonth()} / ${new Date(row.created).getFullYear()}`} </TableCell>
                                              <TableCell align="">
                                                 <IconButton onClick={() => this.handleDoctorDetails(row._id)} aria-label="delete">

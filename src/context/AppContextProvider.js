@@ -8,7 +8,7 @@ import { fetchDiseaseCatList } from "../Api/disease-api";
 import { fetchStaffList } from "../Api/staff-api";
 import { fetchCustomerList } from "../Api/customer-api";
 import { fetchBillingList } from "../Api/billing-api";
-
+import { fetchComissionList } from "../Api/comission-api";
 
 
 // first we will make a new context
@@ -28,6 +28,7 @@ export class AppProvider extends React.Component {
         staffList: null,
         customerList: null,
         billingList: null,
+        comissionList: null,
 
         currentZonelistPageNumber: 1,
         zoneTableRowNumber: 10,
@@ -92,6 +93,12 @@ export class AppProvider extends React.Component {
             sortOrder: 1
         },
 
+        currentComissionlistPageNumber: 1,
+        comissionTableRowNumber: 10,
+        comissionTableSort: {
+            sort: "",
+            sortOrder: 1
+        },
 
     }
 
@@ -307,6 +314,27 @@ export class AppProvider extends React.Component {
                                 },
                                 billingTableRowNumber: response.data.page.limit,
                                 billingList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updateComissionList: (currentComissionlistPageNumber, comissionTableRowNumber, sort, sortOrder, hospital) => {
+                        fetchComissionList(currentComissionlistPageNumber, comissionTableRowNumber, sort, sortOrder, hospital).then((response) => {
+                            this.setState({
+                                currentComissionlistPageNumber: response.data.page.currentPage,
+                                comissionTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
+                                },
+                                comissionTableRowNumber: response.data.page.limit,
+                                comissionList: response.data
                             })
                             console.log(response);
                         })
