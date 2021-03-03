@@ -8,12 +8,12 @@ export const addStaff = (name, hospital, phone, password) => {
 };
 
 export const editStaff = (id, name, hospital, phone, password) => {
-   return axios.post('https://hospitalsheba.com/admin/api/staff/update', {
+   return axios.post('http://localhost:5000/admin/api/staff/update', {
       id, name, hospital, phone, password
    })
 };
 
-export const fetchStaffList = (currentPage = 1, limit = 5,
+export const fetchStaffList = (currentPage = 1, limit = 10,
    sort = "name", sortOrder = 1, hospital, query) => {
    return axios.get('https://hospitalsheba.com//admin/api/staff', {
       params: {
@@ -23,6 +23,7 @@ export const fetchStaffList = (currentPage = 1, limit = 5,
          page: currentPage,
          sort: sort,
          sortOrder: sortOrder,
+         resolveHospital: 1
       }
    })
 };

@@ -171,7 +171,7 @@ class HospitalList extends Component {
                                     {this.state.hospitalDetails.cover ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(https://hospitalsheba.com${this.state.hospitalDetails.cover.full})`
+                                          backgroundImage: `url(http://localhost:5000${this.state.hospitalDetails.cover.full})`
                                        }}>
 
                                        </div> : null
@@ -219,7 +219,7 @@ class HospitalList extends Component {
                                                       this.state.hospitalDetails.image.map(item => {
 
                                                          return (<Box display="inline" mr={1}>
-                                                            <img src={`https://hospitalsheba.com${item.thumbnail}`} />
+                                                            <img src={`http://localhost:5000${item.thumbnail}`} />
                                                          </Box>)
 
                                                       }) : null
@@ -373,7 +373,7 @@ class HospitalList extends Component {
                            </div>
                         }
                         <TableContainer style={{ maxHeight: 500, }} component={Paper}>
-                           <Table stickyHeader={true} aria-label="simple table" size="small" >
+                           <Table stickyHeader={true} aria-label="simple table" size="small"  >
                               <TableHead>
                                  <TableRow>
                                     <TableCell>Hospital Name <IconButton onClick={() => { this.handleSortClick("name") }}>
@@ -419,10 +419,10 @@ class HospitalList extends Component {
                                        this.context.state.hospitalList.data.map((row) => (
 
                                           <TableRow key={row._id}>
-                                             <TableCell component="th" scope="row">{row.name}</TableCell>
+                                             <TableCell width="200" component="th" scope="row">{row.name}</TableCell>
                                              <TableCell >{row.address} </TableCell>
                                              <TableCell >{row.phone} </TableCell>
-                                             <TableCell >{row.discountAmount} </TableCell>
+                                             <TableCell width="300">{row.discountAmount} </TableCell>
                                              <TableCell >{row.discountAmountTotal} </TableCell>
                                              <TableCell >{row.shortCode} </TableCell>
                                              <TableCell >

@@ -225,7 +225,7 @@ class Staff extends Component {
       this.setState({
          staffId: staff._id,
          name: staff.name,
-         selectedHospital: staff.hospital,
+         selectedHospital: staff.hospital._id,
          phone: staff.phone,
          password: staff.password,
          editForm: true

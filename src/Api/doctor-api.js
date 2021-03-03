@@ -16,8 +16,8 @@ export const editDoctor = (id, name, hospital, diseaseCategory, visitingFee, pho
    })
 };
 
-export const fetchDoctorList = (currentPage = 1, limit = 5, sort = "name", sortOrder = 1, diseaseCategory, hospital, query) => {
-   return axios.get('https://hospitalsheba.com//admin/api/doctor', {
+export const fetchDoctorList = (currentPage = 1, limit = 10, sort = "name", sortOrder = 1, diseaseCategory, hospital, query) => {
+   return axios.get('http://localhost:5000/admin/api/doctor', {
       params: {
          query,
          limit: limit,

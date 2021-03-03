@@ -15,8 +15,8 @@ export const editDistrict = (id, name) => {
 };
 
 
-export const fetchDistrictList = (currentPage = 1, limit = 5, sort = "name", sortOrder = 1, query) => {
-   return axios.get('https://hospitalsheba.com//admin/api/district', {
+export const fetchDistrictList = (currentPage = 1, limit = 10, sort = "name", sortOrder = 1, query) => {
+   return axios.get('http://localhost:5000/admin/api/district', {
       params: {
          query,
          limit: limit,

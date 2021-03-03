@@ -16,8 +16,8 @@ export const editZone = (id, name, district) => {
 };
 
 
-export const fetchZoneList = (currentPage = 1, limit = 5, sort = "name", sortOrder = 1, district, query) => {
-   return axios.get('https://hospitalsheba.com//admin/api/zone', {
+export const fetchZoneList = (currentPage = 1, limit = 10, sort = "name", sortOrder = 1, district, query) => {
+   return axios.get('http://localhost:5000/admin/api/zone', {
       params: {
          query,
          limit: limit,

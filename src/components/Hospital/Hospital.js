@@ -300,6 +300,7 @@ class Hospital extends Component {
 
    editHospital = (hospital) => {
       this.handleCreateModalOpen()
+      console.log(hospital)
 
       // this.state.hospitalName, this.state.selectedZone, this.state.shortCode,
       //       this.state.discountAmount, this.state.address
@@ -307,11 +308,17 @@ class Hospital extends Component {
       this.setState({
          hospitalId: hospital._id,
          hospitalName: hospital.name,
-         selectedZone: hospital.zone,
+         cover: [hospital.cover._id],
+         selectedZone: hospital.zone._id,
          shortCode: hospital.shortCode,
          discountAmount: hospital.discountAmount,
+         discountAmountTotal: hospital.discountAmountTotal,
          address: hospital.address,
+         description: hospital.description,
+         image: hospital.image.map((item) => item._id),
          editForm: true
+      }, () => {
+         console.log(this.state.image)
       })
    }
 

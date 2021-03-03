@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { AppContext } from '../../context/AppContextProvider';
 import TextField from '@material-ui/core/TextField';
+import { AppContext } from '../../context/AppContextProvider';
+
 import './style.css'
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,18 +18,18 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
-import { addCustomer, editCustomer } from "../../Api/customer-api";
-import StaffList from './StaffList/StaffList';
+import { addPayment, editPayment } from "../../Api/payment-api";
+import PaymentList from './PaymentList/PaymentList';
 
-class Staff extends Component {
+class Payment extends Component {
 
    state = {
       hospitalList: null,
+      diseaseCatList: null,
       createModalOpen: false,
       submittingCreate: false,
       selectedHospital: null,
-      name: null, password: null,
-      phone: null,
+      amount: null, hospital: null,
       inputError: {}
    }
 
@@ -40,27 +41,28 @@ class Staff extends Component {
 
    handleCreateModalClose = () => {
       this.setState({
-         createModalOpen: false
+         createModalOpen: false,
+         doctorId: null,
+         name: null,
+         selectedHospital: null,
+         selectedDiseaseCategory: null,
+         visitingFee: null,
+         editForm: false
       })
    }
 
-   handleNameChange = (event) => {
+   handleAmountChange = (event) => {
       this.setState({
-         name: event.target.value
-      })
-   }
-
-   handlePhoneChange = (event) => {
-      this.setState({
-         phone: event.target.value
-      })
-   }
-
-   handlePasswordChange = (event) => {
-      this.setState({
-         password: event.target.value
+         amount: event.target.value
       })
    };
+
+
+   handleHospitalChange = (event) => {
+      this.setState({
+         selectedHospital: event.target.value
+      })
+   }
 
 
    handleFormSubmit = () => {
@@ -68,11 +70,11 @@ class Staff extends Component {
          this.setState({
             submittingCreate: true
          }, () => {
-            editCustomer(this.state.customerId, this.state.name, this.state.phone, this.state.password)
+            editPayment(this.state.paymentId, this.state.amount)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
-                  this.context.updateCustomerList();
+                  this.context.updatePaymentList();
                })
                .catch((error) => {
                   console.log(error);
@@ -87,11 +89,11 @@ class Staff extends Component {
          this.setState({
             submittingCreate: true
          }, () => {
-            addCustomer(this.state.name, this.state.phone, this.state.password)
+            addPayment(this.state.selectedHospital, this.state.amount)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
-                  this.context.updateCustomerList();
+                  this.context.updatePaymentList();
                })
                .catch((error) => {
                   console.log(error);
@@ -128,35 +130,40 @@ class Staff extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title={this.state.editForm ? "Edit Customer" : "Add Customer"}
-
+                           title={this.state.editForm ? "Edit Payment" : "Add Payment"}
                         />
                         <CardContent>
                            <div className="form_wrapper">
                               <form noValidate autoComplete="off">
-                                 <TextField
-                                    value={this.state.name}
-                                    error={this.state.inputError && this.state.inputError.name ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.name}
-                                    onChange={this.handleNameChange} id="standard-basic" label="Customer Name" />
+
+                                 {!this.state.editForm ?
+                                    <TextField
+                                       id="standard-select-currency"
+                                       select
+                                       label="Select Hospital"
+                                       error={this.state.inputError && this.state.inputError.hospital ? true : false}
+                                       elperText={this.state.inputError && this.state.inputError.hospital}
+                                       value={this.state.selectedHospital}
+                                       onChange={this.handleHospitalChange}
+                                    >
+                                       {
+                                          this.state.hospitalList ?
+                                             this.state.hospitalList.data.map((option) => (
+                                                <MenuItem key={option._id} value={option._id}>
+                                                   {option.name}
+                                                </MenuItem>
+                                             )) : null
+                                       }
+                                    </TextField>
+                                    : null
+                                 }
 
                                  <TextField
-                                    value={this.state.phone}
-                                    error={this.state.inputError && this.state.inputError.phone ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.phone}
-                                    onChange={this.handlePhoneChange} id="standard-basic" label="Phone" />
+                                    value={this.state.amount}
+                                    error={this.state.inputError && this.state.inputError.amount ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.amount}
+                                    onChange={this.handleAmountChange} id="standard-basic" label="Amount" />
 
-                                 <TextField
-                                    value={this.state.password}
-                                    error={this.state.inputError && this.state.inputError.password ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.password}
-                                    onChange={this.handlePasswordChange} id="standard-basic" label="Password"
-                                    type="password" />
-
-                                 {/* <TextField
-                                    error={this.state.inputError && this.state.inputError.charge ? true : false}
-                                    helperText={this.state.inputError && this.state.inputError.charge}
-                                    onChange={this.handleChargeChange} id="standard-basic" label="Charge" /> */}
 
                                  <Button onClick={this.handleFormSubmit} variant="contained" color="primary">
                                     Submit
@@ -185,35 +192,15 @@ class Staff extends Component {
          .then(function () {
             // always executed
          });
+
    }
-
-   handleHospitalChange = (id) => {
-      // this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
-      //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
+   // this.state.name, this.state.selectedHospital, this.state.selectedDiseaseCategory, this.state.visitingFee,
+   editPayment = (payment) => {
       this.setState({
-         hospitalList: this.state.hospitalList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
-            return item;
-         }),
-         selectedHospital: id
-      }, () => {
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
-            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
-            this.state.selectedHospital, this.state.searchQuery)
-
-      })
-   }
-
-   editCustomer = (customer) => {
-      this.setState({
-         editForm: true,
-         customerId: customer._id,
-         name: customer.name,
-         phone: customer.phone,
+         paymentId: payment._id,
+         amount: payment.amount,
+         selectedHospital: payment.hospital._id,
+         editForm: true
       }, () => {
          this.handleCreateModalOpen()
       })
@@ -222,11 +209,11 @@ class Staff extends Component {
    render() {
       return (
          <div>
-            <StaffList editCustomer={this.editCustomer} />
+            <PaymentList editPayment={this.editPayment} />
             {this.renderCreateModal()}
             <Fab onClick={this.handleCreateModalOpen} color="primary" variant="extended" aria-label="add" className="addIcon">
                <AddIcon />
-               Add Customer
+               Add Payment
             </Fab>
          </div>
       );
@@ -234,7 +221,6 @@ class Staff extends Component {
 }
 
 
+Payment.contextType = AppContext;
 
-Staff.contextType = AppContext;
-
-export default Staff;
+export default Payment;

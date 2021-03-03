@@ -7,13 +7,13 @@ export const addService = (name, hospital, charge, cover, image, description) =>
 };
 
 export const editService = (id, name, hospital, charge, cover, image, description) => {
-   return axios.post('https://hospitalsheba.com/admin/api/service/update', {
+   return axios.post('http://localhost:5000/admin/api/service/update', {
       id, name, hospital, charge, cover, image, description
    })
 };
 
-export const fetchServiceList = (currentPage = 1, limit = 5, sort = "name", sortOrder = 1, hospital, query) => {
-   return axios.get('https://hospitalsheba.com//admin/api/service', {
+export const fetchServiceList = (currentPage = 1, limit = 10, sort = "name", sortOrder = 1, hospital, query) => {
+   return axios.get('http://localhost:5000/admin/api/service', {
       params: {
          query,
          hospital,

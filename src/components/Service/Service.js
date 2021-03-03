@@ -33,7 +33,6 @@ class Service extends Component {
       cover: null, image: null, description: null,
       editForm: false,
       image: [],
-      cover: "",
       inputError: {}
    }
 
@@ -197,7 +196,7 @@ class Service extends Component {
                                  <Box mb={2}>
                                     <Button onClick={() => this.setState({ imageModalCoverOpen: true })}
                                        variant="contained" color="primary">Upload Cover Image</Button>
-                                    {this.state.cover ?
+                                    {this.state.cover && this.state.cover.length > 0 ?
                                        <Box display="inline" ml={2}>
                                           Cover image selected</Box> : null
                                     }
@@ -266,6 +265,8 @@ class Service extends Component {
       this.setState({
          serviceId: service._id,
          name: service.name,
+         cover: service.cover ? [service.cover._id] : [],
+         image: service.image.map((item) => item._id),
          selectedHospital: service.hospital._id,
          charge: service.charge,
          description: service.description,

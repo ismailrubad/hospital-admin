@@ -8,8 +8,8 @@ import { fetchDiseaseCatList } from "../Api/disease-api";
 import { fetchStaffList } from "../Api/staff-api";
 import { fetchCustomerList } from "../Api/customer-api";
 import { fetchBillingList } from "../Api/billing-api";
-
-
+import { fetchComissionList } from "../Api/comission-api";
+import { fetchPaymentList } from "../Api/payment-api";
 
 // first we will make a new context
 export const AppContext = React.createContext();
@@ -28,70 +28,85 @@ export class AppProvider extends React.Component {
         staffList: null,
         customerList: null,
         billingList: null,
+        comissionList: null,
+        paymentList: null,
 
         currentZonelistPageNumber: 1,
-        zoneTableRowNumber: 5,
+        zoneTableRowNumber: 10,
         zoneTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentDistrictlistPageNumber: null,
-        districtTableRowNumber: 5,
+        districtTableRowNumber: 10,
         districtTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentHospitallistPageNumber: 1,
-        hospitalTableRowNumber: 5,
+        hospitalTableRowNumber: 10,
         hospitalTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentDoctorlistPageNumber: 1,
-        doctorTableRowNumber: 5,
+        doctorTableRowNumber: 10,
         doctorTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentServicelistPageNumber: 1,
-        serviceTableRowNumber: 5,
+        serviceTableRowNumber: 10,
         serviceTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentDiseaseCatlistPageNumber: 1,
-        diseaseCatTableRowNumber: 5,
+        diseaseCatTableRowNumber: 10,
         diseaseCatTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentStafflistPageNumber: 1,
-        currentStaffTableRowNumber: 5,
+        currentStaffTableRowNumber: 10,
         staffTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentCustomerlistPageNumber: 1,
-        currentCustomerTableRowNumber: 5,
+        currentCustomerTableRowNumber: 10,
         customerTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
         currentBillinglistPageNumber: 1,
-        billingTableRowNumber: 5,
+        billingTableRowNumber: 10,
         billingTableSort: {
             sort: "name",
             sortOrder: 1
         },
 
+        currentComissionlistPageNumber: 1,
+        comissionTableRowNumber: 10,
+        comissionTableSort: {
+            sort: "",
+            sortOrder: 1
+        },
+
+        currentPaymentlistPageNumber: 1,
+        paymentTableRowNumber: 10,
+        paymentTableSort: {
+            sort: "",
+            sortOrder: 1
+        },
 
     }
 
@@ -297,8 +312,8 @@ export class AppProvider extends React.Component {
                             });
                     },
 
-                    updateBillingList: (currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder) => {
-                        fetchBillingList(currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder).then((response) => {
+                    updateBillingList: (currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder, hospital) => {
+                        fetchBillingList(currentBillinglistPageNumber, billingTableRowNumber, sort, sortOrder, hospital).then((response) => {
                             this.setState({
                                 currentBillinglistPageNumber: response.data.page.currentPage,
                                 billingTableSort: {
@@ -307,6 +322,48 @@ export class AppProvider extends React.Component {
                                 },
                                 billingTableRowNumber: response.data.page.limit,
                                 billingList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updateComissionList: (currentComissionlistPageNumber, comissionTableRowNumber, sort, sortOrder, hospital) => {
+                        fetchComissionList(currentComissionlistPageNumber, comissionTableRowNumber, sort, sortOrder, hospital).then((response) => {
+                            this.setState({
+                                currentComissionlistPageNumber: response.data.page.currentPage,
+                                comissionTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
+                                },
+                                comissionTableRowNumber: response.data.page.limit,
+                                comissionList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updatePaymentList: (currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital) => {
+                        fetchPaymentList(currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital).then((response) => {
+                            this.setState({
+                                currentPaymentlistPageNumber: response.data.page.currentPage,
+                                paymentTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
+                                },
+                                paymentTableRowNumber: response.data.page.limit,
+                                paymentList: response.data
                             })
                             console.log(response);
                         })

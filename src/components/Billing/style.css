@@ -3,3 +3,13 @@
    overflow-y: auto;
    width: 100%;
 }
+
+.border0Table{
+   border: 1px solid
+   rgba(224, 224, 224, 1);
+   margin-top: 30px;
+}
+
+.border0Table td{
+   border: 0;
+}

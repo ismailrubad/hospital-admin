@@ -159,7 +159,7 @@ class DrawerLayout extends React.Component {
 
       const drawer = (
          <div>
-            <div className={classes.toolbar + " logo_wrapper"} style={{ textAlign: "center", padding:10}}>
+            <div className={classes.toolbar + " logo_wrapper"} style={{ textAlign: "center", padding: 10 }}>
                <img src={logo} style={{ height: 160, width: "auto" }} />
             </div>
             {/* <Divider /> */}
@@ -234,13 +234,23 @@ class DrawerLayout extends React.Component {
                      <ListItemText primary={"Billing"} />
                   </NavLink>
                </ListItem>
-
-               <ListItem selected={this.isSelected("logout")} button key={"logout"}>
-                  <PowerSettingsNewOutlined />
-                  <a target="_blank" href={`https://hospitalsheba.com//admin/auth/logout`} style={{color: "inherit", textDecoration: "none"}}>
-                     Log Out</a>
+               <ListItem selected={this.isSelected("comission")} button key={"comission"}>
+                  <NavLink to={`${this.props.currentUrl}/comission`} style={linkStyle}>
+                     <DescriptionOutlined />
+                     <ListItemText primary={"Comission"} />
+                  </NavLink>
+               </ListItem>
+               <ListItem selected={this.isSelected("payment")} button key={"payment"}>
+                  <NavLink to={`${this.props.currentUrl}/payment`} style={linkStyle}>
+                     <DescriptionOutlined />
+                     <ListItemText primary={"Payment"} />
+                  </NavLink>
                </ListItem>
 
+               <ListItem selected={this.isSelected("logout")} button key={"logout"}>
+                  <a href={`http://localhost:5000/admin/auth/logout`}>
+                     Log Out</a>
+               </ListItem>
 
             </List>
          </div>
@@ -250,7 +260,7 @@ class DrawerLayout extends React.Component {
       return (
          <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar} style={{boxShadow:  "none", background:"#359d9e"}} >
+            <AppBar position="fixed" className={classes.appBar} style={{ boxShadow: "none", background: "#359d9e" }} >
                <Toolbar style={{ justifyContent: "space-between" }}>
                   <IconButton
                      color="inherit"

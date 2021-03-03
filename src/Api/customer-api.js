@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchCustomerList = (currentPage = 1, limit = 5,
+export const fetchCustomerList = (currentPage = 1, limit = 10,
    sort = "name", sortOrder = 1) => {
    return axios.get('https://hospitalsheba.com//admin/api/customer', {
       params: {
@@ -20,7 +20,7 @@ export const addCustomer = (name, phone, password) => {
 };
 
 export const editCustomer = (id, name, phone, password,) => {
-   return axios.post('https://hospitalsheba.com/admin/api/customer/update', {
+   return axios.post('http://localhost:5000/admin/api/customer/update', {
       id, name, phone, password
    })
 };

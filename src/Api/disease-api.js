@@ -7,12 +7,12 @@ export const addDisease = (name) => {
 };
 
 export const editDisease = (id, name) => {
-   return axios.post('https://hospitalsheba.com/admin/api/diseaseCategory/update', {
+   return axios.post('http://localhost:5000/admin/api/diseaseCategory/update', {
       id, name
    })
 };
 
-export const fetchDiseaseCatList = (currentPage = 1, limit = 5,
+export const fetchDiseaseCatList = (currentPage = 1, limit = 10,
    sort = "name", sortOrder = 1) => {
    return axios.get('https://hospitalsheba.com//admin/api/diseaseCategory', {
       params: {

@@ -11,6 +11,8 @@ import DiseaseCategory from '../DiseaseCategory/DiseaseCategory'
 import Staff from '../Staff/Staff'
 import Customer from '../Customer/Staff'
 import Billing from '../Billing/Billing'
+import Comission from '../Comission/Comission'
+import Payment from '../Payment/Payment'
 
 export default class MainApp extends Component {
    render() {
@@ -30,6 +32,8 @@ export default class MainApp extends Component {
                <Route path={`${match.url}/staff`} component={Staff} />
                <Route path={`${match.url}/customer`} component={Customer} />
                <Route path={`${match.url}/billing`} component={Billing} />
+               <Route path={`${match.url}/comission`} component={Comission} />
+               <Route path={`${match.url}/payment`} component={Payment} />
             </Switch>
          </Layout>
       );
