@@ -237,7 +237,7 @@ class DrawerLayout extends React.Component {
 
                <ListItem selected={this.isSelected("logout")} button key={"logout"}>
                   <PowerSettingsNewOutlined />
-                  <a target="_blank" href={`http://localhost:5000/admin/auth/logout`} style={{color: "inherit", textDecoration: "none"}}>
+                  <a target="_blank" href={`https://hospitalsheba.com//admin/auth/logout`} style={{color: "inherit", textDecoration: "none"}}>
                      Log Out</a>
                </ListItem>
 

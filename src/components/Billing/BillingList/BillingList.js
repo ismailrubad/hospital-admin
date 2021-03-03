@@ -180,7 +180,7 @@ class billingList extends Component {
                                     {this.state.billingDetails.image ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(http://localhost:5000/${this.state.billingDetails.image.full})`
+                                          backgroundImage: `url(https://hospitalsheba.com//${this.state.billingDetails.image.full})`
                                        }}>
 
                                        </div> : null
