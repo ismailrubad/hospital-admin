@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppContext } from '../../../context/AppContextProvider';
-
+import '../style.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -28,25 +28,34 @@ import CloseIcon from '@material-ui/icons/Close';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { fetchAllDiseaseCat } from "../../../Api/disease-api";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import { fetchDoctorDetails, deleteDoctor } from "../../../Api/doctor-api";
+import { fetchPaymentDetails } from "../../../Api/payment-api";
+
 import { fetchAllHospital } from "../../../Api/hospital-api";
-import Checkbox from '@material-ui/core/Checkbox';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-
-class ComissionList extends Component {
+class PaymentList extends Component {
 
    state = {
+      diseaseCatList: [],
+      hospitalList: [],
+      selectedDiseaseCat: null,
+      selectedHospital: null,
+      searchQuery: null,
+
       currentPage: 1,
-      comissionTableSort: {
+      paymentTableSort: {
          sort: "name",
          sortOrder: 1
       },
-      diseaseCatDetails: null,
-      diseaseCatDetailsModalOpen: false,
+      paymentDetails: null,
+      doctorDetailsModalOpen: false,
       isloading: false
    }
 
@@ -60,92 +69,134 @@ class ComissionList extends Component {
    };
 
 
+   handleDoctorDelete = (id) => {
+      var r = window.confirm("Do you want to delete the item?");
+      if (r == true) {
+         deleteDoctor(id)
+            .then((response) => {
+               console.log(response);
+               this.context.updateDoctorList()
+            })
+            .catch(function (error) {
+               console.log(error);
+            })
+            .then(function () {
+               // always executed
+            });
+      } else {
 
-   handleRowChange = (event) => {
-      console.log(event.target.value)
-      this.context.updateDiseaseCatList(1, event.target.value, this.context.state.comissionTableSort.sort,
-         this.context.state.comissionTableSort.sortOrder)
+      }
    }
 
-   handleDiseaseCatEdit = (id) => {
+   handleRowChange = (event) => {
+      // console.log(event.target.value)
+      // this.setState({
+      //    currentPage: 1
+      // })
+
+      this.context.updatePaymentList(1, event.target.value,
+         this.context.state.paymentTableSort.sort, this.context.state.paymentTableSort.sortOrder)
+   }
+
+   handleDoctorEdit = (id) => {
       console.log(id)
    }
 
 
    handlePaginationClick = (event, value) => {
       // this.startLoading();
-      this.context.updateDiseaseCatList(value, this.context.state.diseaseCatTableRowNumber,
-         this.context.state.comissionTableSort.sort, this.context.state.comissionTableSort.sortOrder)
-      // this.context.updateCurrentDiseaseCatlistPageNumber(value, this.stopLoading)
+      // this.setState({
+      //    currentPage: value
+      // })
+      // this.context.updateCurrentDoctorlistPageNumber(value, this.stopLoading)
+      this.context.updatePaymentList(value, this.context.state.paymentTableRowNumber,
+         this.context.state.paymentTableSort.sort, this.context.state.paymentTableSort.sortOrder)
    }
 
    handleSortClick = (sort) => {
       this.setState(preState => {
          return {
-            comissionTableSort: {
+            paymentTableSort: {
                sort,
-               sortOrder: preState.comissionTableSort.sortOrder == 1 ? -1 : 1
+               sortOrder: preState.paymentTableSort.sortOrder == 1 ? -1 : 1
             },
             currentPage: 1
          }
       }, () => {
          console.log(this.state)
-         // this.context.sortDiseaseCattable(this.state.comissionTableSort.sort,
-         //    this.state.comissionTableSort.sortOrder)
-
-         this.context.updateDiseaseCatList(1, this.context.state.diseaseCatTableRowNumber, this.state.comissionTableSort.sort,
-            this.state.comissionTableSort.sortOrder)
+         // this.context.sortDoctortable(this.state.doctorTableSort.sort, this.state.doctorTableSort.sortOrder)
+         this.context.updatePaymentList(1, this.context.state.paymentTableRowNumber,
+            this.state.paymentTableSort.sort, this.state.paymentTableSort.sortOrder)
       })
    }
 
-   handleDiseaseCatDetailsModalOpen = () => {
+   handleDoctorDetailsModalOpen = () => {
       this.setState({
-         diseaseCatDetailsModalOpen: true
+         doctorDetailsModalOpen: true
       })
    }
 
-   handleDiseaseCatDetailsModalClose = () => {
+   handleDoctorDetailsModalClose = () => {
       this.setState({
-         diseaseCatDetailsModalOpen: false
+         doctorDetailsModalOpen: false
       })
    }
 
-   renderDiseaseCatDetailsModal = () => {
+   renderDetailsModal = () => {
       return (
          <Modal
             className="modal"
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            open={this.state.diseaseCatDetailsModalOpen}
-            onClose={this.handleDiseaseCatDetailsModalClose}
+            open={this.state.doctorDetailsModalOpen}
+            onClose={this.handleDoctorDetailsModalClose}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
                timeout: 500,
             }}
          >
-            <Fade in={this.state.diseaseCatDetailsModalOpen}>
+            <Fade in={this.state.doctorDetailsModalOpen}>
                <Grid container spacing={3}>
                   <Grid item xs={6} className="col_center">
                      <Card>
                         <CardHeader
                            action={
-                              <IconButton onClick={this.handleDiseaseCatDetailsModalClose} aria-label="settings">
+                              <IconButton onClick={this.handleDoctorDetailsModalClose} aria-label="settings">
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Service Details"
+                           title="Payment Details"
                         />
                         <CardContent>
                            {
-                              this.state.diseaseCatDetails ?
+                              this.state.paymentDetails ?
+
                                  <TableContainer component={Paper}>
                                     <Table size="small" aria-label="simple table">
+
                                        <TableBody>
                                           <TableRow>
-                                             <TableCell align=""><strong>Disease Category Name</strong></TableCell>
-                                             <TableCell align="">{this.state.diseaseCatDetails.name}</TableCell>
+                                             <TableCell align=""><strong>Hospital Name</strong></TableCell>
+                                             <TableCell align="">{this.state.paymentDetails.hospital.name}</TableCell>
                                           </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Amount</strong></TableCell>
+                                             <TableCell align="">{this.state.paymentDetails.amount}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Payment Method</strong></TableCell>
+                                             <TableCell align="">{this.state.paymentDetails.paymentMethod}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Payment Status</strong></TableCell>
+                                             <TableCell align="">{this.state.paymentDetails.paymentStatus}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell align=""><strong>Date</strong></TableCell>
+                                             <TableCell align="">{`${new Date(this.state.paymentDetails.created).getDate()} / ${new Date(this.state.paymentDetails.created).getMonth()} / ${new Date(this.state.paymentDetails.created).getFullYear()}`}</TableCell>
+                                          </TableRow>
+
                                        </TableBody>
                                     </Table>
                                  </TableContainer>
@@ -160,28 +211,28 @@ class ComissionList extends Component {
       )
    }
 
-   handleHospitalChange = (id) => {
-
-      this.setState({
-         hospitalList: this.state.hospitalList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
-            return item;
-         }),
-         selectedHospital: id
-      }, () => {
-         this.context.updateComissionList(1, this.context.state.comissionTableRowNumber,
-            this.context.state.comissionTableSort.sort, this.context.state.comissionTableSort.sortOrder,
-            this.state.selectedHospital)
-
+   handleDoctorDetails = (id) => {
+      fetchPaymentDetails(id).then((response) => {
+         this.setState({
+            paymentDetails: response.data
+         }, () => {
+            this.setState({
+               doctorDetailsModalOpen: true
+            })
+         })
+         console.log(response);
       })
+         .catch(function (error) {
+            console.log(error);
+         })
+         .then(function () {
+            // always executed
+         });
    }
 
    componentDidMount() {
-      this.context.updateComissionList()
+
+      this.context.updatePaymentList();
       fetchAllHospital().then((response) => {
          this.setState({
             hospitalList: response.data.data.map(item => {
@@ -198,12 +249,41 @@ class ComissionList extends Component {
          .then(function () {
             // always executed
          });
+
+
+
    }
 
+
+
+   handleHospitalChange = (id) => {
+
+      this.setState({
+         hospitalList: this.state.hospitalList.map(item => {
+            if (item._id === id)
+               item['status'] = true;
+            else
+               item['status'] = false;
+
+            return item;
+         }),
+         selectedHospital: id
+      }, () => {
+         this.context.updatePaymentList(1, this.context.state.paymentTableRowNumber,
+            this.context.state.paymentTableSort.sort, this.context.state.paymentTableSort.sortOrder,
+            this.state.selectedHospital)
+
+      })
+   }
+
+
    render() {
+      // console.log(this.props)
+      console.log(this.state)
       return (
          <>
             <Grid container spacing={3}>
+
                <Grid item xs={3}>
                   <Card>
                      <CardContent>
@@ -253,7 +333,7 @@ class ComissionList extends Component {
                   </Card>
                </Grid>
                <Grid item xs={9}>
-                  {this.context.state.comissionList ?
+                  {this.context.state.paymentList ?
                      <div className="table_wrapper">
                         {this.state.isloading &&
                            <div className="loader_area">
@@ -264,39 +344,47 @@ class ComissionList extends Component {
                            <Table stickyHeader={true} aria-label="simple table" size="small" >
                               <TableHead>
                                  <TableRow>
-                                    <TableCell>Hospital </TableCell>
+                                    <TableCell align="">Hospital</TableCell>
                                     <TableCell>Amount <IconButton onClick={() => { this.handleSortClick("amount") }}>
                                        {
-                                          this.state.comissionTableSort.sort == "amount" ?
-                                             this.state.comissionTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
+                                          this.state.paymentTableSort.sort == "amount" ?
+                                             this.state.paymentTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
 
                                     </IconButton></TableCell>
+                                    <TableCell align="">Payment Method</TableCell>
+                                    <TableCell align="">Payment Status</TableCell>
+                                    <TableCell align="">Date</TableCell>
                                     <TableCell align="">Actions</TableCell>
                                  </TableRow>
                               </TableHead>
                               <TableBody>
                                  {
-                                    this.context.state.comissionList ?
-                                       this.context.state.comissionList.data.map((row) => (
+
+                                    this.context.state.paymentList.data.length > 0 ?
+                                       this.context.state.paymentList.data.map((row) => (
 
                                           <TableRow key={row._id}>
-                                             <TableCell component="th" scope="row">{row.hospital.name}</TableCell>
-                                             <TableCell component="th" scope="row">{row.amount}</TableCell>
+                                             <TableCell component="th" scope="row">{row.hospital ? row.hospital.name : ""}</TableCell>
+                                             <TableCell align="">{row.amount} </TableCell>
+                                             <TableCell align="">{row.paymentMethod} </TableCell>
+                                             <TableCell align="">{row.paymentStatus} </TableCell>
+                                             <TableCell align="">{`${new Date(row.created).getDate()} / ${new Date(row.created).getMonth()} / ${new Date(row.created).getFullYear()}`} </TableCell>
                                              <TableCell align="">
-                                                <IconButton onClick={() => { }} aria-label="delete">
+                                                <IconButton onClick={() => this.handleDoctorDetails(row._id)} aria-label="delete">
                                                    <VisibilityIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => this.props.editComission(row)} aria-label="delete">
+                                                <IconButton onClick={() => this.props.editPayment(row)} aria-label="delete">
                                                    <EditIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => { }} aria-label="delete">
+                                                <IconButton onClick={() => this.handleDoctorDelete(row._id)} aria-label="delete">
                                                    <DeleteIcon />
                                                 </IconButton>
                                              </TableCell>
                                           </TableRow>
-                                       )) : null
+                                       )) : <TableCell colSpan={5} align="center" component="th" scope="row">No Data Found</TableCell>
+
                                  }
                               </TableBody>
 
@@ -312,7 +400,7 @@ class ComissionList extends Component {
                                     style={{ maxWidth: 50, margin: 0 }}
                                     id="standard-select-currency-native"
                                     select
-                                    value={this.context.state.diseaseCatTableRowNumber}
+                                    value={this.context.state.paymentTableRowNumber}
                                     onChange={this.handleRowChange}
                                     SelectProps={{
                                        native: true,
@@ -323,8 +411,8 @@ class ComissionList extends Component {
                                     <option value="15">15</option>
                                  </TextField>
                               </div>
-                              <Pagination variant="outlined" page={this.context.state.currentComissionlistPageNumber} shape="rounded"
-                                 count={this.context.state.comissionList.page.totalPage}
+                              <Pagination variant="outlined" shape="rounded" page={this.context.state.currentPaymentlistPageNumber}
+                                 count={this.context.state.paymentList.page.totalPage}
                                  onChange={(event, value) => { this.handlePaginationClick(event, value) }} />
                            </Box>
                         </Card>
@@ -333,12 +421,12 @@ class ComissionList extends Component {
                </Grid>
             </Grid>
 
-            {this.renderDiseaseCatDetailsModal()}
+            {this.renderDetailsModal()}
          </>
       );
    }
 }
 
-ComissionList.contextType = AppContext;
+PaymentList.contextType = AppContext;
 
-export default ComissionList;
+export default PaymentList;

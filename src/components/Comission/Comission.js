@@ -139,7 +139,7 @@ class Comission extends Component {
 
    editComission = (com) => {
       this.setState({
-         hospitalId: com.hospital,
+         hospitalId: com.hospital._id,
          name: com.name,
          editForm: true
       }, () => {

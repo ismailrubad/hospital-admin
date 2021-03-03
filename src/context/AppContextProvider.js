@@ -9,7 +9,7 @@ import { fetchStaffList } from "../Api/staff-api";
 import { fetchCustomerList } from "../Api/customer-api";
 import { fetchBillingList } from "../Api/billing-api";
 import { fetchComissionList } from "../Api/comission-api";
-
+import { fetchPaymentList } from "../Api/payment-api";
 
 // first we will make a new context
 export const AppContext = React.createContext();
@@ -29,6 +29,7 @@ export class AppProvider extends React.Component {
         customerList: null,
         billingList: null,
         comissionList: null,
+        paymentList: null,
 
         currentZonelistPageNumber: 1,
         zoneTableRowNumber: 10,
@@ -96,6 +97,13 @@ export class AppProvider extends React.Component {
         currentComissionlistPageNumber: 1,
         comissionTableRowNumber: 10,
         comissionTableSort: {
+            sort: "",
+            sortOrder: 1
+        },
+
+        currentPaymentlistPageNumber: 1,
+        paymentTableRowNumber: 10,
+        paymentTableSort: {
             sort: "",
             sortOrder: 1
         },
@@ -335,6 +343,27 @@ export class AppProvider extends React.Component {
                                 },
                                 comissionTableRowNumber: response.data.page.limit,
                                 comissionList: response.data
+                            })
+                            console.log(response);
+                        })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    },
+
+                    updatePaymentList: (currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital) => {
+                        fetchPaymentList(currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital).then((response) => {
+                            this.setState({
+                                currentPaymentlistPageNumber: response.data.page.currentPage,
+                                paymentTableSort: {
+                                    sort: response.data.page.sort ? response.data.page.sort : "",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
+                                },
+                                paymentTableRowNumber: response.data.page.limit,
+                                paymentList: response.data
                             })
                             console.log(response);
                         })

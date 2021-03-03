@@ -240,6 +240,12 @@ class DrawerLayout extends React.Component {
                      <ListItemText primary={"Comission"} />
                   </NavLink>
                </ListItem>
+               <ListItem selected={this.isSelected("payment")} button key={"payment"}>
+                  <NavLink to={`${this.props.currentUrl}/payment`} style={linkStyle}>
+                     <DescriptionOutlined />
+                     <ListItemText primary={"Payment"} />
+                  </NavLink>
+               </ListItem>
 
                <ListItem selected={this.isSelected("logout")} button key={"logout"}>
                   <a href={`http://localhost:5000/admin/auth/logout`}>

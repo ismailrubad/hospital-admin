@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export const fetchComissionList = (currentPage = 1, limit = 10,
-   sort = "", sortOrder = 1) => {
+   sort = "", sortOrder = 1, hospital) => {
    return axios.get('http://localhost:5000/admin/api/comission', {
       params: {
          query: "",
@@ -10,6 +10,8 @@ export const fetchComissionList = (currentPage = 1, limit = 10,
          page: currentPage,
          sort: sort,
          sortOrder: sortOrder,
+         resolveHospital: 1,
+         hospital
       }
    })
 };
