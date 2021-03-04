@@ -12,7 +12,8 @@ export const editPayment = (id, amount) => {
    })
 };
 
-export const fetchPaymentList = (currentPage = 1, limit = 10, sort = "amount", sortOrder = 1, hospital) => {
+export const fetchPaymentList = (currentPage = 1, limit = 10, sort = "amount", sortOrder = 1, hospital,
+   amountLessThan, amountGreaterThan) => {
    return axios.get('http://localhost:5000/admin/api/payment', {
       params: {
          limit: limit,
@@ -20,7 +21,8 @@ export const fetchPaymentList = (currentPage = 1, limit = 10, sort = "amount", s
          sort: sort,
          sortOrder: sortOrder,
          resolveHospital: 1,
-         hospital
+         hospital,
+         amountLessThan, amountGreaterThan
       }
    })
 };
@@ -33,10 +35,10 @@ export const fetchPaymentDetails = (id) => {
    })
 };
 
-// export const deleteDoctor = (id) => {
-//    return axios.get(`http://localhost:5000/admin/api/doctor/remove/`, {
-//       params: {
-//          id
-//       }
-//    })
-// };
+export const deletePayment = (id) => {
+   return axios.get(`http://localhost:5000/admin/api/payment/remove/`, {
+      params: {
+         id
+      }
+   })
+};
