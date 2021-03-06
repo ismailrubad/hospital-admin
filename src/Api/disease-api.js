@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const addDisease = (name) => {
+export const addDisease = (name, cover) => {
    return axios.post('http://localhost:5000/admin/api/diseaseCategory/add', {
-      name
+      name, cover
    })
 };
 

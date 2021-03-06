@@ -107,7 +107,6 @@ export class AppProvider extends React.Component {
             sort: "",
             sortOrder: 1
         },
-
     }
 
 

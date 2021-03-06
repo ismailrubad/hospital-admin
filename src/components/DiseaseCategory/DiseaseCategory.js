@@ -19,6 +19,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { fetchAllHospital } from "../../Api/hospital-api";
 import { addDisease, editDisease } from "../../Api/disease-api";
 import DiseaseCategoryList from './DiseaseCategoryList/DiseaseCategoryList';
+import ImageHandler from '../ImageHandlerModal/ImageHandlerModal'
+import { Box } from '@material-ui/core';
 
 class DiseaseCategory extends Component {
 
@@ -28,7 +30,10 @@ class DiseaseCategory extends Component {
       submittingCreate: false,
       name: null,
       inputError: {},
-      editForm: false
+      editForm: false,
+      imageModalCoverOpen: false,
+      cover: "",
+
    }
 
    handleCreateModalOpen = () => {
@@ -59,7 +64,7 @@ class DiseaseCategory extends Component {
          this.setState({
             submittingCreate: true
          }, () => {
-            editDisease(this.state.diseaseId, this.state.name)
+            editDisease(this.state.diseaseId, this.state.name, this.state.cover[0])
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -78,7 +83,7 @@ class DiseaseCategory extends Component {
          this.setState({
             submittingCreate: true
          }, () => {
-            addDisease(this.state.name)
+            addDisease(this.state.name, this.state.cover[0])
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -94,6 +99,18 @@ class DiseaseCategory extends Component {
          })
       }
 
+   }
+
+   getImageDataFromModalCover = (imageInfo) => {
+      console.log(imageInfo)
+      this.setState({ cover: imageInfo })
+   }
+
+   handleImageModalCoverClose = () => {
+      console.log("closed")
+      this.setState({
+         imageModalCoverOpen: false
+      })
    }
 
    renderCreateModal = () => {
@@ -131,6 +148,17 @@ class DiseaseCategory extends Component {
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
                                     onChange={this.handleNameChange} id="standard-basic" label="Disease Category Name" />
+                                 <Box mb={2}>
+                                    <Button onClick={() => this.setState({ imageModalCoverOpen: true })}
+                                       variant="contained" color="primary">Upload Cover Image</Button>
+                                    {this.state.cover ?
+                                       <Box display="inline" ml={2}>
+                                          Cover image selected</Box> : null
+                                    }
+                                 </Box>
+                                 <ImageHandler prevSelectedImageIds={this.state.cover} selectOneMood={true} getImageData={this.getImageDataFromModalCover}
+                                    handleClose={this.handleImageModalCoverClose}
+                                    open={this.state.imageModalCoverOpen} />
 
                                  <Button onClick={this.handleFormSubmit} variant="contained" color="primary">
                                     Submit
@@ -147,10 +175,12 @@ class DiseaseCategory extends Component {
    }
 
    editDiseaseCategory = (disCat) => {
+      console.log(disCat)
       this.setState({
          diseaseId: disCat._id,
          name: disCat.name,
-         editForm: true
+         editForm: true,
+         cover: disCat.cover ? [disCat.cover._id] : null,
       }, () => {
          this.handleCreateModalOpen();
       })
