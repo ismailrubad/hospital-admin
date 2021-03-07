@@ -86,8 +86,11 @@ class ServiceList extends Component {
    handleRowChange = (event) => {
       console.log(event.target.value)
       // this.context.updateServiceTableRowNumber(event.target.value)
-      this.context.updateServiceList(1, event.target.value, this.context.state.serviceTableSort.sort,
-         this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+      // this.context.updateServiceList(1, event.target.value, this.context.state.serviceTableSort.sort,
+      //    this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+
+      this.context.updateStaffList(1, event.target.value, this.state.staffTableSort.sort,
+         this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
    handleServiceEdit = (id) => {
@@ -98,8 +101,11 @@ class ServiceList extends Component {
    handlePaginationClick = (event, value) => {
       // this.startLoading();
       // this.context.updateCurrentServicelistPageNumber(value, this.stopLoading)
-      this.context.updateServiceList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
-         this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+      // this.context.updateServiceList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
+      //    this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+
+      this.context.updateStaffList(value, this.context.state.currentStaffTableRowNumber, this.state.staffTableSort.sort,
+         this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
    handleSortClick = (sort) => {
@@ -411,7 +417,8 @@ class ServiceList extends Component {
                                     <option value="15">15</option>
                                  </TextField>
                               </div>
-                              <Pagination variant="outlined" page={this.context.state.currentStafflistPageNumber} shape="rounded" count={this.context.state.staffList.page.totalPage}
+                              <Pagination variant="outlined" page={this.context.state.currentStafflistPageNumber} shape="rounded"
+                                 count={this.context.state.staffList.page.totalPage}
                                  onChange={(event, value) => { this.handlePaginationClick(event, value) }} />
                            </Box>
                         </Card>

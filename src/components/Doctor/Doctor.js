@@ -280,12 +280,13 @@ class Doctor extends Component {
             // always executed
          });
    }
+
    // this.state.name, this.state.selectedHospital, this.state.selectedDiseaseCategory, this.state.visitingFee,
    editDoctor = (doctor) => {
       this.setState({
          doctorId: doctor._id,
          name: doctor.name,
-         cover: [doctor.cover._id],
+         cover: doctor.cover ? [doctor.cover._id] : null,
          selectedHospital: doctor.hospital._id,
          selectedDiseaseCategory: doctor.diseaseCategory._id,
          visitingFee: doctor.visitingFee,

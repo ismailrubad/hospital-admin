@@ -42,7 +42,7 @@ class customerList extends Component {
 
    state = {
       currentPage: 1,
-      serviceTableSort: {
+      customerTableSort: {
          sort: "name",
          sortOrder: 1
       },
@@ -85,8 +85,8 @@ class customerList extends Component {
    handleRowChange = (event) => {
       console.log(event.target.value)
       // this.context.updateServiceTableRowNumber(event.target.value)
-      this.context.updateCustomerList(1, event.target.value, this.context.state.serviceTableSort.sort,
-         this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+      this.context.updateCustomerList(1, event.target.value, this.context.state.customerTableSort.sort,
+         this.context.state.customerTableSort.sortOrder)
    }
 
    handleServiceEdit = (id) => {
@@ -97,24 +97,24 @@ class customerList extends Component {
    handlePaginationClick = (event, value) => {
       // this.startLoading();
       // this.context.updateCurrentcustomerListPageNumber(value, this.stopLoading)
-      this.context.updateCustomerList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
-         this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+      this.context.updateCustomerList(value, this.context.state.currentCustomerTableRowNumber,
+         this.context.state.customerTableSort.sort, this.context.state.customerTableSort.sortOrder)
    }
 
    handleSortClick = (sort) => {
       this.setState(preState => {
          return {
-            serviceTableSort: {
+            customerTableSort: {
                sort,
-               sortOrder: preState.serviceTableSort.sortOrder == 1 ? -1 : 1
+               sortOrder: preState.customerTableSort.sortOrder == 1 ? -1 : 1
             },
             currentPage: 1
          }
       }, () => {
          // console.log(this.state)
          // this.context.sortServicetable(this.state.serviceTableSort.sort, this.state.serviceTableSort.sortOrder)
-         this.context.updateCustomerList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
-            this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+         this.context.updateCustomerList(1, this.context.state.currentCustomerTableRowNumber, this.state.customerTableSort.sort,
+            this.state.customerTableSort.sortOrder)
       })
    }
 
@@ -319,8 +319,8 @@ class customerList extends Component {
                                  <TableRow>
                                     <TableCell>Customer Name <IconButton onClick={() => { this.handleSortClick("name") }}>
                                        {
-                                          this.state.serviceTableSort.sort == "name" ?
-                                             this.state.serviceTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
+                                          this.state.customerTableSort.sort == "name" ?
+                                             this.state.customerTableSort.sortOrder == 1 ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
                                              : <ArrowUpwardIcon style={{ opacity: .2 }} />
                                        }
 
