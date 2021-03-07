@@ -14,7 +14,7 @@ export const editPayment = (id, amount) => {
 
 export const fetchPaymentList = (currentPage = 1, limit = 10, sort = "amount", sortOrder = 1, hospital,
    amountLessThan, amountGreaterThan) => {
-   return axios.get('http://localhost:5000/admin/api/payment', {
+   return axios.get('/admin/api/payment', {
       params: {
          limit: limit,
          page: currentPage,
@@ -36,7 +36,7 @@ export const fetchPaymentDetails = (id) => {
 };
 
 export const deletePayment = (id) => {
-   return axios.get(`http://localhost:5000/admin/api/payment/remove/`, {
+   return axios.get(`/admin/api/payment/remove/`, {
       params: {
          id
       }
