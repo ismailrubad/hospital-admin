@@ -40,6 +40,6 @@ export const fetchAllDistricts = () => {
 };
 
 export const fetchDistrictDetails = (id) => {
-   return axios.get(`admin/api/district/${id}`)
+   return axios.get(`/admin/api/district/${id}`)
 };
 

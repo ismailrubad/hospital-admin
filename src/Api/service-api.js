@@ -28,12 +28,12 @@ export const fetchServiceList = (currentPage = 1, limit = 10, sort = "name", sor
 };
 
 export const fetchServiceDetails = (id) => {
-   return axios.get(`admin/api/service/${id}`)
+   return axios.get(`/admin/api/service/${id}`)
 };
 
 
 export const deleteService = (id) => {
-   return axios.get(`admin/api/service/remove/`, {
+   return axios.get(`/admin/api/service/remove/`, {
       params: {
          id
       }

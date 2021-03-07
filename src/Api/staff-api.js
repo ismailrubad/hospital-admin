@@ -29,11 +29,11 @@ export const fetchStaffList = (currentPage = 1, limit = 10,
 };
 
 export const fetchStaffDetails = (id) => {
-   return axios.get(`admin/api/staff/${id}`)
+   return axios.get(`/admin/api/staff/${id}`)
 };
 
 export const deleteStaff = (id) => {
-   return axios.get(`admin/api/staff/remove/`, {
+   return axios.get(`/admin/api/staff/remove/`, {
       params: {
          id
       }

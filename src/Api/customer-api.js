@@ -26,11 +26,11 @@ export const editCustomer = (id, name, phone, password,) => {
 };
 
 export const fetchCustomerDetails = (id) => {
-   return axios.get(`admin/api/customer/${id}`)
+   return axios.get(`/admin/api/customer/${id}`)
 };
 
 export const deleteCustomer = (id) => {
-   return axios.get(`admin/api/customer/remove/`, {
+   return axios.get(`/admin/api/customer/remove/`, {
       params: {
          id
       }

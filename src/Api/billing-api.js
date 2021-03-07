@@ -17,7 +17,7 @@ export const fetchBillingList = (currentPage = 1, limit = 10,
 };
 
 export const fetchBillingDetails = (id) => {
-   return axios.get(`admin/api/bill/${id}`, {
+   return axios.get(`/admin/api/bill/${id}`, {
       params: {
          resolveHospital: 1,
          resolveCustomer: 1,

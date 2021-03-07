@@ -39,7 +39,7 @@ export const fetchAllDiseaseCat = () => {
 
 
 export const deleteDiseaseCat = (id) => {
-   return axios.get(`admin/api/diseaseCategory/remove/`, {
+   return axios.get(`/admin/api/diseaseCategory/remove/`, {
       params: {
          id
       }

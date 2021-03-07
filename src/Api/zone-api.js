@@ -38,7 +38,7 @@ export const fetchAllZones = () => {
 };
 
 export const fetchZoneDetails = (id) => {
-   return axios.get(`admin/api/zone/${id}`, {
+   return axios.get(`/admin/api/zone/${id}`, {
       params: {
          resolveDistrict: 1
       }

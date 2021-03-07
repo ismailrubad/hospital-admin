@@ -33,7 +33,7 @@ export const fetchDoctorList = (currentPage = 1, limit = 10, sort = "name", sort
 };
 
 export const fetchDoctorDetails = (id) => {
-   return axios.get(`admin/api/doctor/${id}`, {
+   return axios.get(`/admin/api/doctor/${id}`, {
       params: {
          resolveHospital: 1,
          resolveCover: 1
@@ -42,7 +42,7 @@ export const fetchDoctorDetails = (id) => {
 };
 
 export const deleteDoctor = (id) => {
-   return axios.get(`admin/api/doctor/remove/`, {
+   return axios.get(`/admin/api/doctor/remove/`, {
       params: {
          id
       }

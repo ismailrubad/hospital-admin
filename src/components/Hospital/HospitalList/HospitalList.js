@@ -235,7 +235,7 @@ class HospitalList extends Component {
 
                                              </TableCell>
                                           </TableRow>
-                                          <a target="_blank" href={`admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
+                                          <a target="_blank" href={`/admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>
