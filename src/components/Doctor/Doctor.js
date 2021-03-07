@@ -21,6 +21,8 @@ import { fetchAllHospital } from "../../Api/hospital-api";
 import { fetchAllDiseaseCat } from "../../Api/disease-api";
 import { addDoctor, editDoctor } from "../../Api/doctor-api";
 import DoctorList from './DoctorList/DoctorList';
+import ImageHandler from '../ImageHandlerModal/ImageHandlerModal'
+import { Box } from '@material-ui/core';
 
 class Doctor extends Component {
 
@@ -33,7 +35,10 @@ class Doctor extends Component {
       selectedDiseaseCategory: null,
       name: null, hospital: null, visitingFee: null,
       phone: null, cover: null, description: null,
-      inputError: {}
+      cover: "",
+      inputError: {},
+      imageModalCoverOpen: false
+
    }
 
    handleCreateModalOpen = () => {
@@ -90,7 +95,7 @@ class Doctor extends Component {
             submittingCreate: true
          }, () => {
             editDoctor(this.state.doctorId, this.state.name, this.state.selectedHospital, this.state.selectedDiseaseCategory, this.state.visitingFee,
-               "789-461-3214", "600bfdc59032b3a812a5a32d")
+               "789-461-3214", this.state.cover[0])
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -110,7 +115,7 @@ class Doctor extends Component {
             submittingCreate: true
          }, () => {
             addDoctor(this.state.name, this.state.selectedHospital, this.state.selectedDiseaseCategory, this.state.visitingFee,
-               "789-461-3214", "600bfdc59032b3a812a5a32d", "Sun, Mon, Wed", "0900 - 1800", this.state.description)
+               "789-461-3214", this.state.cover[0], "Sun, Mon, Wed", "0900 - 1800", this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -125,6 +130,18 @@ class Doctor extends Component {
                });
          })
       }
+   }
+
+   handleImageModalCoverClose = () => {
+      console.log("closed")
+      this.setState({
+         imageModalCoverOpen: false
+      })
+   }
+
+   getImageDataFromModalCover = (imageInfo) => {
+      console.log(imageInfo)
+      this.setState({ cover: imageInfo })
    }
 
    renderCreateModal = () => {
@@ -161,6 +178,18 @@ class Doctor extends Component {
                                     error={this.state.inputError && this.state.inputError.name ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.name}
                                     onChange={this.handleNameChange} id="standard-basic" label="Doctor Name" />
+
+                                 <Box mb={2}>
+                                    <Button onClick={() => this.setState({ imageModalCoverOpen: true })}
+                                       variant="contained" color="primary">Upload Cover Image</Button>
+                                    {this.state.cover ?
+                                       <Box display="inline" ml={2}>
+                                          Cover image selected</Box> : null
+                                    }
+                                 </Box>
+                                 <ImageHandler prevSelectedImageIds={this.state.cover} selectOneMood={true} getImageData={this.getImageDataFromModalCover}
+                                    handleClose={this.handleImageModalCoverClose}
+                                    open={this.state.imageModalCoverOpen} />
 
                                  <TextField
                                     id="standard-select-currency"
@@ -256,6 +285,7 @@ class Doctor extends Component {
       this.setState({
          doctorId: doctor._id,
          name: doctor.name,
+         cover: [doctor.cover._id],
          selectedHospital: doctor.hospital._id,
          selectedDiseaseCategory: doctor.diseaseCategory._id,
          visitingFee: doctor.visitingFee,
