@@ -272,12 +272,12 @@ export class AppProvider extends React.Component {
                     updateStaffList: (currentStafflistPageNumber, currentStaffTableRowNumber, sort, sortOrder, hospital, query) => {
                         fetchStaffList(currentStafflistPageNumber, currentStaffTableRowNumber, sort, sortOrder, hospital, query).then((response) => {
                             this.setState({
-                                currentDiseaseCatlistcurrentStafflistPageNumberPageNumber: response.data.page.currentPage,
+                                currentStafflistPageNumber: response.data.page.currentPage,
                                 staffTableSort: {
                                     sort: response.data.page.sort ? response.data.page.sort : "",
                                     sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 0
                                 },
-                                serviceTableRowNumber: response.data.page.limit,
+                                currentStaffTableRowNumber: response.data.page.limit,
                                 staffList: response.data
                             })
                             console.log(response);

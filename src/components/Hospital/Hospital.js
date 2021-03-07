@@ -60,10 +60,17 @@ class Hospital extends Component {
 
          hospitalId: null,
          hospitalName: null,
+         image: [],
+         cover: "",
          selectedZone: null,
          shortCode: null,
+         description: null,
+         discountAmount: null,
+         discountAmountTotal: null,
+
          discountAmount: null,
          address: null,
+         longitude: null, latitude: null,
          editForm: false
       })
    }
