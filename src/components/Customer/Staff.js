@@ -40,7 +40,10 @@ class Staff extends Component {
 
    handleCreateModalClose = () => {
       this.setState({
-         createModalOpen: false
+         createModalOpen: false,
+
+         name: null, phone: null, password: null,
+         editForm: false
       })
    }
 

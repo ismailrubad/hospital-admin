@@ -42,6 +42,8 @@ class Hospital extends Component {
       cover: "",
       inputError: {},
 
+      longitude: null, latitude: null,
+
       imageModalOpen: false,
       imageModalCoverOpen: false
    }
@@ -107,6 +109,19 @@ class Hospital extends Component {
       })
    }
 
+   handleLatitudeOnChange = (event) => {
+      this.setState({
+         latitude: event.target.value
+      })
+   }
+
+   handleLongitudeOnChange = (event) => {
+      this.setState({
+         longitude: event.target.value
+      })
+   }
+
+
    handleFormSubmit = () => {
       if (this.state.editForm) {
          this.setState({
@@ -114,8 +129,8 @@ class Hospital extends Component {
          }, () => {
             editHospital(this.state.hospitalId, this.state.hospitalName, this.state.selectedZone, this.state.shortCode,
                this.state.discountAmount, this.state.discountAmountTotal, this.state.address, "789-461-3214", {
-               "latitude": 71.8998,
-               "longitude": 125.8464
+               "latitude": this.state.latitude,
+               "longitude": this.state.longitude
             }, this.state.image, this.state.cover[0], this.state.description)
                .then((response) => {
                   console.log(response);
@@ -137,8 +152,8 @@ class Hospital extends Component {
          }, () => {
             addHopital(this.state.hospitalName, this.state.selectedZone, this.state.shortCode,
                this.state.discountAmount, this.state.discountAmountTotal, this.state.address, "789-461-3214", {
-               "latitude": 71.8998,
-               "longitude": 125.8464
+               "latitude": this.state.latitude,
+               "longitude": this.state.longitude
             }, this.state.image, this.state.cover[0], this.state.description)
                .then((response) => {
                   console.log(response);
@@ -279,6 +294,16 @@ class Hospital extends Component {
                                     helperText={this.state.inputError && this.state.inputError.address}
                                     onChange={this.handleAddressOnChange} id="standard-basic" label="Address" />
                                  <TextField
+                                    value={this.state.latitude}
+                                    error={this.state.inputError && this.state.inputError.latitude ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.latitude}
+                                    onChange={this.handleLatitudeOnChange} id="standard-basic" label="Latitude" />
+                                 <TextField
+                                    value={this.state.longitude}
+                                    error={this.state.inputError && this.state.inputError.longitude ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.longitude}
+                                    onChange={this.handleLongitudeOnChange} id="standard-basic" label="Longitude" />
+                                 <TextField
                                     value={this.state.description}
                                     error={this.state.inputError && this.state.inputError.description ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.description}
@@ -315,6 +340,8 @@ class Hospital extends Component {
          discountAmountTotal: hospital.discountAmountTotal,
          address: hospital.address,
          description: hospital.description,
+         latitude: hospital.geoLocation.coordinates[0],
+         longitude: hospital.geoLocation.coordinates[1],
          image: hospital.image.map((item) => item._id),
          editForm: true
       }, () => {

@@ -208,6 +208,14 @@ class HospitalList extends Component {
                                              <TableCell >{this.state.hospitalDetails.discountAmountTotal}</TableCell>
                                           </TableRow>
                                           <TableRow>
+                                             <TableCell ><strong>Latitude</strong></TableCell>
+                                             <TableCell >{this.state.hospitalDetails.geoLocation.coordinates[0]}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
+                                             <TableCell ><strong>Longitude</strong></TableCell>
+                                             <TableCell >{this.state.hospitalDetails.geoLocation.coordinates[1]}</TableCell>
+                                          </TableRow>
+                                          <TableRow>
                                              <TableCell ><strong>Description</strong></TableCell>
                                              <TableCell >{this.state.hospitalDetails.description}</TableCell>
                                           </TableRow>

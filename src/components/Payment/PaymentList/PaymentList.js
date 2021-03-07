@@ -34,11 +34,10 @@ import { fetchAllDiseaseCat } from "../../../Api/disease-api";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import { fetchDoctorDetails, deleteDoctor } from "../../../Api/doctor-api";
-import { fetchPaymentDetails } from "../../../Api/payment-api";
-
+import { fetchPaymentDetails, deletePayment } from "../../../Api/payment-api";
 import { fetchAllHospital } from "../../../Api/hospital-api";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Slider from '@material-ui/core/Slider';
 
 class PaymentList extends Component {
 
@@ -56,6 +55,8 @@ class PaymentList extends Component {
       },
       paymentDetails: null,
       doctorDetailsModalOpen: false,
+      amountLessThan: null,
+      amountGreaterThan: null,
       isloading: false
    }
 
@@ -72,10 +73,10 @@ class PaymentList extends Component {
    handleDoctorDelete = (id) => {
       var r = window.confirm("Do you want to delete the item?");
       if (r == true) {
-         deleteDoctor(id)
+         deletePayment(id)
             .then((response) => {
                console.log(response);
-               this.context.updateDoctorList()
+               this.context.updatePaymentList()
             })
             .catch(function (error) {
                console.log(error);
@@ -276,6 +277,30 @@ class PaymentList extends Component {
       })
    }
 
+   handleAmountLessThanSlider = (event, newValue) => {
+      this.setState({
+         amountLessThan: newValue
+      }, () => {
+         this.context.updatePaymentList(1, this.context.state.paymentTableRowNumber,
+            this.context.state.paymentTableSort.sort, this.context.state.paymentTableSort.sortOrder,
+            this.state.selectedHospital, this.state.amountLessThan, this.state.amountGreaterThan)
+      })
+   }
+
+
+   handleAmountGreaterThanSlider = (event, newValue) => {
+      this.setState({
+         amountGreaterThan: newValue
+      }, () => {
+         this.context.updatePaymentList(1, this.context.state.paymentTableRowNumber,
+            this.context.state.paymentTableSort.sort, this.context.state.paymentTableSort.sortOrder,
+            this.state.selectedHospital, this.state.amountLessThan, this.state.amountGreaterThan)
+      })
+   }
+
+   sliderValueText = (value) => {
+      return value;
+   }
 
    render() {
       // console.log(this.props)
@@ -328,6 +353,31 @@ class PaymentList extends Component {
                               </div>
                            </AccordionDetails>
                         </Accordion>
+                        <Box mt={5}>
+                           <Typography gutterBottom>Amount Less Than</Typography>
+                           <Slider
+                              max="1000"
+                              // value={this.state.amountRange}
+                              defaultValue={20}
+                              onChange={this.handleAmountLessThanSlider}
+                              valueLabelDisplay="auto"
+                              // aria-labelledby="range-slider"
+                              getAriaValueText={this.sliderValueText}
+                           />
+                        </Box>
+                        <Box mt={5}>
+                           <Typography gutterBottom>Amount Greater Than</Typography>
+                           <Slider
+                              max="1000"
+                              // value={this.state.amountRange}
+                              defaultValue={20}
+                              onChange={this.handleAmountGreaterThanSlider}
+                              valueLabelDisplay="auto"
+                              // aria-labelledby="range-slider"
+                              getAriaValueText={this.sliderValueText}
+                           />
+                        </Box>
+
 
                      </CardContent>
                   </Card>

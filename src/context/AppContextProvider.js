@@ -107,7 +107,6 @@ export class AppProvider extends React.Component {
             sort: "",
             sortOrder: 1
         },
-
     }
 
 
@@ -354,19 +353,20 @@ export class AppProvider extends React.Component {
                             });
                     },
 
-                    updatePaymentList: (currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital) => {
-                        fetchPaymentList(currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital).then((response) => {
-                            this.setState({
-                                currentPaymentlistPageNumber: response.data.page.currentPage,
-                                paymentTableSort: {
-                                    sort: response.data.page.sort ? response.data.page.sort : "",
-                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
-                                },
-                                paymentTableRowNumber: response.data.page.limit,
-                                paymentList: response.data
+                    updatePaymentList: (currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital, amountLessThan, amountGreaterThan) => {
+                        fetchPaymentList(currentPaymentlistPageNumber, paymentTableRowNumber, sort, sortOrder, hospital, amountLessThan, amountGreaterThan).
+                            then((response) => {
+                                this.setState({
+                                    currentPaymentlistPageNumber: response.data.page.currentPage,
+                                    paymentTableSort: {
+                                        sort: response.data.page.sort ? response.data.page.sort : "",
+                                        sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
+                                    },
+                                    paymentTableRowNumber: response.data.page.limit,
+                                    paymentList: response.data
+                                })
+                                console.log(response);
                             })
-                            console.log(response);
-                        })
                             .catch(function (error) {
                                 console.log(error);
                             })
