@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-   AppBar, CssBaseline, Menu, Hidden, Drawer, IconButton,
-   List, ListItem, Grid, ListItemText, Toolbar, Typography,
-   Dialog, DialogTitle, DialogContent, ExpansionPanelDetails, ExpansionPanelSummary,
-   MenuItem, FormLabel, FormControlLabel, Radio, RadioGroup, Select, FormControl, Button
+   AppBar, CssBaseline, Hidden, Drawer, IconButton,
+   List, ListItem, ListItemText, Toolbar, Typography,
 
 } from '@material-ui/core';
 
@@ -19,9 +17,18 @@ import './style.css';
 import logo from "../../logo.png";
 
 import {
-   DashboardOutlined, LocationOnOutlined, BusinessOutlined, FaceOutlined,
-   LocalHospitalOutlined, CategoryOutlined, SupervisorAccountOutlined, PersonOutline, DescriptionOutlined,
-   PowerSettingsNewOutlined
+   DashboardTwoTone,
+   LocationOnTwoTone,
+   BusinessTwoTone,
+   FaceTwoTone,
+   LocalHospitalTwoTone,
+   CategoryTwoTone,
+   SupervisorAccountTwoTone,
+   PersonOutlineTwoTone as PersonOutline,
+   ReceiptTwoTone,
+   PowerSettingsNewTwoTone,
+   LocalAtmTwoTone,
+   AttachMoneyTwoTone
 } from "@material-ui/icons"
 
 const drawerWidth = 260;
@@ -164,15 +171,15 @@ class DrawerLayout extends React.Component {
             </div>
             {/* <Divider /> */}
             <List>
-               <ListItem selected={this.isSelected("dashboardOutDashboardOutlineds")} button key={"dashboard"}>
+               <ListItem selected={this.isSelected("dashboardOutDashboardTwoTones")} button key={"dashboard"}>
                   <NavLink to={`${this.props.currentUrl}/dashboards`} style={linkStyle}>
-                     <DashboardOutlined />
+                     <DashboardTwoTone />
                      <ListItemText primary={"Dashboard"} />
                   </NavLink>
                </ListItem>
 
                <ListItem button key={"key"} onClick={this.handleAreaListClick}>
-                  <LocationOnOutlined />
+                  <LocationOnTwoTone />
                   <ListItemText primary="Area" />
                   {this.state.areaListOpen ? <ExpandLess /> : <ExpandMore />}
                </ListItem>
@@ -194,31 +201,31 @@ class DrawerLayout extends React.Component {
                </Collapse>
                <ListItem selected={this.isSelected("hospital")} button key={"hospital"}>
                   <NavLink to={`${this.props.currentUrl}/hospital`} style={linkStyle}>
-                     <BusinessOutlined />
+                     <BusinessTwoTone />
                      <ListItemText primary={"Hospital"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("doctor")} button key={"doctor"}>
                   <NavLink to={`${this.props.currentUrl}/doctor`} style={linkStyle}>
-                     <FaceOutlined />
+                     <FaceTwoTone />
                      <ListItemText primary={"Doctor"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("service")} button key={"service"}>
                   <NavLink to={`${this.props.currentUrl}/service`} style={linkStyle}>
-                     <LocalHospitalOutlined />
+                     <LocalHospitalTwoTone />
                      <ListItemText primary={"Service"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("disease-category")} button key={"disease-category"}>
                   <NavLink to={`${this.props.currentUrl}/disease-category`} style={linkStyle}>
-                     <CategoryOutlined />
+                     <CategoryTwoTone />
                      <ListItemText primary={"Disease Category"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("staff")} button key={"staff"}>
                   <NavLink to={`${this.props.currentUrl}/staff`} style={linkStyle}>
-                     <SupervisorAccountOutlined />
+                     <SupervisorAccountTwoTone />
                      <ListItemText primary={"Staff"} />
                   </NavLink>
                </ListItem>
@@ -230,26 +237,29 @@ class DrawerLayout extends React.Component {
                </ListItem>
                <ListItem selected={this.isSelected("billing")} button key={"billing"}>
                   <NavLink to={`${this.props.currentUrl}/billing`} style={linkStyle}>
-                     <DescriptionOutlined />
+                     <ReceiptTwoTone />
                      <ListItemText primary={"Billing"} />
-                  </NavLink>
-               </ListItem>
-               <ListItem selected={this.isSelected("comission")} button key={"comission"}>
-                  <NavLink to={`${this.props.currentUrl}/comission`} style={linkStyle}>
-                     <DescriptionOutlined />
-                     <ListItemText primary={"Comission"} />
                   </NavLink>
                </ListItem>
                <ListItem selected={this.isSelected("payment")} button key={"payment"}>
                   <NavLink to={`${this.props.currentUrl}/payment`} style={linkStyle}>
-                     <DescriptionOutlined />
+                     <LocalAtmTwoTone />
                      <ListItemText primary={"Payment"} />
+                  </NavLink>
+               </ListItem>
+               <ListItem selected={this.isSelected("comission")} button key={"comission"}>
+                  <NavLink to={`${this.props.currentUrl}/comission`} style={linkStyle}>
+                     <AttachMoneyTwoTone />
+                     <ListItemText primary={"Commission"} />
                   </NavLink>
                </ListItem>
 
                <ListItem selected={this.isSelected("logout")} button key={"logout"}>
-                  <a href={`http://localhost:5000/admin/auth/logout`}>
-                     Log Out</a>
+
+                  <NavLink style={linkStyle} to="#" onClick={()=>window.location = "/admin/auth/logout" }>
+                        <PowerSettingsNewTwoTone />
+                        <ListItemText primary={"Logout"} />
+                  </NavLink>
                </ListItem>
 
             </List>

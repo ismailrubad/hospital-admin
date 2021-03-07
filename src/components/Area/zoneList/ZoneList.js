@@ -67,7 +67,7 @@ class ZoneList extends Component {
 
       var r = window.confirm("Do you want to delete the item?");
       if (r == true) {
-         axios.get(`https://hospitalsheba.com//admin/api/zone/remove?id=${id}`, {
+         axios.get(`admin/api/zone/remove?id=${id}`, {
             params: {
 
             }

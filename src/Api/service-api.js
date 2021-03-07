@@ -1,19 +1,19 @@
 import axios from "axios";
 
 export const addService = (name, hospital, charge, cover, image, description) => {
-   return axios.post('https://hospitalsheba.com//admin/api/service/add', {
+   return axios.post('/admin/api/service/add', {
       name, hospital, charge, cover, image, description
    })
 };
 
 export const editService = (id, name, hospital, charge, cover, image, description) => {
-   return axios.post('http://localhost:5000/admin/api/service/update', {
+   return axios.post('/admin/api/service/update', {
       id, name, hospital, charge, cover, image, description
    })
 };
 
 export const fetchServiceList = (currentPage = 1, limit = 10, sort = "name", sortOrder = 1, hospital, query) => {
-   return axios.get('http://localhost:5000/admin/api/service', {
+   return axios.get('/admin/api/service', {
       params: {
          query,
          hospital,
@@ -28,12 +28,12 @@ export const fetchServiceList = (currentPage = 1, limit = 10, sort = "name", sor
 };
 
 export const fetchServiceDetails = (id) => {
-   return axios.get(`https://hospitalsheba.com//admin/api/service/${id}`)
+   return axios.get(`admin/api/service/${id}`)
 };
 
 
 export const deleteService = (id) => {
-   return axios.get(`https://hospitalsheba.com//admin/api/service/remove/`, {
+   return axios.get(`admin/api/service/remove/`, {
       params: {
          id
       }

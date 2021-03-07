@@ -58,7 +58,7 @@ const ThumbImage = ({ imageInfo, deleteImage, ThisImageIsSelected, selectMultiIm
         </Menu>
         <CardMedia
           className={classes.media}
-          image={`http://localhost:5000${imageInfo.thumbnail}`}
+          image={`${imageInfo.thumbnail}`}
           title="Contemplative Reptile"
         />
       </CardActionArea>

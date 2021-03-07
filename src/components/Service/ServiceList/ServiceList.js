@@ -165,7 +165,7 @@ class ServiceList extends Component {
                                     {this.state.serviceDetails.cover ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(http://localhost:5000${this.state.serviceDetails.cover.full})`
+                                          backgroundImage: `url(${this.state.serviceDetails.cover.full})`
                                        }}>
 
                                        </div> : null
@@ -203,7 +203,7 @@ class ServiceList extends Component {
                                                       this.state.serviceDetails.image.map(item => {
 
                                                          return (<Box display="inline" mr={1}>
-                                                            <img src={`http://localhost:5000${item.thumbnail}`} />
+                                                            <img src={`${item.thumbnail}`} />
                                                          </Box>)
 
                                                       }) : null

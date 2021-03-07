@@ -171,7 +171,7 @@ class HospitalList extends Component {
                                     {this.state.hospitalDetails.cover ?
                                        <div style={{
                                           height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
-                                          backgroundImage: `url(http://localhost:5000${this.state.hospitalDetails.cover.full})`
+                                          backgroundImage: `url(${this.state.hospitalDetails.cover.full})`
                                        }}>
 
                                        </div> : null
@@ -219,7 +219,7 @@ class HospitalList extends Component {
                                                       this.state.hospitalDetails.image.map(item => {
 
                                                          return (<Box display="inline" mr={1}>
-                                                            <img src={`http://localhost:5000${item.thumbnail}`} />
+                                                            <img src={`${item.thumbnail}`} />
                                                          </Box>)
 
                                                       }) : null
@@ -227,7 +227,7 @@ class HospitalList extends Component {
 
                                              </TableCell>
                                           </TableRow>
-                                          <a target="_blank" href={`https://hospitalsheba.com//admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
+                                          <a target="_blank" href={`admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>
