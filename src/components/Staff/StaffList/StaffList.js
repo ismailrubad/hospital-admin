@@ -89,8 +89,8 @@ class ServiceList extends Component {
       // this.context.updateServiceList(1, event.target.value, this.context.state.serviceTableSort.sort,
       //    this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
-      this.context.updateStaffList(1, event.target.value, this.state.staffTableSort.sort,
-         this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+      this.context.updateStaffList(1, event.target.value, this.context.state.staffTableSort.sort,
+         this.context.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
    handleServiceEdit = (id) => {
@@ -104,24 +104,27 @@ class ServiceList extends Component {
       // this.context.updateServiceList(value, this.context.state.serviceTableRowNumber, this.context.state.serviceTableSort.sort,
       //    this.context.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
-      this.context.updateStaffList(value, this.context.state.currentStaffTableRowNumber, this.state.staffTableSort.sort,
-         this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+      this.context.updateStaffList(value, this.context.state.currentStaffTableRowNumber, this.context.state.staffTableSort.sort,
+         this.context.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
    }
 
    handleSortClick = (sort) => {
       this.setState(preState => {
          return {
-            serviceTableSort: {
+            staffTableSort: {
                sort,
-               sortOrder: preState.serviceTableSort.sortOrder == 1 ? -1 : 1
+               sortOrder: preState.staffTableSort.sortOrder == 1 ? -1 : 1
             },
             currentPage: 1
          }
       }, () => {
          // console.log(this.state)
          // this.context.sortServicetable(this.state.serviceTableSort.sort, this.state.serviceTableSort.sortOrder)
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
-            this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+         // this.context.updateServiceList(1, this.context.state.currentStaffTableRowNumber, this.state.staffTableSort.sort,
+         //    this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+
+         this.context.updateStaffList(1, this.context.state.currentStaffTableRowNumber, this.state.staffTableSort.sort,
+            this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
       })
    }
 
@@ -243,8 +246,8 @@ class ServiceList extends Component {
          searchQuery
       }, () => {
 
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
-            this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.staffTableSort.sort,
+            this.state.staffTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
 
       })
    }

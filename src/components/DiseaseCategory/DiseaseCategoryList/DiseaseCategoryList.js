@@ -29,7 +29,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import { deleteDiseaseCat } from "../../../Api/disease-api";
+import { deleteDiseaseCat, fetchDiseaseCatDetails } from "../../../Api/disease-api";
 
 class DiseaseCategoryList extends Component {
 
@@ -147,12 +147,20 @@ class DiseaseCategoryList extends Component {
                                  <CloseIcon />
                               </IconButton>
                            }
-                           title="Service Details"
+                           title="Disease Category Details"
                         />
                         <CardContent>
                            {
                               this.state.diseaseCatDetails ?
                                  <TableContainer component={Paper}>
+                                    {this.state.diseaseCatDetails.cover ?
+                                       <div style={{
+                                          height: 200, backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: 10,
+                                          backgroundImage: `url(http://localhost:5000${this.state.diseaseCatDetails.cover.full})`
+                                       }}>
+
+                                       </div> : null
+                                    }
                                     <Table size="small" aria-label="simple table">
                                        <TableBody>
                                           <TableRow>
@@ -174,22 +182,22 @@ class DiseaseCategoryList extends Component {
    }
 
    handleDiseaseCatDetails = (id) => {
-      // fetchDiseaseCatDetails(id).then((response) => {
-      //    this.setState({
-      //       diseaseCatDetails: response.data
-      //    }, () => {
-      //       this.setState({
-      //          diseaseCatDetailsModalOpen: true
-      //       })
-      //    })
-      //    console.log(response);
-      // })
-      //    .catch(function (error) {
-      //       console.log(error);
-      //    })
-      //    .then(function () {
-      //       // always executed
-      //    });
+      fetchDiseaseCatDetails(id).then((response) => {
+         this.setState({
+            diseaseCatDetails: response.data
+         }, () => {
+            this.setState({
+               diseaseCatDetailsModalOpen: true
+            })
+         })
+         console.log(response);
+      })
+         .catch(function (error) {
+            console.log(error);
+         })
+         .then(function () {
+            // always executed
+         });
    }
 
    componentDidMount() {
