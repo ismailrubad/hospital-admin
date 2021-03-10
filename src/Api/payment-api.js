@@ -1,20 +1,20 @@
 import axios from "axios";
 
 export const addPayment = (hospital, amount) => {
-   return axios.post('/admin/api/payment/add', {
+   return axios.post('http://localhost:5000/admin/api/payment/add', {
       hospital, amount
    })
 };
 
 export const editPayment = (id, amount) => {
-   return axios.post('/admin/api/payment/update', {
+   return axios.post('http://localhost:5000/admin/api/payment/update', {
       id, amount
    })
 };
 
 export const fetchPaymentList = (currentPage = 1, limit = 10, sort = "amount", sortOrder = 1, hospital,
    amountLessThan, amountGreaterThan) => {
-   return axios.get('/admin/api/payment', {
+   return axios.get('http://localhost:5000/admin/api/payment', {
       params: {
          limit: limit,
          page: currentPage,
@@ -28,7 +28,7 @@ export const fetchPaymentList = (currentPage = 1, limit = 10, sort = "amount", s
 };
 
 export const fetchPaymentDetails = (id) => {
-   return axios.get(`/admin/api/payment/${id}`, {
+   return axios.get(`http://localhost:5000/admin/api/payment/${id}`, {
       params: {
          resolveHospital: 1,
       }
@@ -36,7 +36,7 @@ export const fetchPaymentDetails = (id) => {
 };
 
 export const deletePayment = (id) => {
-   return axios.get(`/admin/api/payment/remove/`, {
+   return axios.get(`http://localhost:5000/admin/api/payment/remove/`, {
       params: {
          id
       }

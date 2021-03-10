@@ -273,19 +273,30 @@ class ServiceList extends Component {
    handleHospitalChange = (id) => {
       this.setState({
          hospitalList: this.state.hospitalList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedHospital: id
       }, () => {
-         this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
-            this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+         let selectedHospital = [];
+         this.state.hospitalList.map(itemList => {
+            if (itemList.status === true) {
+               selectedHospital = [...selectedHospital, itemList._id]
+            }
+         })
+         this.setState({
+            selectedHospital: selectedHospital.toString()
+         }, () => {
+            this.context.updateServiceList(1, this.context.state.serviceTableRowNumber, this.state.serviceTableSort.sort,
+               this.state.serviceTableSort.sortOrder, this.state.selectedHospital, this.state.searchQuery)
+         })
 
       })
+
    }
 
    componentDidMount() {
@@ -337,6 +348,7 @@ class ServiceList extends Component {
                                        return (
                                           <div>
                                              <FormControlLabel
+                                                className="hospitalItem"
                                                 control={
                                                    <Checkbox
                                                       checked={item.status}

@@ -1,20 +1,20 @@
 import axios from "axios";
 
 export const addDisease = (name, cover) => {
-   return axios.post('/admin/api/diseaseCategory/add', {
+   return axios.post('http://localhost:5000/admin/api/diseaseCategory/add', {
       name, cover
    })
 };
 
 export const editDisease = (id, name) => {
-   return axios.post('/admin/api/diseaseCategory/update', {
+   return axios.post('http://localhost:5000/admin/api/diseaseCategory/update', {
       id, name
    })
 };
 
 export const fetchDiseaseCatList = (currentPage = 1, limit = 10,
    sort = "name", sortOrder = 1) => {
-   return axios.get('/admin/api/diseaseCategory', {
+   return axios.get('http://localhost:5000/admin/api/diseaseCategory', {
       params: {
          query: "",
          limit: limit,
@@ -26,11 +26,11 @@ export const fetchDiseaseCatList = (currentPage = 1, limit = 10,
 };
 
 export const fetchDiseaseCatDetails = (id) => {
-   return axios.get(`http://localhost:5000/admin/api/diseaseCategory/${id}`)
+   return axios.get(`http://localhost:5000http://localhost:5000/admin/api/diseaseCategory/${id}`)
 };
 
 export const fetchAllDiseaseCat = () => {
-   return axios.get('/admin/api/diseaseCategory', {
+   return axios.get('http://localhost:5000/admin/api/diseaseCategory', {
       params: {
          // query: "",
          // limit: limit,
@@ -43,7 +43,7 @@ export const fetchAllDiseaseCat = () => {
 
 
 export const deleteDiseaseCat = (id) => {
-   return axios.get(`/admin/api/diseaseCategory/remove/`, {
+   return axios.get(`http://localhost:5000/admin/api/diseaseCategory/remove/`, {
       params: {
          id
       }

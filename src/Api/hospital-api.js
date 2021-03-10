@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const addHopital = (name, zone, shortCode, discountAmount, discountAmountTotal, address
    , phone, geoLocation, image, cover, description) => {
-   return axios.post('/admin/api/hospital/add', {
+   return axios.post('http://localhost:5000/admin/api/hospital/add', {
       name, zone, shortCode, discountAmount, discountAmountTotal,
       address, phone, geoLocation, image, cover, description
    })
@@ -10,14 +10,14 @@ export const addHopital = (name, zone, shortCode, discountAmount, discountAmount
 
 export const editHospital = (id, name, zone, shortCode, discountAmount, discountAmountTotal, address
    , phone, geoLocation, image, cover, description) => {
-   return axios.post('/admin/api/hospital/update', {
+   return axios.post('http://localhost:5000/admin/api/hospital/update', {
       id, name, zone, shortCode, discountAmount, discountAmountTotal, address
       , phone, geoLocation, image, cover, description
    })
 };
 
 export const fetchHospitaltList = (currentPage = 1, limit = 10, sort = "name", sortOrder = 1, zone, query) => {
-   return axios.get('/admin/api/hospital', {
+   return axios.get('http://localhost:5000/admin/api/hospital', {
       params: {
          query,
          limit: limit,
@@ -33,7 +33,7 @@ export const fetchHospitaltList = (currentPage = 1, limit = 10, sort = "name", s
 };
 
 export const fetchAllHospital = () => {
-   return axios.get('/admin/api/hospital', {
+   return axios.get('http://localhost:5000/admin/api/hospital', {
       params: {
          // query: "",
          // limit: limit,
@@ -45,11 +45,11 @@ export const fetchAllHospital = () => {
 };
 
 export const fetchHospitalDetails = (id) => {
-   return axios.get(`/admin/api/hospital/${id}`)
+   return axios.get(`http://localhost:5000/admin/api/hospital/${id}`)
 };
 
 export const deleteHospital = (id) => {
-   return axios.get(`/admin/api/hospital/remove/`, {
+   return axios.get(`http://localhost:5000/admin/api/hospital/remove/`, {
       params: {
          id
       }

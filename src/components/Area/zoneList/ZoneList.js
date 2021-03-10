@@ -67,7 +67,7 @@ class ZoneList extends Component {
 
       var r = window.confirm("Do you want to delete the item?");
       if (r == true) {
-         axios.get(`/admin/api/zone/remove?id=${id}`, {
+         axios.get(`http://localhost:5000/admin/api/zone/remove?id=${id}`, {
             params: {
 
             }
@@ -266,18 +266,30 @@ class ZoneList extends Component {
    handleDistrictChange = (id) => {
       this.setState({
          districtList: this.state.districtList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedDistrict: id
       }, () => {
+         let selectedDistrict = [];
+         this.state.districtList.map(itemList => {
+            if (itemList.status === true) {
+               selectedDistrict = [...selectedDistrict, itemList._id]
+            }
+         })
+         console.log(selectedDistrict)
+         this.setState({
+            selectedDistrict: selectedDistrict.toString()
+         }, () => {
+            this.context.updateZoneList(1, this.context.state.zoneTableRowNumber, this.state.zoneTableSort.sort,
+               this.state.zoneTableSort.sortOrder, this.state.selectedDistrict, this.state.searchQuery)
+         })
 
-         this.context.updateZoneList(1, this.context.state.zoneTableRowNumber, this.state.zoneTableSort.sort,
-            this.state.zoneTableSort.sortOrder, this.state.selectedDistrict, this.state.searchQuery)
+
       });
    }
 

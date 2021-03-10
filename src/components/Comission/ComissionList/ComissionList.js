@@ -161,23 +161,33 @@ class ComissionList extends Component {
    }
 
    handleHospitalChange = (id) => {
-
       this.setState({
          hospitalList: this.state.hospitalList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedHospital: id
       }, () => {
-         this.context.updateComissionList(1, this.context.state.comissionTableRowNumber,
-            this.context.state.comissionTableSort.sort, this.context.state.comissionTableSort.sortOrder,
-            this.state.selectedHospital)
+         let selectedHospital = [];
+         this.state.hospitalList.map(itemList => {
+            if (itemList.status === true) {
+               selectedHospital = [...selectedHospital, itemList._id]
+            }
+         })
+         this.setState({
+            selectedHospital: selectedHospital.toString()
+         }, () => {
+            this.context.updateComissionList(1, this.context.state.comissionTableRowNumber,
+               this.context.state.comissionTableSort.sort, this.context.state.comissionTableSort.sortOrder,
+               this.state.selectedHospital)
+         })
 
       })
+
    }
 
    componentDidMount() {
@@ -226,6 +236,7 @@ class ComissionList extends Component {
                                        return (
                                           <div>
                                              <FormControlLabel
+                                                className="hospitalItem"
                                                 control={
                                                    <Checkbox
                                                       checked={item.status}

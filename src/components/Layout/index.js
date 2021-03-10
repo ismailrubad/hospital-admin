@@ -256,9 +256,9 @@ class DrawerLayout extends React.Component {
 
                <ListItem selected={this.isSelected("logout")} button key={"logout"}>
 
-                  <NavLink style={linkStyle} to="#" onClick={()=>window.location = "/admin/auth/logout" }>
-                        <PowerSettingsNewTwoTone />
-                        <ListItemText primary={"Logout"} />
+                  <NavLink style={linkStyle} to="#" onClick={() => window.location = "http://localhost:5000/admin/auth/logout"}>
+                     <PowerSettingsNewTwoTone />
+                     <ListItemText primary={"Logout"} />
                   </NavLink>
                </ListItem>
 

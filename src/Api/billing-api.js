@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchBillingList = (currentPage = 1, limit = 10,
    sort = "hospital", sortOrder = 1, hospital) => {
-   return axios.get('/admin/api/bill', {
+   return axios.get('http://localhost:5000/admin/api/bill', {
       params: {
          query: "",
          limit: limit,
@@ -17,7 +17,7 @@ export const fetchBillingList = (currentPage = 1, limit = 10,
 };
 
 export const fetchBillingDetails = (id) => {
-   return axios.get(`/admin/api/bill/${id}`, {
+   return axios.get(`http://localhost:5000/admin/api/bill/${id}`, {
       params: {
          resolveHospital: 1,
          resolveCustomer: 1,

@@ -287,32 +287,30 @@ class DoctorList extends Component {
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          diseaseCatList: this.state.diseaseCatList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedDiseaseCat: id
       }, () => {
+         let selectedDiseaseCat = [];
+         this.state.diseaseCatList.map(itemList => {
+            if (itemList.status === true) {
+               selectedDiseaseCat = [...selectedDiseaseCat, itemList._id]
+            }
+         })
+         this.setState({
+            selectedDiseaseCat: selectedDiseaseCat.toString()
+         }, () => {
+            this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+               this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
+               this.state.selectedHospital, this.state.searchQuery)
+         })
 
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
-            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
-            this.state.selectedHospital, this.state.searchQuery)
 
-         // let selectedDiseaseCalList = [];
-
-         // this.state.diseaseCatList.map(item => {
-         //    if (item.status) selectedDiseaseCalList.push(item._id)
-         // })
-
-         // this.setState({
-         //    selectedDiseaseCalList
-         // }, () => {
-         //    this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
-         //       this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCalList)
-         // })
 
       });
    }
@@ -322,18 +320,28 @@ class DoctorList extends Component {
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          hospitalList: this.state.hospitalList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedHospital: id
       }, () => {
-         this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
-            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
-            this.state.selectedHospital, this.state.searchQuery)
+         let selectedHospital = [];
+         this.state.hospitalList.map(itemList => {
+            if (itemList.status === true) {
+               selectedHospital = [...selectedHospital, itemList._id]
+            }
+         })
+         this.setState({
+            selectedHospital: selectedHospital.toString()
+         }, () => {
+            this.context.updateDoctorList(1, this.context.state.doctorTableRowNumber,
+               this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, this.state.selectedDiseaseCat,
+               this.state.selectedHospital, this.state.searchQuery)
+         })
 
       })
    }
@@ -423,6 +431,7 @@ class DoctorList extends Component {
                                        return (
                                           <div>
                                              <FormControlLabel
+                                                className="hospitalItem"
                                                 control={
                                                    <Checkbox
                                                       checked={item.status}

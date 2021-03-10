@@ -235,7 +235,7 @@ class HospitalList extends Component {
 
                                              </TableCell>
                                           </TableRow>
-                                          <a target="_blank" href={`/admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
+                                          <a target="_blank" href={`http://localhost:5000/admin/api/hospital/${this.state.hospitalDetails._id}/qrcode`}>Generate QR Code</a>
                                        </TableBody>
                                     </Table>
                                  </TableContainer>
@@ -274,17 +274,27 @@ class HospitalList extends Component {
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          zoneList: this.state.zoneList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedZone: id
       }, () => {
-         this.context.updateHospitalList(1, this.context.state.hospitalTableRowNumber, this.context.state.hospitalTableSort.sort,
-            this.context.state.hospitalTableSort.sortOrder, this.state.selectedZone, this.state.searchQuery)
+         let selectedZone = [];
+         this.state.zoneList.map(itemList => {
+            if (itemList.status === true) {
+               selectedZone = [...selectedZone, itemList._id]
+            }
+         })
+         this.setState({
+            selectedZone: selectedZone.toString()
+         }, () => {
+            this.context.updateHospitalList(1, this.context.state.hospitalTableRowNumber, this.context.state.hospitalTableSort.sort,
+               this.context.state.hospitalTableSort.sortOrder, this.state.selectedZone, this.state.searchQuery)
+         })
 
       })
    }

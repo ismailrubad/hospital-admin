@@ -47,7 +47,7 @@ const AllImages = ({ closeModal, getImageData, selectOneMood, prevSelectedImageI
   const [isInitialize, setIsInitialize] = useState(false)
 
   useEffect(() => {
-    axios.get(`/admin/api/image`)
+    axios.get(`http://localhost:5000/admin/api/image`)
       .then(res => setImageList(res.data.data.reverse()))
       .then(() => setIsLoading(false))
       .catch(err => setResError(err.message))
@@ -64,7 +64,7 @@ const AllImages = ({ closeModal, getImageData, selectOneMood, prevSelectedImageI
 
   // delete image handler
   const deleteImageHandler = id => {
-    axios.get(`/admin/api/image/remove?id=${id}`)
+    axios.get(`http://localhost:5000/admin/api/image/remove?id=${id}`)
       .then(() => updateImageList(id))
       .catch(err => setResError(err.message))
   }
@@ -72,7 +72,7 @@ const AllImages = ({ closeModal, getImageData, selectOneMood, prevSelectedImageI
 
   // upload image handler 
   const uploadImageHandler = (uploadImageInfo) => {
-    axios.post(`/admin/api/image/add/`, uploadImageInfo)
+    axios.post(`http://localhost:5000/admin/api/image/add/`, uploadImageInfo)
       .then(res => {
         const preImgList = [...imageList]
         preImgList.unshift(res.data[0])

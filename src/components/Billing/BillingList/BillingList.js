@@ -329,20 +329,31 @@ class billingList extends Component {
       //    this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder, id)
       this.setState({
          hospitalList: this.state.hospitalList.map(item => {
-            if (item._id === id)
-               item['status'] = true;
-            else
-               item['status'] = false;
-
+            if (item._id === id) {
+               if (item.status)
+                  item['status'] = false;
+               else
+                  item['status'] = true;
+            }
             return item;
          }),
-         selectedHospital: id
       }, () => {
-         this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
-            this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder,
-            this.state.selectedHospital, this.state.searchQuery)
+         let selectedHospital = [];
+         this.state.hospitalList.map(itemList => {
+            if (itemList.status === true) {
+               selectedHospital = [...selectedHospital, itemList._id]
+            }
+         })
+         this.setState({
+            selectedHospital: selectedHospital.toString()
+         }, () => {
+            this.context.updateBillingList(1, this.context.state.doctorTableRowNumber,
+               this.context.state.doctorTableSort.sort, this.context.state.doctorTableSort.sortOrder,
+               this.state.selectedHospital, this.state.searchQuery)
+         })
 
       })
+
    }
 
    handleSearchQueryChange = (searchQuery) => {
@@ -404,6 +415,7 @@ class billingList extends Component {
                                        return (
                                           <div>
                                              <FormControlLabel
+                                                className="hospitalItem"
                                                 control={
                                                    <Checkbox
                                                       checked={item.status}
