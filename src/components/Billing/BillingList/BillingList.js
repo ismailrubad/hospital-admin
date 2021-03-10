@@ -492,7 +492,7 @@ class billingList extends Component {
                                                 </IconButton>
                                              </TableCell>
                                           </TableRow>
-                                       )) : <TableCell colSpan={5} align="center" component="th" scope="row">No Data Found</TableCell>
+                                       )) : <TableCell colSpan={8} align="center" component="th" scope="row">No Data Found</TableCell>
 
                                  }
                               </TableBody>

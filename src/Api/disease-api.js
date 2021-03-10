@@ -25,6 +25,10 @@ export const fetchDiseaseCatList = (currentPage = 1, limit = 10,
    })
 };
 
+export const fetchDiseaseCatDetails = (id) => {
+   return axios.get(`http://localhost:5000/admin/api/diseaseCategory/${id}`)
+};
+
 export const fetchAllDiseaseCat = () => {
    return axios.get('/admin/api/diseaseCategory', {
       params: {

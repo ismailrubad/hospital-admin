@@ -30,7 +30,7 @@ class Service extends Component {
       submittingCreate: false,
       selectedHospital: null,
       name: null, hospital: null, charge: null,
-      cover: null, image: null, description: null,
+      cover: "", image: [], description: null,
       editForm: false,
       image: [],
       inputError: {}
@@ -44,6 +44,12 @@ class Service extends Component {
 
    handleCreateModalClose = () => {
       this.setState({
+         selectedHospital: null,
+         name: null, hospital: null, charge: null,
+         cover: "", image: [], description: null,
+         image: [],
+         inputError: {},
+
          editForm: false,
          createModalOpen: false
       })
@@ -103,7 +109,7 @@ class Service extends Component {
             submittingCreate: true
          }, () => {
             editService(this.state.serviceId, this.state.name, this.state.selectedHospital, this.state.charge,
-               "600bfdc59032b3a812a5a32d", ["600bfdc59032b3a812a5a32d"], this.state.description)
+               this.state.cover[0], this.state.image, this.state.description)
                .then((response) => {
                   console.log(response);
                   this.handleCreateModalClose();
@@ -180,7 +186,7 @@ class Service extends Component {
                                     select
                                     label="Select Hospital"
                                     error={this.state.inputError && this.state.inputError.hospital ? true : false}
-                                    elperText={this.state.inputError && this.state.inputError.hospital}
+                                    helperText={this.state.inputError && this.state.inputError.hospital}
                                     value={this.state.selectedHospital}
                                     onChange={this.handleHospitalChange}
                                  >
@@ -188,6 +194,7 @@ class Service extends Component {
                                        this.state.hospitalList ?
                                           this.state.hospitalList.data.map((option) => (
                                              <MenuItem key={option._id} value={option._id}>
+
                                                 {option.name}
                                              </MenuItem>
                                           )) : null

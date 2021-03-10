@@ -156,7 +156,8 @@ class DiseaseCategory extends Component {
                                           Cover image selected</Box> : null
                                     }
                                  </Box>
-                                 <ImageHandler prevSelectedImageIds={this.state.cover} selectOneMood={true} getImageData={this.getImageDataFromModalCover}
+                                 <ImageHandler prevSelectedImageIds={this.state.cover}
+                                    selectOneMood={true} getImageData={this.getImageDataFromModalCover}
                                     handleClose={this.handleImageModalCoverClose}
                                     open={this.state.imageModalCoverOpen} />
 
@@ -180,7 +181,7 @@ class DiseaseCategory extends Component {
          diseaseId: disCat._id,
          name: disCat.name,
          editForm: true,
-         cover: disCat.cover ? [disCat.cover._id] : null,
+         cover: disCat.cover ? [disCat.cover._id] : " ",
       }, () => {
          this.handleCreateModalOpen();
       })

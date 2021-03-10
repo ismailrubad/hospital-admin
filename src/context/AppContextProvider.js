@@ -253,8 +253,8 @@ export class AppProvider extends React.Component {
                             this.setState({
                                 currentDiseaseCatlistPageNumber: response.data.page.currentPage,
                                 diseaseCatTableSort: {
-                                    sort: response.data.page.sort ? response.data.page.sort : "",
-                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 0
+                                    sort: response.data.page.sort ? response.data.page.sort : "name",
+                                    sortOrder: response.data.page.sortOrder ? response.data.page.sortOrder : 1
                                 },
                                 diseaseCatTableRowNumber: response.data.page.limit,
                                 diseaseCatList: response.data
