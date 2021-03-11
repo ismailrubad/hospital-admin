@@ -37,6 +37,14 @@ export const fetchAllZones = () => {
    })
 };
 
+export const fetchAllZonesByDistrict = (district) => {
+   return axios.get('http://localhost:5000/admin/api/zone', {
+      params: {
+         district
+      }
+   })
+};
+
 export const fetchZoneDetails = (id) => {
    return axios.get(`http://localhost:5000/admin/api/zone/${id}`, {
       params: {

@@ -141,7 +141,7 @@ class Zone extends Component {
                                     select
                                     label="Select a district"
                                     error={this.state.inputError && this.state.inputError.district ? true : false}
-                                    elperText={this.state.inputError && this.state.inputError.district}
+                                    helperText={this.state.inputError && this.state.inputError.district}
                                     value={this.state.selectedDistrict}
                                     onChange={this.handleDistrictChange}
                                  >

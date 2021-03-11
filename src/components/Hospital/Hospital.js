@@ -18,10 +18,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import HospitalList from './HospitalList/HospitalList'
-import { fetchAllZones } from '../../Api/zone-api'
+import { fetchAllZonesByDistrict } from '../../Api/zone-api'
 import { addHopital, editHospital } from '../../Api/hospital-api'
 import ImageHandler from '../ImageHandlerModal/ImageHandlerModal'
 import { Box } from '@material-ui/core';
+import { fetchAllDistricts } from "../../Api/district-api";
 
 class Hospital extends Component {
 
@@ -29,6 +30,8 @@ class Hospital extends Component {
       hospitalId: null,
       currency: "EUR",
       zone: "z1",
+      districtList: null,
+      selectedDistrict: "",
       createModalOpen: false,
       zoneList: null,
       hospitalName: null,
@@ -53,11 +56,30 @@ class Hospital extends Component {
          createModalOpen: true
       })
    }
+   handleDistrictChange = (event) => {
+      this.setState({
+         selectedDistrict: event.target.value
+      }, () => {
+         fetchAllZonesByDistrict(this.state.selectedDistrict).then((response) => {
+            this.setState({
+               zoneList: response.data
+            })
+            console.log(response);
+         })
+            .catch(function (error) {
+               console.log(error);
+            })
+            .then(function () {
+               // always executed
+            });
+      })
+   }
 
    handleCreateModalClose = () => {
       this.setState({
          createModalOpen: false,
 
+         selectedDistrict: "",
          hospitalId: null,
          hospitalName: null,
          image: [],
@@ -241,6 +263,24 @@ class Hospital extends Component {
                                  <TextField
                                     id="standard-select-currency"
                                     select
+                                    label="Select a district"
+                                    error={this.state.inputError && this.state.inputError.district ? true : false}
+                                    helperText={this.state.inputError && this.state.inputError.district}
+                                    value={this.state.selectedDistrict}
+                                    onChange={this.handleDistrictChange}
+                                 >
+                                    {
+                                       this.state.districtList ?
+                                          this.state.districtList.data.map((option) => (
+                                             <MenuItem key={option._id} value={option._id}>
+                                                {option.name}
+                                             </MenuItem>
+                                          )) : null
+                                    }
+                                 </TextField>
+                                 <TextField
+                                    id="standard-select-currency"
+                                    select
                                     label="Select a zone"
                                     error={this.state.inputError && this.state.inputError.district ? true : false}
                                     helperText={this.state.inputError && this.state.inputError.district}
@@ -357,9 +397,9 @@ class Hospital extends Component {
    }
 
    componentDidMount() {
-      fetchAllZones().then((response) => {
+      fetchAllDistricts().then((response) => {
          this.setState({
-            zoneList: response.data
+            districtList: response.data
          })
          console.log(response);
       })
@@ -369,6 +409,18 @@ class Hospital extends Component {
          .then(function () {
             // always executed
          });
+      // fetchAllZones().then((response) => {
+      //    this.setState({
+      //       zoneList: response.data
+      //    })
+      //    console.log(response);
+      // })
+      //    .catch(function (error) {
+      //       console.log(error);
+      //    })
+      //    .then(function () {
+      //       // always executed
+      //    });
    }
 
    render() {
